@@ -1,6 +1,7 @@
 package org.apeiron.gateway.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import org.apeiron.gateway.web.rest.errors.ExceptionTranslator;
 import org.slf4j.Logger;
@@ -12,6 +13,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.web.ReactivePageableHandlerMethodArgumentResolver;
 import org.springframework.data.web.ReactiveSortHandlerMethodArgumentResolver;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
@@ -68,7 +71,8 @@ public class WebConfigurer implements WebFluxConfigurer {
     }
 
     @Bean
-    @Order(-2) // The handler must have precedence over WebFluxResponseStatusExceptionHandler and Spring Boot's ErrorWebExceptionHandler
+    @Order(-2) // The handler must have precedence over WebFluxResponseStatusExceptionHandler
+    // and Spring Boot's ErrorWebExceptionHandler
     public WebExceptionHandler problemExceptionHandler(ObjectMapper mapper, ExceptionTranslator problemHandling) {
         return new ReactiveWebExceptionHandler(problemHandling, mapper);
     }
@@ -84,5 +88,20 @@ public class WebConfigurer implements WebFluxConfigurer {
     public CachingHttpHeadersFilter cachingHttpHeadersFilter() {
         // Use a cache filter that only match selected paths
         return new CachingHttpHeadersFilter(TimeUnit.DAYS.toMillis(jHipsterProperties.getHttp().getCache().getTimeToLiveInDays()));
+    }
+
+    @Bean
+    public JavaMailSender getJavaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setUsername("my.gmail@gmail.com");
+        mailSender.setPassword("password");
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
+        return mailSender;
     }
 }
