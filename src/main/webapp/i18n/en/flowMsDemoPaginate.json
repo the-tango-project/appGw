@@ -1,0 +1,37 @@
+{
+  "appGwApp": {
+    "flowMsDemoPaginate": {
+      "home": {
+        "title": "Demo Paginates",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Demo Paginate",
+        "createOrEditLabel": "Create or edit a Demo Paginate",
+        "notFound": "No Demo Paginates found"
+      },
+      "delete": {
+        "question": "Are you sure you want to delete Demo Paginate { id }?"
+      },
+      "detail": {
+        "title": "Demo Paginate"
+      },
+      "id": "ID",
+      "name": "Name",
+      "creationDate": "Creation Date",
+      "age": "Age",
+      "price": "Price",
+      "active": "Active",
+      "ima": "Ima",
+      "dataAnyBlob": "Data Any Blob",
+      "photo": "Photo",
+      "description": "Description",
+      "dataEnum": "Data Enum"
+    }
+  },
+  "flowMsApp": {
+    "flowMsDemoPaginate": {
+      "created": "A new Demo Paginate is created with identifier { param }",
+      "updated": "A Demo Paginate is updated with identifier { param }",
+      "deleted": "A Demo Paginate is deleted with identifier { param }"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "annotations": {
+    "changelogDate": "20240809234345"
+  },
+  "applications": "*",
+  "clientRootFolder": "flowMs",
+  "databaseType": "mongodb",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "microserviceName": "flowMs",
+  "microservicePath": "/home/daniel/projects/git/theapeiron/flowMs",
+  "name": "DemoInfiniteScroll",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

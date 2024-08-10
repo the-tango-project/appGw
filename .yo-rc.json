@@ -15,7 +15,7 @@
     "enableHibernateCache": null,
     "enableSwaggerCodegen": false,
     "enableTranslation": true,
-    "entities": [],
+    "entities": ["DemoPaginate", "DemoInfiniteScroll"],
     "feignClient": null,
     "jhipsterVersion": "8.6.0",
     "jwtSecretKey": "Y2RkMTI1ZjdmY2Q4ODQwMzJhMDNjMmU2YTE0ZWUxNjdkYWQ2MWNjZTdlNTI3NzgwY2M1NDdkY2Q3MmVlOTAxNmQ0MDQyNWJmMzUwYWQyYzExMzU1OWRjZTVlZTdiZThlNDNjMTY1YjMyZjQ0Yjc3ZTdmOTI2ZjYxODcwOWZjMTU=",

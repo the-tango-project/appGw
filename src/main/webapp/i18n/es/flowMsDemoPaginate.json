@@ -1,0 +1,37 @@
+{
+  "appGwApp": {
+    "flowMsDemoPaginate": {
+      "home": {
+        "title": "Demo Paginates",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Demo Paginate",
+        "createOrEditLabel": "Crear o editar Demo Paginate",
+        "notFound": "Ningún Demo Paginates encontrado"
+      },
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Demo Paginate { id }?"
+      },
+      "detail": {
+        "title": "Demo Paginate"
+      },
+      "id": "ID",
+      "name": "Name",
+      "creationDate": "Creation Date",
+      "age": "Age",
+      "price": "Price",
+      "active": "Active",
+      "ima": "Ima",
+      "dataAnyBlob": "Data Any Blob",
+      "photo": "Photo",
+      "description": "Description",
+      "dataEnum": "Data Enum"
+    }
+  },
+  "flowMsApp": {
+    "flowMsDemoPaginate": {
+      "created": "Un nuevo Demo Paginate ha sido creado con el identificador { param }",
+      "updated": "Un Demo Paginate ha sido actualizado con el identificador { param }",
+      "deleted": "Un Demo Paginate ha sido eliminado con el identificador { param }"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "appGwApp": {
+    "flowMsDemoInfiniteScroll": {
+      "home": {
+        "title": "Demo Infinite Scrolls",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Demo Infinite Scroll",
+        "createOrEditLabel": "Create or edit a Demo Infinite Scroll",
+        "notFound": "No Demo Infinite Scrolls found"
+      },
+      "delete": {
+        "question": "Are you sure you want to delete Demo Infinite Scroll { id }?"
+      },
+      "detail": {
+        "title": "Demo Infinite Scroll"
+      },
+      "id": "ID",
+      "name": "Name"
+    }
+  },
+  "flowMsApp": {
+    "flowMsDemoInfiniteScroll": {
+      "created": "A new Demo Infinite Scroll is created with identifier { param }",
+      "updated": "A Demo Infinite Scroll is updated with identifier { param }",
+      "deleted": "A Demo Infinite Scroll is deleted with identifier { param }"
+    }
+  }
+}
