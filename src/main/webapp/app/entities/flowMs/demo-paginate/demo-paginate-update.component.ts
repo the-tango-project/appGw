@@ -11,10 +11,36 @@ import { useAlertService } from '@/shared/alert/alert.service';
 import { type IDemoPaginate, DemoPaginate } from '@/shared/model/flowMs/demo-paginate.model';
 import { Language } from '@/shared/model/enumerations/language.model';
 
+const useValidationRules = (validations: any, t$: any) => {
+  return {
+    name: {
+      required: validations.required(t$('entity.validation.required').toString()),
+    },
+    creationDate: {},
+    age: {
+      integer: validations.integer(t$('entity.validation.number').toString()),
+      min: validations.minValue(t$('entity.validation.min', { min: 30 }).toString(), 30),
+    },
+    price: {},
+    active: {},
+    ima: {},
+    dataAnyBlob: {},
+    photo: {},
+    description: {
+      required: validations.required(t$('entity.validation.required').toString()),
+    },
+    dataEnum: {},
+  };
+};
+
 export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'DemoPaginateUpdate',
   setup() {
+    const dataUtils = useDataUtils();
+    const { t: t$ } = useI18n();
+    const validations = useValidation();
+    const validationRules = useValidationRules(validations, t$);
     const demoPaginateService = inject('demoPaginateService', () => new DemoPaginateService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
@@ -42,29 +68,6 @@ export default defineComponent({
       retrieveDemoPaginate(route.params.demoPaginateId);
     }
 
-    const dataUtils = useDataUtils();
-
-    const { t: t$ } = useI18n();
-    const validations = useValidation();
-    const validationRules = {
-      name: {
-        required: validations.required(t$('entity.validation.required').toString()),
-      },
-      creationDate: {},
-      age: {
-        integer: validations.integer(t$('entity.validation.number').toString()),
-        min: validations.minValue(t$('entity.validation.min', { min: 30 }).toString(), 30),
-      },
-      price: {},
-      active: {},
-      ima: {},
-      dataAnyBlob: {},
-      photo: {},
-      description: {
-        required: validations.required(t$('entity.validation.required').toString()),
-      },
-      dataEnum: {},
-    };
     const v$ = useVuelidate(validationRules, demoPaginate as any);
     v$.value.$validate();
 

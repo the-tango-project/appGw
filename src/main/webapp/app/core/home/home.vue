@@ -23,6 +23,7 @@
         </div>
       </div>
 
+      <core-empty-content></core-empty-content>
       <p v-text="t$('home.question')"></p>
 
       <ul>

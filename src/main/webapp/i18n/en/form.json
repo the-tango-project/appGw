@@ -1,0 +1,45 @@
+{
+  "apeironGwApp": {
+    "form": {
+      "home": {
+        "title": "Forms",
+        "titleUpdate": "Form",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Form",
+        "createOrEditLabel": "Create or edit a Form",
+        "notFound": "No Forms found"
+      },
+      "created": "A new Form is created",
+      "updated": "A Form is updated",
+      "deleted": "A Form is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Form {{ id }}?"
+      },
+      "detail": {
+        "title": "Form",
+        "instruccions": "Para ver las instrucciones dar clic en el siguiente link"
+      },
+      "simulation": {
+        "title": "Simulation data",
+        "estadoSolicitud": "Request state",
+        "estadoRevision": "Review state",
+        "roles": "Roles",
+        "acciones": "Actions",
+        "formTitle": "Form data"
+      },
+      "id": "ID",
+      "menuName": "Menu Name",
+      "description": "Description",
+      "title": "Title",
+      "name": "Name",
+      "path": "Path",
+      "type": "Type",
+      "icon": "Icono",
+      "display": "Display",
+      "tags": "Tags",
+      "owner": "Owner",
+      "machineName": "Machine Name",
+      "tipo": "Componente type"
+    }
+  }
+}

@@ -9,7 +9,8 @@
         "main": "Entidades",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
         "flowMsDemoPaginate": "Demo Paginate",
-        "flowMsDemoInfiniteScroll": "Demo Infinite Scroll"
+        "flowMsDemoInfiniteScroll": "Demo Infinite Scroll",
+        "flowMsForms": "Formularios"
       },
       "account": {
         "main": "Cuenta",
@@ -57,7 +58,9 @@
         "register": {
           "noaccount": "¿Aún no tienes una cuenta?",
           "link": "Crea una cuenta"
-        }
+        },
+        "empty-content": "No hay contenido para mostrar",
+        "add-items": "Agrega elementos"
       },
       "error": {
         "dontmatch": "¡La contraseña y la confirmación de contraseña no coinciden!"
