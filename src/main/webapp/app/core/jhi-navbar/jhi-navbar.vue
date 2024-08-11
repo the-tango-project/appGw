@@ -1,5 +1,5 @@
 <template>
-  <b-navbar data-cy="navbar" toggleable="md" type="dark" class="jh-navbar">
+  <b-navbar data-cy="navbar" toggleable="md" type="dark" class="bg-primary">
     <b-navbar-brand class="logo" b-link to="/">
       <span class="logo-img"></span>
       <span v-text="$t('global.title')" class="navbar-title"></span> <span class="navbar-version">{{ version }}</span>
@@ -79,7 +79,7 @@
           </b-dropdown-item>
           <b-dropdown-item to="/admin/showcase" active-class="active">
             <font-awesome-icon icon="coffee" />
-            <span v-text="$t('global.menu.admin.apidocs')"></span>
+            <span v-text="$t('global.menu.admin.showcase')"></span>
           </b-dropdown-item>
         </b-nav-item-dropdown>
         <b-nav-item-dropdown id="languagesnavBarDropdown" right v-if="languages && Object.keys(languages).length > 1">
@@ -146,52 +146,6 @@
     ========================================================================== */
 .navbar-version {
   font-size: 0.65em;
-  color: #ccc;
-}
-
-.jh-navbar {
-  background-color: #353d47;
-  padding: 0.2em 1em;
-}
-
-.jh-navbar .profile-image {
-  margin: -10px 0px;
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-}
-
-.jh-navbar .dropdown-item.active,
-.jh-navbar .dropdown-item.active:focus,
-.jh-navbar .dropdown-item.active:hover {
-  background-color: #353d47;
-}
-
-.jh-navbar .dropdown-toggle::after {
-  margin-left: 0.15em;
-}
-
-.jh-navbar ul.navbar-nav {
-  padding: 0.5em;
-}
-
-.jh-navbar .navbar-nav .nav-item {
-  margin-left: 1.5rem;
-}
-
-.jh-navbar a.nav-link,
-.jh-navbar .no-bold {
-  font-weight: 400;
-}
-
-.jh-navbar .jh-navbar-toggler {
-  color: #ccc;
-  font-size: 1.5em;
-  padding: 10px;
-}
-
-.jh-navbar .jh-navbar-toggler:hover {
-  color: #fff;
 }
 
 @media screen and (min-width: 768px) {
@@ -208,7 +162,6 @@
 
 .navbar-title {
   display: inline-block;
-  color: white;
 }
 
 /* ==========================================================================
