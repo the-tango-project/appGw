@@ -10,13 +10,6 @@ import { useStore } from '@/store';
 
 export default defineComponent({
   compatConfig: { MODE: 3 },
-  name: 'EmptyContent',
-  props: {
-    icon: String,
-  },
-  setup() {
-    return {
-      t$: useI18n().t,
-    };
-  },
+  name: 'Showcase',
+  setup() {},
 });

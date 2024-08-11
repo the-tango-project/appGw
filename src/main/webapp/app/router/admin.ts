@@ -9,8 +9,15 @@ const JhiHealthComponent = () => import('@/admin/health/health.vue');
 const JhiLogsComponent = () => import('@/admin/logs/logs.vue');
 const JhiMetricsComponent = () => import('@/admin/metrics/metrics.vue');
 const JhiGatewayComponent = () => import('@/admin/gateway/gateway.vue');
+const Showcase = () => import('@/admin/showcase/showcase.vue');
 
 export default [
+  {
+    path: '/admin/showcase',
+    name: 'Showcase',
+    component: Showcase,
+    meta: { authorities: [Authority.ADMIN] },
+  },
   {
     path: '/admin/user-management',
     name: 'JhiUser',
