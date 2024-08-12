@@ -2,6 +2,7 @@
   <div>
     <header class="bx-header-title">
       <h3>Card list</h3>
+      {{ items }}
       <div class="header-title-line"></div>
     </header>
     <core-card-list></core-card-list>

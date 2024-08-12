@@ -7,9 +7,19 @@ import languages from '@/shared/config/languages';
 import EntitiesMenu from '@/entities/entities-menu.vue';
 
 import { useStore } from '@/store';
+import { type ICardItem, type IRouter, type IEdit, type ITo, CardItem, Router, Edit, To } from '@/components/card-list/CardItem.model';
+import { DataFaker } from '@/shared/model/DataFaker';
 
 export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'Showcase',
-  setup() {},
+  setup() {
+    const items: Ref<ICardItem[]> = ref([]);
+    items.value.push(DataFaker.fakeCardItem());
+    items.value.push(DataFaker.fakeCardItem());
+    items.value.push(DataFaker.fakeCardItem());
+    return {
+      items,
+    };
+  },
 });

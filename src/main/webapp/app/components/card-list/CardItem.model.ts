@@ -1,14 +1,14 @@
-import { type IButton } from '@/shared/model/button.model';
+import { Button, type IButton, ButtonFactory } from '@/shared/model/button.model';
 
 export interface ITo {
-  name: string | null;
-  params: any;
+  name?: string | null;
+  params?: any;
 }
 
 export interface IEdit {
-  to: ITo | null;
-  nameBto: string | null;
-  icon: string | null;
+  to?: ITo | null;
+  nameBto?: string | null;
+  icon?: string | null;
 }
 
 export interface IRouter {
@@ -27,16 +27,16 @@ export class Router implements IRouter {
 
 export class Edit implements IEdit {
   constructor(
-    public to: ITo | null,
-    public nameBto: string | null,
-    public icon: string | null,
+    public to?: ITo | null,
+    public nameBto?: string | null,
+    public icon?: string | null,
   ) {}
 }
 
 export class To implements ITo {
   constructor(
-    public name: string | null,
-    public params: any,
+    public name?: string | null,
+    public params?: any,
   ) {}
 }
 export class CardItem implements ICardItem {
