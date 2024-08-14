@@ -61,7 +61,13 @@
           "link": "Crea una cuenta"
         },
         "empty-content": "No hay contenido para mostrar",
-        "add-items": "Agrega elementos"
+        "add-items": "Agrega elementos",
+        "confirm": {
+          "title": "Confirmación de operación",
+          "question": "¿Está seguro de ejecutar esta operación?",
+          "accept": "He leido y acepto"
+        },
+        "add-text": "Agrega un texto para continuar..."
       },
       "error": {
         "dontmatch": "¡La contraseña y la confirmación de contraseña no coinciden!"
@@ -105,14 +111,16 @@
       "open": "Abrir",
       "save": "Guardar",
       "view": "Vista",
-      "show": "Show { otherEntity }"
+      "show": "Show { otherEntity }",
+      "confirm": "Confirmar"
     },
     "detail": {
       "field": "Campo",
       "value": "Valor"
     },
     "delete": {
-      "title": "Confirmar operación de borrado"
+      "title": "Confirmar operación de borrado",
+      "question": "¿Estás seguro de que quieres borrar el registro?"
     },
     "validation": {
       "required": "Este campo es obligatorio.",

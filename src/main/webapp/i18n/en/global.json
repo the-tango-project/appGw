@@ -61,7 +61,13 @@
           "link": "Register a new account"
         },
         "empty-content": "There are no content to show",
-        "add-items": "Add items"
+        "add-items": "Add items",
+        "confirm": {
+          "title": "Confirm operation",
+          "question": "Are you sure to execute this operation?",
+          "accept": "Accept"
+        },
+        "add-text": "Add a text to continue..."
       },
       "error": {
         "dontmatch": "The password and its confirmation do not match!"
@@ -105,14 +111,16 @@
       "open": "Open",
       "save": "Save",
       "view": "View",
-      "show": "Show { otherEntity }"
+      "show": "Show { otherEntity }",
+      "confirm": "Confirmar"
     },
     "detail": {
       "field": "Field",
       "value": "Value"
     },
     "delete": {
-      "title": "Confirm delete operation"
+      "title": "Confirm delete operation",
+      "question": "Are you sure you want to delete the record?"
     },
     "validation": {
       "required": "This field is required.",

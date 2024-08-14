@@ -1,0 +1,4 @@
+export enum TipoPaginado {
+  INFINITY_SCROLL = 'INFINITY_SCROLL',
+  PAGINATION = 'PAGINATION',
+}

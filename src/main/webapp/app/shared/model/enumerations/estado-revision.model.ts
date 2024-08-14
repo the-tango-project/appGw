@@ -1,0 +1,11 @@
+export enum EstadoRevision {
+  ASIGNADA = 'ASIGNADA',
+
+  ACEPTADA = 'ACEPTADA',
+
+  RECHAZADA = 'RECHAZADA',
+
+  REVISADA = 'REVISADA',
+
+  CANCELADA = 'CANCELADA',
+}

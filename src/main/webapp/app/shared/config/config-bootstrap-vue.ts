@@ -87,11 +87,13 @@ import {
   BSkeletonWrapper,
   BListGroup,
   BListGroupItem,
+  TooltipPlugin,
 } from 'bootstrap-vue';
 
 export function initBootstrapVue(vue) {
   vue.use(ToastPlugin);
   vue.use(BootstrapVueIcons);
+  vue.use(TooltipPlugin);
 
   vue.component('b-badge', BBadge);
   vue.component('b-dropdown', BDropdown);

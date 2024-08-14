@@ -1,0 +1,5 @@
+export enum TipoAcceso {
+  PUBLICO = 'PUBLICO',
+  PRIVADO = 'PRIVADO',
+  ADMINISTRADOR = 'ADMINISTRADOR',
+}

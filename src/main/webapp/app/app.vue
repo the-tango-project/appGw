@@ -5,7 +5,7 @@
       <jhi-navbar></jhi-navbar>
     </div>
     <div class="container-fluid">
-      <div class="card jh-card">
+      <div class="jh-card">
         <router-view></router-view>
       </div>
       <b-modal id="login-page" hide-footer lazy>

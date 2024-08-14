@@ -1,0 +1,14 @@
+{
+  "showcase": {
+    "card-list": {
+      "title": "Card list"
+    },
+    "empty-content": {
+      "title": "Empty content"
+    },
+    "modal": {
+      "show": "Show modal { name }",
+      "title": "Modales"
+    }
+  }
+}
