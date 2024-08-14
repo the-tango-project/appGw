@@ -32,6 +32,12 @@
       <div class="header-title-line"></div>
     </header>
     <core-empty-content></core-empty-content>
+
+    <header class="bx-header-title">
+      <h3>{{ $t('showcase.empty-content.title') }}</h3>
+      <div class="header-title-line"></div>
+    </header>
+    <core-flow></core-flow>
   </div>
 </template>
 

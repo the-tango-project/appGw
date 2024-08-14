@@ -9,6 +9,7 @@ import router from './router';
 import { initFortAwesome, initI18N } from './shared/config/config';
 import { initBootstrapVue } from './shared/config/config-bootstrap-vue';
 import { initCoreComponents } from './shared/config/config-core-components';
+import { initVueflow } from './shared/config/config-vueflow';
 import JhiItemCountComponent from './shared/jhi-item-count.vue';
 import JhiSortIndicatorComponent from './shared/sort/jhi-sort-indicator.vue';
 import LoginService from './account/login.service';
@@ -26,6 +27,7 @@ const pinia = createPinia();
 
 initBootstrapVue(Vue);
 initCoreComponents(Vue);
+initVueflow(Vue);
 
 Vue.configureCompat({
   MODE: 2,

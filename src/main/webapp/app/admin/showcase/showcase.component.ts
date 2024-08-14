@@ -16,6 +16,7 @@ export default defineComponent({
     items.value.push(DataFaker.fakeCardItem());
     items.value.push(DataFaker.fakeCardItem());
     items.value.push(DataFaker.fakeCardItem());
+
     return {
       items,
       confirmWithMessageModal,
