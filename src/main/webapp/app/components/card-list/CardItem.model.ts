@@ -74,7 +74,7 @@ export interface ICardItem {
   description?: string | null;
   solicitante?: string | null;
   solicitud?: ISolicitud | null;
-  columnas?: any | null;
+  columnas?: IColumn[] | null;
   pieDePagina?: string | null;
   selected?: boolean | null;
   processInfo?: IProcessInfo | null;
