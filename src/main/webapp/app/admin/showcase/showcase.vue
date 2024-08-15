@@ -1,7 +1,15 @@
 <template>
   <div>
     in the parent: {{ fullname }}
-    <core-input-text v-model="fullname"></core-input-text>
+    <core-input-text
+      required
+      popover="This is the poper"
+      label="Full name"
+      placeholder="Insert your full name"
+      description="The full name is useful for locate you"
+      min="3"
+      v-model="fullname"
+    ></core-input-text>
     <header class="bx-header-title">
       <h3>{{ $t('showcase.card-list.title') }}</h3>
       <div class="header-title-line"></div>

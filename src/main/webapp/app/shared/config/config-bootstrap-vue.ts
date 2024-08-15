@@ -87,6 +87,7 @@ import {
   BSkeletonWrapper,
   BListGroup,
   BListGroupItem,
+  BPopover,
   TooltipPlugin,
 } from 'bootstrap-vue';
 
@@ -181,4 +182,5 @@ export function initBootstrapVue(vue) {
   vue.component('b-embed', BEmbed);
   vue.component('b-form-text', BFormText);
   vue.component('b-form-invalid-feedback', BFormInvalidFeedback);
+  vue.component('b-popover', BPopover);
 }

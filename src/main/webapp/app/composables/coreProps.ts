@@ -6,16 +6,16 @@ export const useCoreProps = () => {
     id: {
       type: String,
       default: () => {
-        return Math.floor(Math.random() * Date.now());
+        return Math.floor(Math.random() * Date.now()) + '';
       },
     },
     label: {
       type: String,
-      default: '',
+      default: null,
     },
     placeholder: {
       type: String,
-      default: '',
+      default: null,
     },
     readonly: {
       type: Boolean,
@@ -27,15 +27,15 @@ export const useCoreProps = () => {
     },
     description: {
       type: String,
-      default: '',
+      default: null,
     },
     tooltip: {
       type: String,
-      default: '',
+      default: null,
     },
     popover: {
       type: String,
-      default: '',
+      default: null,
     },
     //Validation
     required: {
@@ -49,7 +49,7 @@ export const useCoreProps = () => {
       },
     },
     min: {
-      type: Number,
+      type: [Number, String],
       default: null,
     },
     minMessage: {
@@ -57,7 +57,7 @@ export const useCoreProps = () => {
       default: '',
     },
     max: {
-      type: Number,
+      type: [Number, String],
       default: null,
     },
     maxMessage: {
@@ -74,7 +74,7 @@ export const useCoreProps = () => {
     },
     valid: {
       type: Boolean,
-      default: false,
+      default: null,
     },
   };
   return {
