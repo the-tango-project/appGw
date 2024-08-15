@@ -1,5 +1,7 @@
 <template>
   <div>
+    in the parent: {{ fullname }}
+    <core-input-text v-model="fullname"></core-input-text>
     <header class="bx-header-title">
       <h3>{{ $t('showcase.card-list.title') }}</h3>
       <div class="header-title-line"></div>

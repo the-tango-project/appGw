@@ -29,7 +29,8 @@ initBootstrapVue(Vue);
 initCoreComponents(Vue);
 initVueflow(Vue);
 
-Vue.configureCompat({
+// This part follow the bootrap-vue migration recommendations at https://bootstrap-vue.org/vue3
+(Vue as any).configureCompat({
   MODE: 2,
   ATTR_FALSE_VALUE: 'suppress-warning',
   COMPONENT_FUNCTIONAL: 'suppress-warning',

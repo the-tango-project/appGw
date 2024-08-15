@@ -12,6 +12,7 @@ export default defineComponent({
     const simpleConfirmModal = ref<any>(null);
     const items: Ref<ICardItem[]> = ref([]);
     const modalResultComment: Ref<String> = ref(null);
+    const fullname = ref('hola');
     const modalResult: Ref<String> = ref(null);
     items.value.push(DataFaker.fakeCardItem());
     items.value.push(DataFaker.fakeCardItem());
@@ -23,6 +24,7 @@ export default defineComponent({
       simpleConfirmModal,
       modalResult,
       modalResultComment,
+      fullname,
     };
   },
   methods: {
