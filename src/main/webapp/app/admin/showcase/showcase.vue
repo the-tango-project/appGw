@@ -1,15 +1,22 @@
 <template>
   <div>
-    in the parent: {{ fullname }}
     <core-input-text
       required
       popover="This is the poper"
       label="Full name"
       placeholder="Insert your full name"
-      description="The full name is useful for locate you"
+      :description="'input text: ' + fullname"
       min="3"
       v-model="fullname"
     ></core-input-text>
+
+    <core-select-one
+      label="Tipo de componente"
+      v-model="componenteSelected"
+      :options="tipoComponentsValues"
+      :description="'selected:' + componenteSelected"
+    ></core-select-one>
+
     <header class="bx-header-title">
       <h3>{{ $t('showcase.card-list.title') }}</h3>
       <div class="header-title-line"></div>

@@ -1,0 +1,11 @@
+{
+  "apeironGwApp": {
+    "TipoComponente": {
+      "null": "",
+      "FORM": "Form",
+      "CUSTOM": "Custom",
+      "VUEJS": "Vuejs",
+      "HTML": "Html"
+    }
+  }
+}

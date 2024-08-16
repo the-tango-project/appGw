@@ -8,6 +8,8 @@ import { useIntersectionObserver } from '@vueuse/core';
 //service
 import LocalFormService from '@/entities/form/form.service';
 import { type IForm } from '@/shared/model/form.model';
+import { Badge, CardItem, Router, Button } from '@/components/card-list/CardItem.model';
+import { faker } from '@faker-js/faker';
 
 export default defineComponent({
   compatConfig: { MODE: 3 },
@@ -67,9 +69,11 @@ export default defineComponent({
           links.value = dataUtils.parseLinks(res.headers?.['link']);
         })
         .catch(error => {
+          console.log(error);
           alertService.showHttpError(error.response);
         })
         .finally(() => {
+          console.log('finally');
           isFetching.value = false;
         });
     };
@@ -118,26 +122,31 @@ export default defineComponent({
       propOrder.value = newOrder;
     };
 
-    const creaRegistroCard = (val: IForm) => {
-      return {
-        title: val.title,
-        description: `${val.description ? val.description : ''}`,
-        footer: 'this.$options.filters.timeElapsed((val as any).lastModifiedDate)',
-        icon: 'icon-evaluacion-2',
-        badge: [
-          {
-            badge: val.name ? val.name : '',
-          },
-        ],
-        router: {
-          edit: {
-            to: { name: 'FormEdit', params: { formId: val.id } },
-            nameBtn: 'Editar',
-            icon: 'editar',
-          },
-        },
-      };
+    const creaRegistroCard = (form: IForm) => {
+      const cardItem = new CardItem();
+      cardItem.title = form.title;
+      cardItem.icon = 'bookmark-check';
+      cardItem.description = form.description ? form.description : '';
+      cardItem.footer = dateFormat.timeElapsed((form as any).lastModifiedDate);
+      const badge = new Badge();
+      badge.id = faker.database.mongodbObjectId();
+      badge.name = form.name ? form.name : '';
+      badge.variant = 'primary';
+      cardItem.badge = [badge];
+      cardItem.icon = 'pencil';
+      const button = new Button();
+      button.name = 'Editar';
+      button.icon = 'pencil';
+      button.to = new Router();
+      button.to.name = 'FormEdit';
+      button.to.params = { formId: form.id };
+      cardItem.buttons = [button];
+      return cardItem;
     };
+
+    onMounted(async () => {
+      await retrieveAllForms();
+    });
 
     // Whenever order changes, reset the pagination
     watch([propOrder, reverse], () => {

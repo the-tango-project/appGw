@@ -6,7 +6,7 @@ import type AccountService from '@/account/account.service';
 import languages from '@/shared/config/languages';
 import EntitiesMenu from '@/entities/entities-menu.vue';
 
-import { CardItem, type ICardItem } from './CardItem.model';
+import { CardItem, type ICardItem, type IRouter } from './CardItem.model';
 import { useStore } from '@/store';
 
 export default defineComponent({
@@ -19,7 +19,7 @@ export default defineComponent({
   setup() {},
   methods: {
     isEditable(item: ICardItem): boolean {
-      if (item?.router || item?.buttons) {
+      if (item?.buttons && item.buttons.length > 0) {
         return true;
       } else {
         return false;
@@ -28,9 +28,9 @@ export default defineComponent({
     hasEditableButtons(item: ICardItem): boolean {
       return item?.buttons?.length !== undefined && item?.buttons?.length > 0;
     },
-    findFirstEditableDestino(item: ICardItem): string | null {
+    findFirstEditableDestino(item: ICardItem): IRouter | String | null {
       if (item?.buttons?.length !== undefined && item?.buttons?.length > 0) {
-        return item.buttons[0].destino !== undefined ? item.buttons[0].destino : '';
+        return item?.buttons[0]?.to !== undefined ? item.buttons[0].to : '';
       } else {
         return '';
       }

@@ -47,7 +47,10 @@
       "confirmpassword.label": "New password confirmation",
       "confirmpassword.placeholder": "Confirm the new password",
       "email.label": "Email",
-      "email.placeholder": "Your email"
+      "email.placeholder": "Your email",
+      "selectone": {
+        "placeholder": "Seleccione una opción"
+      }
     },
     "messages": {
       "info": {
@@ -98,7 +101,10 @@
     "ribbon": {
       "dev": "Development"
     },
-    "item-count": "Showing { first } - { second } of { total } items."
+    "item-count": "Showing { first } - { second } of { total } items.",
+    "navigation": {
+      "return": "Return"
+    }
   },
   "entity": {
     "action": {
@@ -112,7 +118,10 @@
       "save": "Save",
       "view": "View",
       "show": "Show { otherEntity }",
-      "confirm": "Confirmar"
+      "confirm": "Confirmar",
+      "clone": "Clone",
+      "import": "Import",
+      "export": "Export"
     },
     "detail": {
       "field": "Field",

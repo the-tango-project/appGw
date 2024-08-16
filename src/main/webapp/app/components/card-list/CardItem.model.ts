@@ -1,6 +1,26 @@
-import { Button, type IButton, ButtonFactory } from '@/shared/model/button.model';
+import type { RolAutoridad } from '@/shared/model/enumerations/rol-autoridad.model';
 import type { ISolicitante, ISolicitud } from '@/shared/model/solicitud.model';
+import { faker } from '@faker-js/faker';
 
+export interface IButton {
+  name?: string | null;
+  icon?: string | null;
+  to?: IRouter | null;
+  tooltip?: string | null;
+  roles?: RolAutoridad[] | null;
+  expresion?: string | null;
+}
+
+export class Button implements IButton {
+  constructor(
+    public name?: string | null,
+    public icon?: string | null,
+    public to?: IRouter | null,
+    public tooltip?: string | null,
+    public roles?: RolAutoridad[] | null,
+    public expresion?: string | null,
+  ) {}
+}
 export interface IProcessInfo {
   isProcessing?: boolean | null;
   hasErrors?: boolean | null;
@@ -19,45 +39,25 @@ export class ProcessInfo implements IProcessInfo {
 
 export interface IBadge {
   id?: string | number;
-  badge?: string | null;
+  name?: string | null;
   variant?: string | null;
 }
 
 export class Badge implements IBadge {
   constructor(
     public id?: string | number,
-    public badge?: string | null,
+    public name?: string | null,
     public variant?: string | null,
-  ) {}
+  ) {
+    this.id = this.id ? this.id : faker.database.mongodbObjectId();
+  }
 }
-export interface ITo {
+export interface IRouter {
   name?: string | null;
   params?: any;
 }
 
-export interface IEdit {
-  to?: ITo | null;
-  nameBto?: string | null;
-  icon?: string | null;
-}
-
-export interface IRouter {
-  edit?: IEdit | null;
-}
-
 export class Router implements IRouter {
-  constructor(public edit?: IEdit | null) {}
-}
-
-export class Edit implements IEdit {
-  constructor(
-    public to?: ITo | null,
-    public nameBto?: string | null,
-    public icon?: string | null,
-  ) {}
-}
-
-export class To implements ITo {
   constructor(
     public name?: string | null,
     public params?: any,
@@ -68,14 +68,13 @@ export interface ICardItem {
   id?: string | null;
   icon?: string | null;
   title?: string | null;
-  router?: IRouter | null;
   buttons?: IButton[] | null;
   badge?: IBadge[] | null;
   description?: string | null;
   solicitante?: string | null;
   solicitud?: ISolicitud | null;
-  columnas?: IColumn[] | null;
-  pieDePagina?: string | null;
+  columns?: IColumn[] | null;
+  footer?: string | null;
   selected?: boolean | null;
   processInfo?: IProcessInfo | null;
 }
@@ -85,14 +84,13 @@ export class CardItem implements ICardItem {
     public id?: string | null,
     public icon?: string | null,
     public title?: string | null,
-    public router?: IRouter | null,
     public buttons?: IButton[] | null,
     public badge?: IBadge[] | null,
     public description?: string | null,
     public solicitante?: string | null,
     public solicitud?: ISolicitud | null,
-    public columnas?: IColumn[] | null,
-    public pieDePagina?: string | null,
+    public columns?: IColumn[] | null,
+    public footer?: string | null,
     public selected?: boolean | null,
     public processInfo?: IProcessInfo | null,
   ) {}

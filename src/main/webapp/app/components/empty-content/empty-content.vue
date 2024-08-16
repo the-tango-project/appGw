@@ -1,5 +1,5 @@
 <template>
-  <b-col class="alert-info-card">
+  <b-col class="alert-info-card" cols="5">
     <div class="mb-4"></div>
     <b-row align-v="center">
       <b-col></b-col>

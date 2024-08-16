@@ -1,11 +1,17 @@
 import { type Ref } from 'vue';
 import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
+import utc from 'dayjs/plugin/utc';
 
 export const DATE_FORMAT = 'YYYY-MM-DD';
 export const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm';
 
 export const DATE_TIME_LONG_FORMAT = 'YYYY-MM-DDTHH:mm';
+
+import { formatRelative } from 'date-fns';
+import { es } from 'date-fns/locale';
+
+dayjs.extend(utc);
 
 export const useDateFormat = ({ entityRef }: { entityRef?: Ref<Record<string, any>> } = {}) => {
   const formatDate = value => (value ? dayjs(value).format(DATE_TIME_FORMAT) : '');
@@ -13,6 +19,12 @@ export const useDateFormat = ({ entityRef }: { entityRef?: Ref<Record<string, an
     convertDateTimeFromServer: (date: Date): string => (date && dayjs(date).isValid() ? dayjs(date).format(DATE_TIME_LONG_FORMAT) : null),
     formatDate,
     formatDuration: value => (value ? dayjs.duration(value).humanize() ?? value : ''),
+    timeElapsed: (date: any): string => {
+      if (date) {
+        return formatRelative(new Date(date), new Date(), { locale: es });
+      }
+      return '';
+    },
   };
   const entityUtils = entityRef
     ? {

@@ -4,7 +4,7 @@ import buildPaginationQueryOpts from '@/shared/sort/sorts';
 
 import { type IForm } from '@/shared/model/form.model';
 
-const baseApiUrl = 'api/forms';
+const baseApiUrl = 'services/flowms/api/forms';
 
 export default class LocalFormService {
   public find(id: string): Promise<IForm> {

@@ -9,23 +9,7 @@
           </b-col>
           <b-col col lg="7" class="left-felx">
             <b-card-text>
-              <router-link v-if="item.router?.edit?.to" :to="item.router.edit.to" custom v-slot="{ navigate }">
-                <b-link @click="navigate">
-                  <div class="font-weight-bolder h4">{{ item.title }}</div>
-                </b-link>
-              </router-link>
-              <router-link
-                v-else-if="hasEditableButtons(item)"
-                class="mr-2"
-                v-slot="{ navigate }"
-                custom
-                :to="findFirstEditableDestino(item)"
-              >
-                <b-link @click="navigate">
-                  <div class="font-weight-bolder h4">{{ item.title }}</div>
-                </b-link>
-              </router-link>
-              <div v-else class="font-weight-bolder text-black h4">{{ item.title }}</div>
+              <div class="font-weight-bolder h4">{{ item.title }}</div>
               <div v-if="item.description" v-html="item.description"></div>
               <div v-if="item.solicitante">
                 <div class="mt-2">{{ $t('item-detail.author') }}</div>
@@ -33,7 +17,7 @@
                   <strong>{{ item.solicitante }}</strong>
                 </div>
               </div>
-              <div v-for="(desc, index) in item.columnas" :key="index">
+              <div v-for="(desc, index) in item.columns" :key="index">
                 <div v-if="desc.hasAccess && desc.show" class="mt-2">
                   {{ desc.title }}
                 </div>
@@ -41,27 +25,20 @@
                   <strong>{{ desc.description }}</strong>
                 </div>
               </div>
-              <div v-if="item.pieDePagina" class="text-muted" style="white-space: pre-line" v-html="item.pieDePagina"></div>
+              <div v-if="item.footer" class="text-muted" style="white-space: pre-line" v-html="item.footer"></div>
             </b-card-text>
           </b-col>
           <b-col col lg="4">
             <b-row class="d-flex justify-content-end mb-3">
               <span v-for="b in item.badge" v-bind:key="b.id">
-                <b-badge class="ml-1" v-if="b.badge" pill :variant="b.variant ? b.variant : 'light'">{{ b.badge }} </b-badge>
+                <b-badge class="ml-1" v-if="b.name" pill :variant="b.variant ? b.variant : 'light'">{{ b.name }} </b-badge>
               </span>
             </b-row>
             <b-row class="d-flex text-center justify-content-end">
               <div class="btn-group float-right" v-if="isCardFooterVisible(item)">
-                <router-link
-                  class="mr-2"
-                  v-for="(button, index) in item.buttons"
-                  :key="index"
-                  :to="button.destino"
-                  custom
-                  v-slot="{ navigate }"
-                >
+                <router-link class="mr-2" v-for="(button, index) in item.buttons" :key="index" :to="button.to" custom v-slot="{ navigate }">
                   <b-button v-b-tooltip.top :title="button.tooltip ? button.tooltip : ''" @click="navigate" variant="outline-primary">
-                    <span class="d-none d-md-inline">{{ button.nombre }}</span>
+                    <span class="d-none d-md-inline">{{ button.name }}</span>
                     <span :class="button.icon"></span>
                   </b-button>
                 </router-link>

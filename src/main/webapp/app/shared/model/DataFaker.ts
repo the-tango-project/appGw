@@ -1,9 +1,7 @@
 import { RolAutoridad } from '@/shared/model/enumerations/rol-autoridad.model';
-import { Button, type IButton } from '@/shared/model/button.model';
 import { type IBadge, type ICardItem, type IProcessInfo, Badge, CardItem, ProcessInfo } from '@/components/card-list/CardItem.model';
 import { faker } from '@faker-js/faker';
-import { ButtonFactory } from '@/shared/model/button.model';
-import { type IRouter, Router, Edit, type ITo, To, type IColumn, Column } from '@/components/card-list/CardItem.model';
+import { type IRouter, Router, type IColumn, Column, type IButton, Button } from '@/components/card-list/CardItem.model';
 import { type ISolicitante, type ISolicitud, Solicitante, Solicitud } from '@/shared/model/solicitud.model';
 import { EstadoSolicitud } from './enumerations/estado-solicitud.model';
 export class DataFaker {
@@ -21,12 +19,11 @@ export class DataFaker {
     item.id = faker.database.mongodbObjectId();
     item.icon = this.randomIcon();
     item.title = faker.word.noun();
-    item.router = this.fakeRouter();
     item.buttons = [this.fakeButton(), this.fakeButton(), this.fakeButton()];
     item.badge = [this.fakeBadge(), this.fakeBadge(), this.fakeBadge(), this.fakeBadge(), this.fakeBadge()];
-    item.columnas = this.fakeColumnas();
+    item.columns = this.fakeColumnas();
     item.description = faker.lorem.sentence();
-    item.pieDePagina = faker.lorem.word();
+    item.footer = faker.lorem.word();
     item.processInfo = this.fakeProcessInfo();
     item.selected = faker.datatype.boolean();
     const solicitante = this.fakeSolicitante();
@@ -77,34 +74,29 @@ export class DataFaker {
   static fakeButton(): IButton {
     const button = new Button();
     button.icon = this.randomIcon();
-    button.nombre = this.randomButtonName();
+    button.name = this.randomButtonName();
     button.tooltip = faker.company.buzzPhrase();
     button.expresion = 'return true';
     button.roles = [RolAutoridad.OPERADOR, RolAutoridad.SISTEMA];
-    button.destino = 'Showcase';
+    button.to = this.fakeRouter();
     return button;
   }
 
   static fakeRouter(): IRouter {
     const router: IRouter = new Router();
-    router.edit = new Edit();
-    router.edit.icon = this.randomIcon();
-    router.edit.nameBto = faker.word.verb() + ' ' + faker.word.noun();
-    router.edit.to = this.fakeTo();
+    router.name = 'Showcase';
+    router.params = { showcaseId: faker.database.mongodbObjectId() };
     return router;
   }
 
   static fakeBadge(): IBadge {
     const badge = new Badge();
     badge.id = faker.database.mongodbObjectId();
-    badge.badge = faker.word.noun();
+    badge.name = faker.word.noun();
     badge.variant = this.randomVariant();
     return badge;
   }
 
-  static fakeTo(): ITo {
-    return new To('Showcase', { solicitudId: faker.database.mongodbObjectId() });
-  }
   static randomButtonName(): string {
     return this.BUTTON_NAME[this.randomIndex(this.BUTTON_NAME)];
   }

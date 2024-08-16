@@ -4,20 +4,29 @@ const { coreProps } = useCoreProps();
 
 export default defineComponent({
   compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
-  name: 'InputText',
-  emits: ['update:modelValue'],
+  name: 'SelectOne',
+  emits: ['update:modelValue', 'change'],
   props: {
     modelValue: {
       type: String,
       default: () => '',
     },
     ...coreProps,
+    options: {
+      type: Array<any>,
+      required: true,
+    },
   },
   setup(props, { emit }) {
-    const theModel = computed({
+    const selected = computed({
       get: () => props.modelValue,
       set: value => emit('update:modelValue', value),
     });
-    return { theModel };
+    return { selected };
+  },
+  methods: {
+    handleChange(value: any): void {
+      this.$emit('change', value);
+    },
   },
 });
