@@ -4,6 +4,7 @@ import ConfirmationModal from '@/components/confirmation-modal/confirmation-moda
 import Flow from '@/components/flow/flow.vue';
 import InputText from '@/components/fields/input-text/input-text.vue';
 import SelectOne from '@/components/fields/select-one/select-one.vue';
+import InputTags from '@/components/fields/input-tags/input-tags.vue';
 export function initCoreComponents(vue: any) {
   vue.component('core-empty-content', EmptyContent);
   vue.component('core-card-list', CardsList);
@@ -11,4 +12,5 @@ export function initCoreComponents(vue: any) {
   vue.component('core-flow', Flow);
   vue.component('core-input-text', InputText);
   vue.component('core-select-one', SelectOne);
+  vue.component('core-input-tags', InputTags);
 }

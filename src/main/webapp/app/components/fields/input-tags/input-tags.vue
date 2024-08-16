@@ -12,18 +12,19 @@
         </b-popover>
       </span>
     </label>
-    <b-form-input
-      :placeholder="placeholder"
-      :id="id"
+    <vueform-multi-select
+      class="multiselect-green"
       v-model="theModel"
-      :state="valid"
-      :readonly="readonly"
-      type="text"
-      :max="max"
-    ></b-form-input>
-    <b-form-invalid-feedback> </b-form-invalid-feedback>
+      :placeholder="selectOptionPlaceholder"
+      mode="tags"
+      :close-on-select="false"
+      :searchable="true"
+      :create-option="true"
+      :options="formVueOptions"
+    ></vueform-multi-select>
     <small v-if="description" class="form-text helper-text">{{ description }}</small>
   </div>
 </template>
 
-<script lang="ts" src="./input-text.component.ts"></script>
+<script lang="ts" src="./input-tags.component.ts"></script>
+<style src="@vueform/multiselect/themes/default.css"></style>

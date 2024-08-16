@@ -17,18 +17,23 @@ export default defineComponent({
     const confirmWithMessageModal = ref<any>(null);
     const simpleConfirmModal = ref<any>(null);
     const items: Ref<ICardItem[]> = ref([]);
-    const modalResultComment: Ref<String> = ref(null);
+    items.value.push(DataFaker.fakeCardItem());
+    items.value.push(DataFaker.fakeCardItem());
+    items.value.push(DataFaker.fakeCardItem());
+
+    //form variables
     const fullname = ref('hola');
     const componenteSelected = ref('');
+    const tags = ref([]);
+
     const modalResult: Ref<String> = ref(null);
-    items.value.push(DataFaker.fakeCardItem());
-    items.value.push(DataFaker.fakeCardItem());
-    items.value.push(DataFaker.fakeCardItem());
+    const modalResultComment: Ref<String> = ref(null);
 
     const tipoComponentsValues: Ref<IOption[]> = ref(selectOptions.tipoComponente());
 
     return {
       items,
+      tags,
       confirmWithMessageModal,
       simpleConfirmModal,
       modalResult,

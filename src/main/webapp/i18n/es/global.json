@@ -50,6 +50,9 @@
       "email.placeholder": "Su correo electrónico",
       "selectone": {
         "placeholder": "Seleccione una opción"
+      },
+      "selecttags": {
+        "placeholder": "Seleccione etiquetas"
       }
     },
     "messages": {

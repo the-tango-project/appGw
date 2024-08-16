@@ -11,11 +11,18 @@
     ></core-input-text>
 
     <core-select-one
-      label="Tipo de componente"
+      label="Type of component"
       v-model="componenteSelected"
       :options="tipoComponentsValues"
       :description="'selected:' + componenteSelected"
     ></core-select-one>
+
+    <core-input-tags
+      label="Types of components"
+      v-model="tags"
+      :options="tipoComponentsValues"
+      :description="'tags:' + tags"
+    ></core-input-tags>
 
     <header class="bx-header-title">
       <h3>{{ $t('showcase.card-list.title') }}</h3>

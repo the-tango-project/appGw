@@ -49,7 +49,10 @@
       "email.label": "Email",
       "email.placeholder": "Your email",
       "selectone": {
-        "placeholder": "Seleccione una opción"
+        "placeholder": "Select one option"
+      },
+      "selecttags": {
+        "placeholder": "Select tags"
       }
     },
     "messages": {
