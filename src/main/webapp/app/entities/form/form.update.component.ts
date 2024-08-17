@@ -59,8 +59,8 @@ export default defineComponent({
     const tabIndex: Ref<Number> = ref(0);
     //SelectOne options
     const tipoMenuOptions = ref(selectOptions.tipoMenu());
-    const tipoComponentOptions = ref(selectOptions.tipoComponent());
-
+    const tipoComponentOptions = ref(selectOptions.tipoComponente());
+    TipoComponente;
     // Method definition
     const retriveById = async (formId: any) => {
       try {
@@ -136,6 +136,7 @@ export default defineComponent({
             this.alertService.showHttpError(error.response);
           });
       } else {
+        console.log(this.fomr);
         this.localFormService()
           .create(this.form)
           .then((param: any) => {

@@ -17,12 +17,7 @@
       :description="'selected:' + componenteSelected"
     ></core-select-one>
 
-    <core-input-tags
-      label="Types of components"
-      v-model="tags"
-      :options="tipoComponentsValues"
-      :description="'tags:' + tags"
-    ></core-input-tags>
+    <core-input-tags label="Types of components" v-model="tags" :description="'tags:' + tags"></core-input-tags>
 
     selected icon: {{ iconSelected }}
     <core-icon-picker label="Select icon" v-model="iconSelected"></core-icon-picker>

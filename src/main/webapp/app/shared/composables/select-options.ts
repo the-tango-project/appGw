@@ -14,9 +14,6 @@ const useSelectOptions = () => ({
   tipoMenu(): Array<IOption> {
     return this.mapKeys('apeironGwApp.MenuElement.', MenuElement);
   },
-  tipoComponent(): Array<IOption> {
-    return this.mapKeys('apeironGwApp.MenuElement.', MenuElement);
-  },
 
   mapKeys(i18nkey: string, element: any): Array<IOption> {
     const { t: t$ } = useI18n();

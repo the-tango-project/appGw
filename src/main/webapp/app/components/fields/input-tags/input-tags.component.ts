@@ -1,4 +1,4 @@
-import { computed, defineComponent, inject, ref, type Ref, defineModel } from 'vue';
+import { computed, defineComponent, inject, ref, type Ref, defineModel, watch } from 'vue';
 import { useCoreProps } from '@/composables/coreProps';
 import type { IColumn } from '@/components/card-list/CardItem.model';
 import type { IOption } from '@/shared/model/ui/option.model';
@@ -14,29 +14,36 @@ export default defineComponent({
       type: Array<String>,
       default: () => [],
     },
-    options: {
-      type: Array<IOption>,
-      required: true,
-    },
     ...coreProps,
   },
   setup(props, { emit }) {
     const { t: t$ } = useI18n();
-    let selectOptionPlaceholder: Ref<String> = ref(t$('global.form.selecttags.placeholder').toString());
+    const selectOptionPlaceholder: Ref<String> = ref(t$('global.form.selecttags.placeholder').toString());
+    const selectFormKey = ref(0);
 
     const theModel = computed({
       get: () => props.modelValue,
       set: value => emit('update:modelValue', value),
     });
 
+    const formVueOptions = ref([]);
+
     if (props.placeholder) {
       selectOptionPlaceholder.value = props.placeholder;
     }
 
-    const formVueOptions = props.options.map(option => {
-      return { value: option.value, label: option.text };
+    formVueOptions.value = theModel.value.map(option => {
+      return { value: option, label: option };
     });
 
-    return { theModel, formVueOptions, selectOptionPlaceholder };
+    // This watch is necessary for refresh the options values int the vueform-multi-select component and could show the the tags properly
+    watch([theModel], async newValue => {
+      formVueOptions.value = theModel.value.map(tag => {
+        return { value: tag, label: tag };
+      });
+      selectFormKey.value = selectFormKey.value + 1;
+    });
+
+    return { theModel, formVueOptions, selectOptionPlaceholder, selectFormKey };
   },
 });

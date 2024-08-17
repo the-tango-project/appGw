@@ -20,9 +20,9 @@ export default defineComponent({
     items.value.push(DataFaker.fakeCardItem());
 
     //form variables
-    const fullname = ref('hola');
+    const fullname = ref('this is the fullname');
     const componenteSelected = ref('');
-    const tags = ref([]);
+    const tags = ref(['tag A', 'tag B']);
     const iconSelected = ref(null);
 
     const modalResult: Ref<String> = ref(null);

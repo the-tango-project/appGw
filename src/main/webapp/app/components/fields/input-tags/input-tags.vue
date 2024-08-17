@@ -12,8 +12,9 @@
         </b-popover>
       </span>
     </label>
+
     <vueform-multi-select
-      class="multiselect-green"
+      :key="selectFormKey"
       v-model="theModel"
       :placeholder="selectOptionPlaceholder"
       mode="tags"
