@@ -1,0 +1,10 @@
+{
+  "apeironGwApp": {
+    "MenuElement": {
+      "null": "",
+      "DATOS_GENERALES": "Datos generales",
+      "PARTICIPANTES": "Participantes",
+      "DOCUMENTOS": "Documentos"
+    }
+  }
+}

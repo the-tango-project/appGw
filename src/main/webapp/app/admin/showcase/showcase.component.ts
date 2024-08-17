@@ -10,8 +10,6 @@ export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'Showcase',
   setup() {
-    const { t: t$ } = useI18n();
-
     const selectOptions = useSelectOptions();
 
     const confirmWithMessageModal = ref<any>(null);
@@ -25,6 +23,7 @@ export default defineComponent({
     const fullname = ref('hola');
     const componenteSelected = ref('');
     const tags = ref([]);
+    const iconSelected = ref(null);
 
     const modalResult: Ref<String> = ref(null);
     const modalResultComment: Ref<String> = ref(null);
@@ -41,6 +40,7 @@ export default defineComponent({
       fullname,
       componenteSelected,
       tipoComponentsValues,
+      iconSelected,
     };
   },
   methods: {

@@ -1,0 +1,11 @@
+{
+  "iconPicker": {
+    "field": {
+      "select": "Selecciona un ícono",
+      "placeholder": "Ingresa el nombre del icono"
+    },
+    "messages": {
+      "instructions": "En caso de que el ícono que buscas no aparezca en la lista principal, puedes intentar buscarlo en la siguiente cada de texto y agregarlo"
+    }
+  }
+}

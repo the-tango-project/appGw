@@ -1,4 +1,4 @@
-import { IComponente } from '@/shared/model/componente.model';
+import { type IComponente } from '@/shared/model/componente.model';
 import { TipoMenu } from '@/shared/model/enumerations/tipo-menu.model';
 import { TipoSolucion } from '@/shared/model/enumerations/tipo-solucion.model';
 export interface IMenu {

@@ -24,6 +24,9 @@
       :description="'tags:' + tags"
     ></core-input-tags>
 
+    selected icon: {{ iconSelected }}
+    <core-icon-picker label="Select icon" v-model="iconSelected"></core-icon-picker>
+
     <header class="bx-header-title">
       <h3>{{ $t('showcase.card-list.title') }}</h3>
       <div class="header-title-line"></div>

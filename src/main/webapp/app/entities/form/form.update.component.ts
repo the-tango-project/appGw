@@ -15,6 +15,8 @@ import { TipoComponente } from '@/shared/model/enumerations/tipo-componente.mode
 import { MenuElement } from '@/shared/model/enumerations/menu-element.model';
 import { Form, type IForm } from '@/shared/model/form.model';
 
+import useSelectOptions from '@/shared/composables/select-options';
+
 const useValidationRules = (validations: any, t$: any) => {
   return {
     title: { required: validations.required(t$('entity.validation.required').toString()) },
@@ -38,6 +40,7 @@ export default defineComponent({
   setup() {
     //Commons methods
     const { t: t$ } = useI18n();
+    const selectOptions = useSelectOptions();
     const validations = useValidation();
     const validationRules = useValidationRules(validations, t$);
     const dateFormat = useDateFormat();
@@ -54,6 +57,9 @@ export default defineComponent({
     const isSaving: Ref<Boolean> = ref(false);
     const isImporting: Ref<Boolean> = ref(false);
     const tabIndex: Ref<Number> = ref(0);
+    //SelectOne options
+    const tipoMenuOptions = ref(selectOptions.tipoMenu());
+    const tipoComponentOptions = ref(selectOptions.tipoComponent());
 
     // Method definition
     const retriveById = async (formId: any) => {
@@ -73,6 +79,8 @@ export default defineComponent({
     const v$ = useVuelidate(validationRules, form as any);
     v$.value.$validate();
     return {
+      tipoMenuOptions,
+      tipoComponentOptions,
       ...dateFormat,
       ...dataUtils,
       form,
