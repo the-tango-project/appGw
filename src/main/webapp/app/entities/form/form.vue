@@ -12,8 +12,6 @@
       </div>
     </h2>
     <br />
-    {{ forms }} <br />
-    {{ formsCards }}
     <core-card-list :items="formsCards"></core-card-list>
 
     <b-modal ref="removeEntity" id="removeEntity">

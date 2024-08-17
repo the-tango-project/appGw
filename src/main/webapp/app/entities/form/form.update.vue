@@ -25,38 +25,44 @@
           <b-tab class="mt-4" :title-link-class="linkClass(0)">
             <template #title> <b-icon :icon="resolveIcon('info-square', 0)"></b-icon> {{ $t('form.main-data.title') }} </template>
             <b-card>
-              <core-input-text v-if="form.id" :label="$t('global.field.id')" v-model="form.id" readonly></core-input-text>
-              <core-input-text :label="$t('form.main-data.title-component')" v-model="v$.title.$model"></core-input-text>
-              <core-select-one
-                :label="$t('form.main-data.menuName')"
-                v-model="v$.menuName.$model"
-                :options="tipoMenuOptions"
-              ></core-select-one>
-              <core-input-text :label="$t('form.main-data.description')" v-model="v$.description.$model"></core-input-text>
-              <core-input-text :label="$t('form.main-data.name')" v-model="v$.name.$model"></core-input-text>
-              <core-input-text :label="$t('form.main-data.path')" v-model="v$.path.$model"></core-input-text>
-              <core-input-text :label="$t('form.main-data.type')" v-model="v$.type.$model"></core-input-text>
-              <core-icon-picker :label="$t('form.main-data.icon')" v-model="v$.icon.$model"> </core-icon-picker>
-              <core-input-text :label="$t('form.main-data.display')" v-model="v$.display.$model"></core-input-text>
-              <core-input-tags :label="$t('form.main-data.tags')" v-model="form.tags"></core-input-tags>
-              <core-input-text :label="$t('form.main-data.owner')" v-model="v$.owner.$model"></core-input-text>
-              <core-input-text :label="$t('form.main-data.machineName')" v-model="v$.machineName.$model"></core-input-text>
-              <core-select-one
-                :label="$t('form.main-data.tipo')"
-                v-model="v$.tipo.$model"
-                :options="tipoComponentOptions"
-                :description="$t('')"
-              ></core-select-one>
+              <b-row>
+                <b-col sm="12" md="12" lg="6">
+                  <core-input-text v-if="form.id" :label="$t('global.field.id')" v-model="form.id" readonly></core-input-text>
+                  <core-input-text :label="$t('form.main-data.title-component')" v-model="v$.title.$model"></core-input-text>
+                  <core-select-one
+                    :label="$t('form.main-data.menuName')"
+                    v-model="v$.menuName.$model"
+                    :options="tipoMenuOptions"
+                  ></core-select-one>
+                  <core-input-text :label="$t('form.main-data.description')" v-model="v$.description.$model"></core-input-text>
+                  <core-input-text :label="$t('form.main-data.name')" v-model="v$.name.$model"></core-input-text>
+                  <core-input-text :label="$t('form.main-data.path')" v-model="v$.path.$model"></core-input-text>
+                </b-col>
+                <b-col sm="12" md="12" lg="6">
+                  <core-input-text :label="$t('form.main-data.type')" v-model="v$.type.$model"></core-input-text>
+                  <core-input-text :label="$t('form.main-data.display')" v-model="v$.display.$model"></core-input-text>
+                  <core-input-tags :label="$t('form.main-data.tags')" v-model="form.tags"></core-input-tags>
+                  <core-input-text :label="$t('form.main-data.owner')" v-model="v$.owner.$model"></core-input-text>
+                  <core-input-text :label="$t('form.main-data.machineName')" v-model="v$.machineName.$model"></core-input-text>
+                  <core-select-one
+                    :label="$t('form.main-data.tipo')"
+                    v-model="v$.tipo.$model"
+                    :options="tipoComponentOptions"
+                    :description="$t('')"
+                  ></core-select-one>
+                  <core-icon-picker :label="$t('form.main-data.icon')" v-model="v$.icon.$model"> </core-icon-picker>
+                </b-col>
+              </b-row>
             </b-card>
           </b-tab>
         </b-tabs>
         <div class="mb-5 mt-5 float-right">
           <div class="d-flex justify-content-end">
-            <b-button @click="previousState()" variant="outline-danger">
+            <b-button class="mr-1" @click="previousState()" variant="outline-danger">
               <span v-text="$t('global.navigation.return')"></span>
               <b-icon icon="arrow-return-left"></b-icon>
             </b-button>
-            <b-button v-if="isImporting" @click="createForm()" :disabled="v$.$invalid || isSaving" variant="primary">
+            <b-button class="mr-1" v-if="isImporting" @click="createForm()" :disabled="v$.$invalid || isSaving" variant="primary">
               <span> Guardar importado</span>
               <b-icon icon="save"></b-icon>
             </b-button>

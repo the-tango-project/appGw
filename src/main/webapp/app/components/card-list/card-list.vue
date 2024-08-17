@@ -5,11 +5,11 @@
       <b-card v-for="item in items" v-bind:key="item.id" class="mb-4" :bg-variant="isEditable(item) ? '' : 'light'">
         <b-row>
           <b-col col lg="1" class="center-felx card-contacto">
-            <b-icon :icon="item.icon" font-scale="3"></b-icon>
+            <b-icon variant="secondary" :icon="item.icon" font-scale="3"></b-icon>
           </b-col>
           <b-col col lg="7" class="left-felx">
             <b-card-text>
-              <div class="font-weight-bolder h4">{{ item.title }}</div>
+              <div class="font-weight-bolder text-primary h4">{{ item.title }}</div>
               <div v-if="item.description" v-html="item.description"></div>
               <div v-if="item.solicitante">
                 <div class="mt-2">{{ $t('item-detail.author') }}</div>
@@ -55,3 +55,10 @@
   </div>
 </template>
 <script lang="ts" src="./card-list.component.ts"></script>
+<style lang="scss" scoped>
+.card-contacto {
+  span {
+    font-size: 3.1rem !important;
+  }
+}
+</style>

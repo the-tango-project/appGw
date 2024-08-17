@@ -133,7 +133,7 @@ export default defineComponent({
       badge.name = form.name ? form.name : '';
       badge.variant = 'primary';
       cardItem.badge = [badge];
-      cardItem.icon = 'pencil';
+      cardItem.icon = form.icon ? form.icon : 'plus-lg';
       const button = new Button();
       button.name = 'Editar';
       button.icon = 'pencil';
