@@ -1,5 +1,7 @@
 <template>
   <div>
+    {{ codeText }}
+    <core-code-editor v-model="codeText" :lang="codeLanguage"></core-code-editor>
     <core-input-text
       required
       popover="This is the poper"

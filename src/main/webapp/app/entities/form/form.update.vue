@@ -55,6 +55,15 @@
               </b-row>
             </b-card>
           </b-tab>
+          <b-tab id="tab-form-vuejs" v-if="form.tipo === 'VUEJS'" class="mt-4" :title-link-class="linkClass(1)">
+            <template #title> <b-icon :icon="resolveIcon('grid1x2', 1)"></b-icon> VUEJS </template>
+            <b-card>
+              <message :description="$t('form.detail.instruccions')" variant="info"></message>
+
+              <h3>Cod editor Vue3</h3>
+              <core-code-editor v-model="form.vuejs" lang="text/x-vue"></core-code-editor>
+            </b-card>
+          </b-tab>
         </b-tabs>
         <div class="mb-5 mt-5 float-right">
           <div class="d-flex justify-content-end">

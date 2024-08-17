@@ -11,6 +11,7 @@ import { initBootstrapVue } from './shared/config/config-bootstrap-vue';
 import { initCoreComponents } from './shared/config/config-core-components';
 import { initVueflow } from './shared/config/config-vueflow';
 import { initMiscellaneousComponents } from './shared/config/config-miscellaneous-components';
+import { initCodeEditorVue } from './shared/config/config-code-editor';
 import JhiItemCountComponent from './shared/jhi-item-count.vue';
 import JhiSortIndicatorComponent from './shared/sort/jhi-sort-indicator.vue';
 import LoginService from './account/login.service';
@@ -30,6 +31,7 @@ initBootstrapVue(Vue);
 initMiscellaneousComponents(Vue);
 initCoreComponents(Vue);
 initVueflow(Vue);
+initCodeEditorVue(Vue);
 
 // This part follow the bootrap-vue migration recommendations at https://bootstrap-vue.org/vue3
 (Vue as any).configureCompat({

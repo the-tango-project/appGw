@@ -47,6 +47,8 @@ export default defineComponent({
     const dataUtils = useDataUtils();
     const route = useRoute();
     const router = useRouter();
+    const monacoOptions = ref({ colorDecorators: true, lineHeight: 24, tabSize: 2 });
+    const test = ref('text/javascript');
     //Common services
     const alertService = inject('alertService', () => useAlertService(), true);
     const localFormService = inject('localFormService', () => new LocalFormService());
@@ -79,6 +81,8 @@ export default defineComponent({
     const v$ = useVuelidate(validationRules, form as any);
     v$.value.$validate();
     return {
+      monacoOptions,
+      test,
       tipoMenuOptions,
       tipoComponentOptions,
       ...dateFormat,

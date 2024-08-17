@@ -24,6 +24,8 @@ export default defineComponent({
     const componenteSelected = ref('');
     const tags = ref(['tag A', 'tag B']);
     const iconSelected = ref(null);
+    const codeText = ref('const sum = 10;');
+    const codeLanguage = ref('text/javascript');
 
     const modalResult: Ref<String> = ref(null);
     const modalResultComment: Ref<String> = ref(null);
@@ -33,6 +35,8 @@ export default defineComponent({
     return {
       items,
       tags,
+      codeText,
+      codeLanguage,
       confirmWithMessageModal,
       simpleConfirmModal,
       modalResult,

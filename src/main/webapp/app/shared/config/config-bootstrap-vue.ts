@@ -91,7 +91,7 @@ import {
   TooltipPlugin,
 } from 'bootstrap-vue';
 
-export function initBootstrapVue(vue) {
+export function initBootstrapVue(vue: any) {
   vue.use(ToastPlugin);
   vue.use(BootstrapVueIcons);
   vue.use(TooltipPlugin);
