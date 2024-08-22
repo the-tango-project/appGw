@@ -1,0 +1,7 @@
+{
+  "Define constant variable": {
+    "prefix": "var-array",
+    "body": [" const items: Ref<${1}[]> = ref([]);"],
+    "description": "Define constant variable",
+  },
+}

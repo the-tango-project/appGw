@@ -1,0 +1,52 @@
+{
+  "Input text ": {
+    "prefix": "coreinputtext",
+    "body": [
+      "    <core-input-text",
+      "      required",
+      "      :popover=\"\\$t('')\"",
+      "      :label=\"\\$t('')\"",
+      "      :placeholder=\"\\$t('')\"",
+      "      :description=\"\\$t('')\"",
+      "      min=\"3\"",
+      "      v-model=\"${1}\"",
+      "    ></core-input-text>",
+    ],
+    "description": "Input text ",
+  },
+  "Select one": {
+    "prefix": "coreselectone",
+    "body": [
+      "    <core-select-one",
+      "      :label=\"\\$t('')\"",
+      "      v-model=\"${1}\"",
+      "      :options=\"${2}\"",
+      "      :description=\"\\$t('')\"",
+      "    ></core-select-one>",
+    ],
+    "description": "Select one",
+  },
+  "Input tags": {
+  "prefix": "coreinputtags",
+  "body": [
+    "",
+    "    <core-input-tags",
+    "      :label=\"\\$t('')\"",
+    "      v-model=\"${1}\"",
+    "      :options=\"${2}\"",
+    "      :description=\"\\$t('')\"",
+    "    ></core-input-tags>"
+  ],
+  "description": "Input tags"
+},"Icon picker": {
+  "prefix": "coreiconpicker",
+  "body": [
+    "<core-icon-picker ",
+    "  :label=\"\\$t('')\" ",
+    "  v-model=\"${1}\">",
+    "</core-icon-picker>",
+    ""
+  ],
+  "description": "Icon picker"
+}
+}
