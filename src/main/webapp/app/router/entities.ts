@@ -14,6 +14,8 @@ const DemoInfiniteScrollDetails = () => import('@/entities/flowMs/demo-infinite-
 const Form = () => import('@/entities/form/form.vue');
 const FormUpdate = () => import('@/entities/form/form.update.vue');
 
+const Solucion = () => import('@/entities/solucion/solucion.vue');
+const SolucionUpdate = () => import('@/entities/solucion/solucion-update.vue');
 // jhipster-needle-add-entity-to-router-import - JHipster will import entities to the router here
 
 export default {
@@ -84,6 +86,24 @@ export default {
       path: 'form/:formId/edit',
       name: 'FormEdit',
       component: FormUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'solucion',
+      name: 'Solucion',
+      component: Solucion,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'solucion/new',
+      name: 'SolucionCreate',
+      component: SolucionUpdate,
+      meta: { authorities: [Authority.USER] },
+    },
+    {
+      path: 'solucion/:solucionId/edit',
+      name: 'SolucionEdit',
+      component: SolucionUpdate,
       meta: { authorities: [Authority.USER] },
     },
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here

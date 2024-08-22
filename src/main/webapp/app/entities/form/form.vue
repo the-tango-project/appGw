@@ -4,7 +4,14 @@
       <span v-text="$t('form.home.title')" id="form-heading"></span>
       <div class="d-flex justify-content-end">
         <router-link :to="{ name: 'FormCreate' }" custom v-slot="{ navigate }">
-          <button @click="navigate" id="jh-create-entity" data-cy="entityCreateButton" class="btn btn-primary jh-create-entity create-form">
+          <b-skeleton v-if="isFetching" type="button"></b-skeleton>
+          <button
+            v-else
+            @click="navigate"
+            id="jh-create-entity"
+            data-cy="entityCreateButton"
+            class="btn btn-primary jh-create-entity create-form"
+          >
             <span v-text="$t('form.home.createLabel')"></span>
             <font-awesome-icon icon="plus"></font-awesome-icon>
           </button>

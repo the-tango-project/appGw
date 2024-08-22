@@ -1,0 +1,161 @@
+{
+  "archeApp": {
+    "solucion": {
+      "home": {
+        "title": "Mis soluciones",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nueva Solución",
+        "createOrEditLabel": "Registro de soluciones",
+        "notFound": "Ningún Solucions encontrado"
+      },
+      "seccion": {
+        "informacion": {
+          "title": "Información"
+        },
+        "mensaje": {
+          "title": "Mensajes",
+          "bienvenida": {
+            "solicitante": "Mensaje de bienvenida para el solicitante",
+            "solicitantes": "Mensaje de bienvenida que ven los solicitantes",
+            "operador": "Mensaje de bievenida para los operadores",
+            "revisor": "Mensaje de bienvenida para las revisiones",
+            "revisores": "Mensaje de bienvenida que ven los revisores",
+            "terminosRevisores": "Términos y condiciones para enviar una revisión"
+          },
+          "terminos": {
+            "revisor": "Términos y condiciones para enviar una revisión"
+          }
+        },
+        "calendario": {
+          "title": "Calendario",
+          "fecha": {
+            "apertura": "Fecha de apertura",
+            "limite": {
+              "recibir": "Fecha límite para recibir solicitudes",
+              "evaluacion": "Fecha límite para evaluar",
+              "reconsideracion": "Fecha límite para reconsiderar"
+            }
+          }
+        },
+        "formularios": {
+          "title": "Formularios"
+        },
+        "correo": {
+          "title": "Plantilla de correo",
+          "html": "HTML",
+          "preview": "Vista previa"
+        },
+        "proceso": {
+          "title": "Proceso"
+        },
+        "revisiones": {
+          "title": "Revisiones",
+          "delete": "Eliminar revisión",
+          "seccion": {
+            "generales": "Datos generales de la revisión",
+            "formulario": "Formulario de la revisión",
+            "tipo": "Tipo de revisión",
+            "descripcion": "Descripción",
+            "verOtrasRespuestas": "¿Requiere que el revisor vea las respuestas de otras revisiones?",
+            "info": "Seleccione las evaluaciones que desea que vea el revisor",
+            "comision": "Tipo de comisión"
+          }
+        },
+        "card": {
+          "title": "Card"
+        },
+        "autoridad": {
+          "title": "Autoridades",
+          "noAuthorities": "No hay autoridades asignadas",
+          "subtitle": "Registro y modificación de autoridades para la solución",
+          "action": {
+            "assign": "Asignar autoridad"
+          },
+          "noRoles": "Roles no autorizados"
+        },
+        "versiones": {
+          "title": "Control de cambios",
+          "nochanges": "No hay cambios",
+          "last": "La última versión publicada es la <strong> {{ version }} </strong>",
+          "footer": "Sistema de versionamiento de soluciones"
+        },
+        "preview": {
+          "title": "Vista previa de la solución"
+        },
+        "parametros": {
+          "title": "Parámetros",
+          "config": "Configuración",
+          "numeroMaximoDeSolicitudes": "Número máximo de solicitudes por usuario",
+          "otros": "Otros parámetros",
+          "calendario": {
+            "title": "Calendario",
+            "fecha": {
+              "apertura": "Fecha de apertura",
+              "limite": {
+                "recibir": "Fecha límite para recibir solicitudes",
+                "evaluacion": "Fecha límite para recibir reviones",
+                "revision": "Fecha limite para evaluar",
+                "reconsideracion": "Fecha límite para reconsiderar"
+              }
+            }
+          }
+        }
+      },
+      "created": "Una nueva Solución ha sido creada",
+      "updated": "La Solucion ha sido actualizada correctamente",
+      "params": {
+        "prelacion": "No se encontró los datos de prelación de SNI"
+      },
+      "evaluacionUpdate": "Se ha actualizado la evaluación",
+      "deleted": "Un Solucion ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Solucion {{ id }}?"
+      },
+      "detail": {
+        "title": "Solucion"
+      },
+      "id": "ID",
+      "identificador": "Identificador",
+      "titulo": "Título",
+      "visible": "¿Mostrar en la lista de convocatorias?",
+      "descripcion": "Descripción",
+      "estado": "Estado",
+      "componentes": "Componentes",
+      "tipoSolucion": "Tipo de solución",
+      "tipoAcceso": "Tipo de acceso",
+      "tipoMenu": "Tipo de menú",
+      "tipoVista": "Tipo de vista",
+      "tipoPaginado": "Tipo de paginado",
+      "tags": "Etiquetas",
+      "process": {
+        "transition": {
+          "transition": "Transición",
+          "title": "Transiciones",
+          "definitionTransition": "Definición de transiciones",
+          "subtitle": "Registra la acción y el estado destino"
+        },
+        "permission": {
+          "title": "Permisos",
+          "rolesYPermisos": "Roles y permisos",
+          "subtitle": "Asigna permisos y acciones a cada Rol para este estado",
+          "add": "Agregar permisos"
+        }
+      },
+      "import": {
+        "placeholder": "Selecciona o arrastra un documento con extensión .apeiron",
+        "drop": {
+          "placeholder": "Suelte el archivo aquí..."
+        },
+        "title": "Datos de la solución que se va a importar",
+        "form": {
+          "header": "Datos de la solución que se va a importar",
+          "descripcion": "Descripción",
+          "id": "Id",
+          "menu": "Menú",
+          "titulo": "Título",
+          "noimported": "Componentes que no fué posible importar debido a que no fueron creados en esta instancia"
+        }
+      }
+    }
+  }
+}

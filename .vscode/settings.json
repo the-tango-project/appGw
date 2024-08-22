@@ -1,6 +1,7 @@
 {
   "i18n-ally.localesPaths": ["src/main/resources/i18n", "src/main/webapp/i18n", "src/main/webapp/app/locale"],
   "i18n-ally.sourceLanguage": "es",
+  "i18n-ally.displayLanguage": "es",
   "i18n-ally.enabledFrameworks": ["vue"],
   "i18n-ally.pathMatcher": "{locale}/{namespaces}.json",
   "java.compile.nullAnalysis.mode": "automatic"

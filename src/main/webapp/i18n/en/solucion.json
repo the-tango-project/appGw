@@ -1,0 +1,161 @@
+{
+  "archeApp": {
+    "solucion": {
+      "home": {
+        "title": "My solutions",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Solucion",
+        "createOrEditLabel": "Create or edit a Solucion",
+        "notFound": "No Solucions found"
+      },
+      "seccion": {
+        "informacion": {
+          "title": "Information"
+        },
+        "mensaje": {
+          "title": "Messages",
+          "bienvenida": {
+            "solicitante": "Welcome message for the requester",
+            "solicitantes": "Welcome message as applicants see",
+            "operador": "Welcome message for the operator",
+            "revisor": "Welcome message for the reviewer",
+            "revisores": "Welcome message that reviewers see",
+            "terminosRevisores": "Terms and conditions for submitting a review"
+          },
+          "terminos": {
+            "revisor": "Disclaimer for the reviewer"
+          }
+        },
+        "calendario": {
+          "title": "Calendar",
+          "fecha": {
+            "apertura": "Open date",
+            "limite": {
+              "recibir": "Deadline for requesters",
+              "evaluacion": "Deadline for the reviewers",
+              "reconsideracion": "Fecha límite para reconsiderar"
+            }
+          }
+        },
+        "formularios": {
+          "title": "Forms"
+        },
+        "correo": {
+          "title": "Mail template",
+          "html": "HTML",
+          "preview": "Preview"
+        },
+        "proceso": {
+          "title": "Process"
+        },
+        "revisiones": {
+          "title": "Reviews",
+          "delete": "Delete a review",
+          "seccion": {
+            "generales": "General dato of the review",
+            "formulario": "Review form",
+            "tipo": "Type of review",
+            "descripcion": "Descripcion",
+            "verOtrasRespuestas": "Does it require the reviewer to see responses from other reviews?",
+            "info": "Select the assessments you want the reviewer to see",
+            "comision": "Tipo de comisión"
+          }
+        },
+        "card": {
+          "title": "Card"
+        },
+        "autoridad": {
+          "title": "Authorities",
+          "noAuthorities": "No assigned authorities",
+          "subtitle": "Add authorities for this solution",
+          "action": {
+            "assign": "Assign authority"
+          },
+          "noRoles": "Roles no autorizados"
+        },
+        "versiones": {
+          "title": "Version control",
+          "nochanges": "No changes",
+          "last": "The las publish version is {{ version }} </strong>",
+          "footer": "Control version sistem for solutions"
+        },
+        "preview": {
+          "title": "Preview for the solution"
+        },
+        "parametros": {
+          "title": "Params",
+          "config": "Configuration",
+          "numeroMaximoDeSolicitudes": "Maximum number of requests per user",
+          "otros": "Otros parámetros",
+          "calendario": {
+            "title": "Calendar",
+            "fecha": {
+              "apertura": "Open date",
+              "limite": {
+                "recibir": "Deadline for requesters",
+                "evaluacion": "Deadline for the reviewers",
+                "revision": "Fecha limite para evaluar",
+                "reconsideracion": "Fecha límite para reconsiderar"
+              }
+            }
+          }
+        }
+      },
+      "created": "A new solution has been created",
+      "updated": "A solution has been updated",
+      "params": {
+        "prelacion": "SNI priority data not found"
+      },
+      "evaluacionUpdate": "A review has been updated",
+      "deleted": "A solution has been deleted {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Solucion {{ id }}?"
+      },
+      "detail": {
+        "title": "Solution"
+      },
+      "id": "ID",
+      "identificador": "Identifier",
+      "titulo": "Title",
+      "visible": "Show in the main page?",
+      "descripcion": "Description",
+      "estado": "State",
+      "componentes": "Componentes",
+      "tipoSolucion": "Type of solution",
+      "tipoAcceso": "Tipo de acceso",
+      "tipoMenu": "Type of menu",
+      "tipoVista": "Type of view",
+      "tipoPaginado": "Type of page",
+      "tags": "Tags",
+      "process": {
+        "transition": {
+          "transition": "Transition",
+          "title": "Transactions",
+          "definitionTransition": "Definition of transitions",
+          "subtitle": "Add an action an target state"
+        },
+        "permission": {
+          "title": "Permissons",
+          "rolesYPermisos": "Roles and privileges",
+          "subtitle": "Assign authorities and actions  for each Rol per state",
+          "add": "Add authorities"
+        }
+      },
+      "import": {
+        "placeholder": "Drag and drop a document with .apeiron extension",
+        "drop": {
+          "placeholder": "Drop here a document..."
+        },
+        "title": "Data of the imported solution ",
+        "form": {
+          "header": "Data of the imported solution",
+          "descripcion": "Description",
+          "id": "Id",
+          "menu": "Menu",
+          "titulo": "Title",
+          "noimported": "Components that could not be imported because they were not created in this instance"
+        }
+      }
+    }
+  }
+}
