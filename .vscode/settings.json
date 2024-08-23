@@ -4,5 +4,6 @@
   "i18n-ally.displayLanguage": "es",
   "i18n-ally.enabledFrameworks": ["vue"],
   "i18n-ally.pathMatcher": "{locale}/{namespaces}.json",
-  "java.compile.nullAnalysis.mode": "automatic"
+  "java.compile.nullAnalysis.mode": "automatic",
+  "i18n-ally.keystyle": "nested"
 }

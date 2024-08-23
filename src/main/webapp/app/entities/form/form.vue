@@ -20,7 +20,7 @@
     </h2>
     <br />
     <core-card-list :items="formsCards"></core-card-list>
-
+    <span ref="infiniteScrollEl"></span>
     <b-modal ref="removeEntity" id="removeEntity">
       <span slot="modal-title"
         ><span id="apeironGwApp.form.delete.question" data-cy="formDeleteDialogHeading" v-text="$t('entity.delete.title')"></span

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div style="height: 50rem">
+    {{ edges }}
+    <div style="height: 100vh">
       <vue-flow
         class="basic-flow"
         :default-viewport="{ zoom: 1.5 }"
@@ -9,19 +10,52 @@
         :nodes="nodes"
         :edges="edges"
         :class="{ dark }"
+        fit-view-on-init
+        :apply-default="false"
+        :default-zoom="1.5"
       >
         <background></background>
-        <panel>
-          <button type="button">Add a node</button>
-          <button type="button">Add multiple nodes</button>
-        </panel>
+        <controls
+          :showZoom="false"
+          :showFitView="false"
+          :showInteractive="false"
+          position="top-left"
+          @zoom-in.stop.prevent="zoomInHandler"
+          @zoom-out="zoomInHandler"
+        >
+          <control-button>
+            <b-button class="p-0" size="sm" variant="light" @click="zoomInHandler">
+              <b-icon :class="{ 'disabled-option': isMaxZoom }" icon="plus-lg"></b-icon>
+            </b-button>
+          </control-button>
+          <control-button>
+            <b-button class="p-0" size="sm" variant="light" @click="zoomOutHandler">
+              <b-icon :class="{ 'disabled-option': isMinZoom }" icon="dash-lg"></b-icon>
+            </b-button>
+          </control-button>
+          <control-button>
+            <b-button class="p-0" size="sm" variant="light" @click="fitViewHandler">
+              <b-icon icon="fullscreen"></b-icon>
+            </b-button>
+          </control-button>
+          <control-button>
+            <b-button class="p-0" size="sm" variant="light" @click="lockAndUnlockHandler">
+              <b-icon v-if="isLock" icon="lock-fill"></b-icon>
+              <b-icon v-else icon="unlock-fill"></b-icon>
+            </b-button>
+          </control-button>
+        </controls>
       </vue-flow>
+      <core-confirmation-modal ref="removeElementModal" @confirmed="confirmedHandler" @canceled="canceledHandler" />
     </div>
   </div>
 </template>
 
 <script lang="ts" src="./flow.component.ts"></script>
 <style lang="scss" scoped>
+.disabled-option {
+  color: #aba3b8;
+}
 .vue-flow__minimap {
   transform: scale(75%);
   transform-origin: bottom right;

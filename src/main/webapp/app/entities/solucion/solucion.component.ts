@@ -59,9 +59,9 @@ export default defineComponent({
         .retrieve(paginationQuery)
         .then(res => {
           if (res.data && res.data.length > 0) {
-            for (let i = 0; i < res.data.length; i++) {
-              solucions.value.push(res.data[i]);
-              solucionsCards.value.push(creaRegistroCard(res.data[i]));
+            for (const element of res.data) {
+              solucions.value.push(element);
+              solucionsCards.value.push(creaRegistroCard(element));
             }
           }
           totalItems.value = Number(res.headers['x-total-count']);

@@ -1,44 +1,202 @@
-import { computed, defineComponent, inject, ref, type Ref } from 'vue';
+import { computed, defineComponent, inject, ref, type Ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import type LoginService from '@/account/login.service';
 import type AccountService from '@/account/account.service';
 import languages from '@/shared/config/languages';
 import EntitiesMenu from '@/entities/entities-menu.vue';
-
-import { useVueFlow } from '@vue-flow/core';
+import { type IProceso, Proceso } from '@/shared/model/proceso/proceso.model';
+import { TipoAccion } from '@/shared/model/enumerations/tipo-accion.model';
+import { Estado } from '@/shared/model/proceso/estado.model';
+import {
+  isErrorOfType,
+  ErrorCode,
+  useVueFlow,
+  VueFlowError,
+  VueFlow,
+  MarkerType,
+  type NodeRemoveChange,
+  type EdgeRemoveChange,
+} from '@vue-flow/core';
+import '@vue-flow/controls/dist/style.css';
 
 export default defineComponent({
-  compatConfig: { MODE: 3 },
+  compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
   name: 'Flow',
+  emits: ['update:modelValue'],
   props: {
-    nombre: String,
+    modelValue: {
+      type: Proceso,
+      required: true,
+    },
   },
-  setup() {
-    const { onInit, onNodeDragStop, onConnect, addEdges, setViewport, toObject } = useVueFlow();
-    const dark = ref(false);
-    const nodes = ref([
-      { id: '1', type: 'input', label: 'Node 1', position: { x: 250, y: 5 } },
-      { id: '2', label: 'Node 2', position: { x: 100, y: 100 } },
-      { id: '3', label: 'Node 3', position: { x: 400, y: 100 } },
-      { id: '4', label: 'Node 4', position: { x: 400, y: 200 } },
-    ]);
+  setup(props, { emit }) {
+    const isLock: Ref<boolean> = ref(false);
+    const removeElementModal = ref<any>(null);
 
-    const edges = ref([
-      { id: 'e1-2', source: '1', target: '2', animated: true },
-      { id: 'e1-3', source: '1', target: '3' },
-      { id: 'e1-4', source: '1', target: '4' },
-      { id: '4-e1', source: '4', target: '1', animated: true },
-    ]);
+    const {
+      onInit,
+      zoomIn,
+      zoomOut,
+      fitView,
+      getViewport,
+      addEdges,
+      nodesDraggable,
+      onConnect,
+      onNodesChange,
+      onEdgesChange,
+      onEdgeClick,
+      onEdgeDoubleClick,
+      onNodeDoubleClick,
+      onNodeClick,
+      applyNodeChanges,
+      applyEdgeChanges,
+      maxZoom,
+      minZoom,
+      viewport,
+    } = useVueFlow();
+
+    const flow = computed({ get: () => props.modelValue, set: value => emit('update:modelValue', value) });
+    const isMaxZoom = computed(() => viewport.value.zoom >= maxZoom.value);
+    const isMinZoom = computed(() => viewport.value.zoom <= minZoom.value);
+
+    const resolveRoles = (estado: Estado, accion: TipoAccion | null | undefined): Array<any> => {
+      const roles: Array<any> = [];
+      if (estado.permisos) {
+        estado.permisos.forEach(permiso => {
+          if (permiso.acciones && permiso.acciones.findIndex(e => e === accion) > -1) {
+            if (permiso.rol) {
+              roles.push(permiso.rol.toLocaleLowerCase());
+            }
+          }
+        });
+      }
+      return roles;
+    };
+
+    const nodes: Ref<any> = ref([]);
+    const edges: Ref<any> = ref([]);
+
+    // Whenever order changes, reset the pagination
+    watch([flow], () => {
+      nodes.value = [];
+      edges.value = [];
+      flow.value.estados?.forEach(estado => {
+        nodes.value.push({ id: estado.nombre, label: estado.nombre, position: { x: 100, y: 100 } });
+        estado.transiciones?.forEach(transition => {
+          edges.value.push({
+            id: estado.nombre + '-' + transition.accion,
+            label: transition.accion + ' roles ' + resolveRoles(estado, transition.accion),
+            source: estado.nombre,
+            target: transition.destino,
+            labelBgStyle: { fill: 'orange' },
+            markerEnd: MarkerType.ArrowClosed,
+            animated: false,
+          });
+        });
+      });
+    });
+
+    const dark = ref(false);
+    const nodeToRemove: Ref<NodeRemoveChange | null> = ref(null);
+    const edgeToRemove: Ref<EdgeRemoveChange | null> = ref(null);
 
     onInit(vueFlowInstance => {
       vueFlowInstance.fitView();
     });
 
+    onConnect(addEdges);
+
+    onNodesChange(async changes => {
+      const nextChanges = [];
+      for (const change of changes) {
+        if (change.type === 'remove') {
+          nodeToRemove.value = change;
+          removeElementModal.value.show();
+        } else {
+          nextChanges.push(change);
+        }
+      }
+      applyNodeChanges(nextChanges);
+    });
+
+    onEdgesChange(async changes => {
+      const nextChanges = [];
+      for (const change of changes) {
+        if (change.type === 'remove') {
+          edgeToRemove.value = change;
+          removeElementModal.value.show();
+        } else {
+          nextChanges.push(change);
+        }
+      }
+      applyEdgeChanges(nextChanges);
+    });
+
+    onNodeDoubleClick(async data => {
+      edges.value = edges.value.map((edge: any) => {
+        edge.animated = edge.source === data.node.id;
+        return edge;
+      });
+    });
+
+    onEdgeDoubleClick(async data => {
+      edges.value = edges.value.map((edge: any) => {
+        edge.animated = edge.id === data.edge.id;
+        return edge;
+      });
+    });
+
     return {
+      flow,
       nodes,
       edges,
       dark,
+      isLock,
+      zoomIn,
+      zoomOut,
+      fitView,
+      getViewport,
+      isMaxZoom,
+      isMinZoom,
+      viewport,
+      removeElementModal,
+      nodeToRemove,
+      edgeToRemove,
+      nodesDraggable,
+      applyNodeChanges,
+      applyEdgeChanges,
     };
+  },
+  methods: {
+    zoomOutHandler(): void {
+      this.zoomOut();
+    },
+    zoomInHandler(): void {
+      this.zoomIn();
+    },
+    fitViewHandler(): void {
+      this.fitView();
+      console.log('zoom fit view');
+      console.log(this.getViewport());
+    },
+    lockAndUnlockHandler(): void {
+      this.isLock = !this.isLock;
+      this.nodesDraggable = !this.isLock;
+    },
+    confirmedHandler(): void {
+      if (this.nodeToRemove) {
+        this.applyNodeChanges([this.nodeToRemove]);
+      }
+      if (this.edgeToRemove) {
+        this.applyEdgeChanges([this.edgeToRemove]);
+      }
+      this.canceledHandler();
+    },
+    canceledHandler(): void {
+      this.edgeToRemove = null;
+      this.nodeToRemove = null;
+      this.removeElementModal.hide();
+    },
   },
 });

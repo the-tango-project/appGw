@@ -62,7 +62,6 @@ export default defineComponent({
     //SelectOne options
     const tipoMenuOptions = ref(selectOptions.tipoMenu());
     const tipoComponentOptions = ref(selectOptions.tipoComponente());
-    TipoComponente;
     // Method definition
     const retriveById = async (formId: any) => {
       try {
@@ -140,7 +139,6 @@ export default defineComponent({
             this.alertService.showHttpError(error.response);
           });
       } else {
-        console.log(this.fomr);
         this.localFormService()
           .create(this.form)
           .then((param: any) => {
