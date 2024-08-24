@@ -8,22 +8,22 @@ import EntitiesMenu from '@/entities/entities-menu.vue';
 import { type IProceso, Proceso } from '@/shared/model/proceso/proceso.model';
 import { TipoAccion } from '@/shared/model/enumerations/tipo-accion.model';
 import { Estado } from '@/shared/model/proceso/estado.model';
-import {
-  isErrorOfType,
-  ErrorCode,
-  useVueFlow,
-  VueFlowError,
-  VueFlow,
-  MarkerType,
-  type NodeRemoveChange,
-  type EdgeRemoveChange,
-} from '@vue-flow/core';
+
+import { useVueFlow, MarkerType, type NodeRemoveChange, type EdgeRemoveChange, Position } from '@vue-flow/core';
+/* these are necessary styles for vue flow */
+import '@vue-flow/core/dist/style.css';
+/* this contains the default theme, these are optional styles */
+import '@vue-flow/core/dist/theme-default.css';
 import '@vue-flow/controls/dist/style.css';
+import OperatorNode from './nodes/operator-node.vue';
 
 export default defineComponent({
   compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
   name: 'Flow',
   emits: ['update:modelValue'],
+  components: {
+    'operator-node': OperatorNode,
+  },
   props: {
     modelValue: {
       type: Proceso,
@@ -82,7 +82,13 @@ export default defineComponent({
       nodes.value = [];
       edges.value = [];
       flow.value.estados?.forEach(estado => {
-        nodes.value.push({ id: estado.nombre, label: estado.nombre, position: { x: 100, y: 100 } });
+        nodes.value.push({
+          id: estado.nombre,
+          type: 'operator',
+          label: estado.nombre,
+          position: { x: 100, y: 100 },
+          toolbarPosition: Position.Top,
+        });
         estado.transiciones?.forEach(transition => {
           edges.value.push({
             id: estado.nombre + '-' + transition.accion,

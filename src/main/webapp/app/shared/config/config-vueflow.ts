@@ -1,4 +1,4 @@
-import { VueFlow, Panel } from '@vue-flow/core';
+import { VueFlow, Panel, Handle } from '@vue-flow/core';
 import { Background } from '@vue-flow/background';
 import { Controls, ControlButton } from '@vue-flow/controls';
 
@@ -11,5 +11,6 @@ export function initVueflow(vue: any) {
   vue.component('background', Background);
   vue.component('controls', Controls);
   vue.component('control-button', ControlButton);
+  vue.component('handle', Handle);
   //vue.component('vue-flow', VueFlow);
 }
