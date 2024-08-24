@@ -49,6 +49,7 @@ export default defineComponent({
       onEdgeDoubleClick,
       onNodeDoubleClick,
       onNodeClick,
+      onNodeMouseLeave,
       applyNodeChanges,
       applyEdgeChanges,
       maxZoom,
@@ -87,7 +88,6 @@ export default defineComponent({
           type: 'operator',
           label: estado.nombre,
           position: { x: 100, y: 100 },
-          toolbarPosition: Position.Top,
         });
         estado.transiciones?.forEach(transition => {
           edges.value.push({
@@ -140,10 +140,19 @@ export default defineComponent({
     });
 
     onNodeDoubleClick(async data => {
+      data.node.data.edit = true;
+    });
+
+    onNodeClick(async data => {
       edges.value = edges.value.map((edge: any) => {
         edge.animated = edge.source === data.node.id;
         return edge;
       });
+      data.node.data.dummy = 'hey!';
+    });
+
+    onNodeMouseLeave(async data => {
+      data.node.data.edit = false;
     });
 
     onEdgeDoubleClick(async data => {
@@ -183,8 +192,6 @@ export default defineComponent({
     },
     fitViewHandler(): void {
       this.fitView();
-      console.log('zoom fit view');
-      console.log(this.getViewport());
     },
     lockAndUnlockHandler(): void {
       this.isLock = !this.isLock;
