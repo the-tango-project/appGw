@@ -27,8 +27,8 @@ export default defineComponent({
     const codeText = ref('const sum = 10;');
     const codeLanguage = ref('text/javascript');
 
-    const modalResult: Ref<String> = ref(null);
-    const modalResultComment: Ref<String> = ref(null);
+    const modalResult: Ref<string | null> = ref(null);
+    const modalResultComment: Ref<string | null> = ref(null);
 
     const tipoComponentsValues: Ref<IOption[]> = ref(selectOptions.tipoComponente());
 

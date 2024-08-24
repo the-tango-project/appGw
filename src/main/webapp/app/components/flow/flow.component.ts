@@ -7,7 +7,7 @@ import languages from '@/shared/config/languages';
 import EntitiesMenu from '@/entities/entities-menu.vue';
 import { type IProceso, Proceso } from '@/shared/model/proceso/proceso.model';
 import { TipoAccion } from '@/shared/model/enumerations/tipo-accion.model';
-import { Estado } from '@/shared/model/proceso/estado.model';
+import { Estado, type IEstado } from '@/shared/model/proceso/estado.model';
 
 import { useVueFlow, MarkerType, type NodeRemoveChange, type EdgeRemoveChange, Position } from '@vue-flow/core';
 /* these are necessary styles for vue flow */
@@ -15,14 +15,15 @@ import '@vue-flow/core/dist/style.css';
 /* this contains the default theme, these are optional styles */
 import '@vue-flow/core/dist/theme-default.css';
 import '@vue-flow/controls/dist/style.css';
-import OperatorNode from './nodes/operator-node.vue';
+import StateNode from './nodes/state-node.vue';
+import { faker } from '@faker-js/faker';
 
 export default defineComponent({
   compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
   name: 'Flow',
   emits: ['update:modelValue'],
   components: {
-    'operator-node': OperatorNode,
+    'state-node': StateNode,
   },
   props: {
     modelValue: {
@@ -52,6 +53,7 @@ export default defineComponent({
       onNodeMouseLeave,
       applyNodeChanges,
       applyEdgeChanges,
+      updateNode,
       maxZoom,
       minZoom,
       viewport,
@@ -77,35 +79,8 @@ export default defineComponent({
 
     const nodes: Ref<any> = ref([]);
     const edges: Ref<any> = ref([]);
-
-    // Whenever order changes, reset the pagination
-    watch([flow], () => {
-      nodes.value = [];
-      edges.value = [];
-      flow.value.estados?.forEach(estado => {
-        nodes.value.push({
-          id: estado.nombre,
-          type: 'operator',
-          label: estado.nombre,
-          position: { x: 100, y: 100 },
-        });
-        estado.transiciones?.forEach(transition => {
-          edges.value.push({
-            id: estado.nombre + '-' + transition.accion,
-            label: transition.accion + ' roles ' + resolveRoles(estado, transition.accion),
-            source: estado.nombre,
-            target: transition.destino,
-            labelBgStyle: { fill: 'orange' },
-            markerEnd: MarkerType.ArrowClosed,
-            animated: false,
-          });
-        });
-      });
-    });
-
-    const dark = ref(false);
-    const nodeToRemove: Ref<NodeRemoveChange | null> = ref(null);
-    const edgeToRemove: Ref<EdgeRemoveChange | null> = ref(null);
+    const nodeToRemove: Ref<NodeRemoveChange[] | null> = ref([]);
+    const edgeToRemove: Ref<EdgeRemoveChange[] | null> = ref([]);
 
     onInit(vueFlowInstance => {
       vueFlowInstance.fitView();
@@ -117,7 +92,7 @@ export default defineComponent({
       const nextChanges = [];
       for (const change of changes) {
         if (change.type === 'remove') {
-          nodeToRemove.value = change;
+          nodeToRemove.value?.push(change);
           removeElementModal.value.show();
         } else {
           nextChanges.push(change);
@@ -130,14 +105,18 @@ export default defineComponent({
       const nextChanges = [];
       for (const change of changes) {
         if (change.type === 'remove') {
-          edgeToRemove.value = change;
-          removeElementModal.value.show();
+          prepareToRemoveEdge(change);
         } else {
           nextChanges.push(change);
         }
       }
       applyEdgeChanges(nextChanges);
     });
+
+    const prepareToRemoveEdge = (change: EdgeRemoveChange) => {
+      edgeToRemove.value?.push(change);
+      removeElementModal.value.show();
+    };
 
     onNodeDoubleClick(async data => {
       data.node.data.edit = true;
@@ -148,7 +127,6 @@ export default defineComponent({
         edge.animated = edge.source === data.node.id;
         return edge;
       });
-      data.node.data.dummy = 'hey!';
     });
 
     onNodeMouseLeave(async data => {
@@ -162,11 +140,48 @@ export default defineComponent({
       });
     });
 
+    const mapNodesAndEdges = (proceso: IProceso) => {
+      console.log('Maping values');
+      nodes.value = [];
+      edges.value = [];
+
+      while (nodes.value.length > 0) {
+        nodes.value.pop();
+      }
+      while (edges.value.length > 0) {
+        edges.value.pop();
+      }
+      proceso.estados?.forEach(estado => {
+        const x = Math.floor(Math.random() * 1000) % 1000;
+        const y = Math.floor(Math.random() * 1000) % 1000;
+        nodes.value.push({
+          id: estado.nombre,
+          type: 'state',
+          position: { x: x, y: y },
+        });
+        estado.transiciones?.forEach(transition => {
+          edges.value.push({
+            id: estado.nombre + '-' + transition.accion,
+            label: transition.accion + ' roles ' + resolveRoles(estado, transition.accion),
+            source: estado.nombre,
+            target: transition.destino,
+            labelBgStyle: { fill: 'orange' },
+            markerEnd: MarkerType.ArrowClosed,
+            animated: false,
+            type: 'straight',
+          });
+        });
+      });
+    };
+
+    watch([flow], () => {
+      //Make a copy of the flow
+      mapNodesAndEdges(JSON.parse(JSON.stringify(flow.value)));
+    });
     return {
       flow,
       nodes,
       edges,
-      dark,
       isLock,
       zoomIn,
       zoomOut,
@@ -199,17 +214,16 @@ export default defineComponent({
     },
     confirmedHandler(): void {
       if (this.nodeToRemove) {
-        this.applyNodeChanges([this.nodeToRemove]);
+        this.applyNodeChanges(this.nodeToRemove);
       }
       if (this.edgeToRemove) {
-        this.applyEdgeChanges([this.edgeToRemove]);
+        this.applyEdgeChanges(this.edgeToRemove);
       }
       this.canceledHandler();
     },
     canceledHandler(): void {
-      this.edgeToRemove = null;
-      this.nodeToRemove = null;
-      this.removeElementModal.hide();
+      this.edgeToRemove = [];
+      this.nodeToRemove = [];
     },
   },
 });

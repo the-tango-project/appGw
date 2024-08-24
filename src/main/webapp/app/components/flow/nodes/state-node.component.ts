@@ -2,10 +2,12 @@ import { defineComponent, ref, type Ref } from 'vue';
 
 import { Handle, Position, useVueFlow } from '@vue-flow/core';
 import { NodeToolbar } from '@vue-flow/node-toolbar';
+import useSelectOptions from '@/shared/composables/select-options';
+import { type IOption } from '@/shared/model/ui/option.model';
 
 export default defineComponent({
   compatConfig: { MODE: 3 },
-  name: 'OperatorNode',
+  name: 'StateNode',
   components: {
     handle: Handle,
     'node-toolbar': NodeToolbar,
@@ -36,6 +38,9 @@ export default defineComponent({
       minZoom,
       viewport,
     } = useVueFlow();
+    const selectOptions = useSelectOptions();
+    const states: Ref<IOption[]> = ref(selectOptions.states());
+
     const { updateNodeData } = useVueFlow();
     const toolbarPosition = ref(Position.Right);
     const toolbarPositionTop = ref(Position.Top);
@@ -55,6 +60,7 @@ export default defineComponent({
       rightEnum,
       props,
       updateNodeData,
+      states,
     };
   },
   methods: {

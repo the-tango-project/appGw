@@ -7,7 +7,7 @@
 .vue-flow__node {
   background-color: #f3f4f6;
 }
-.vue-flow__node-operator {
+.vue-flow__node-state {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,16 +17,16 @@
   box-shadow: 0 0 10px #0003;
 }
 
-.vue-flow__node-operator.selected {
+.vue-flow__node-state.selected {
   box-shadow: 0 0 0 2px #2563eb;
 }
 
-.vue-flow__node-operator .buttons {
+.vue-flow__node-state .buttons {
   display: flex;
   gap: 8px;
 }
 
-.vue-flow__node-operator button {
+.vue-flow__node-state button {
   border: none;
   cursor: pointer;
   background-color: #4a5568;
@@ -41,29 +41,29 @@
   justify-content: center;
 }
 
-.vue-flow__node-operator button svg {
+.vue-flow__node-state button svg {
   width: 100%;
   height: 100%;
 }
 
-.vue-flow__node-operator button:hover {
+.vue-flow__node-state button:hover {
   background-color: #2563eb;
   transition: background-color 0.2s;
 }
 
-.vue-flow__node-operator button.selected {
+.vue-flow__node-state button.selected {
   background-color: #2563eb;
 }
 
-.vue-flow__node-operator .vue-flow__handle[data-handleid='target-a'] {
+.vue-flow__node-state .vue-flow__handle[data-handleid='target-a'] {
   top: 25%;
 }
 
-.vue-flow__node-operator .vue-flow__handle[data-handleid='target-b'] {
+.vue-flow__node-state .vue-flow__handle[data-handleid='target-b'] {
   top: 75%;
 }
 
-.vue-flow__node-operator .vue-flow__handle {
+.vue-flow__node-state .vue-flow__handle {
   background-color: #2563eb;
 }
 

@@ -5,6 +5,7 @@ import { TipoComponente } from '@/shared/model/enumerations/tipo-componente.mode
 import { Option, type IOption } from '@/shared/model/ui/option.model';
 import { TipoMenu } from '../model/enumerations/tipo-menu.model';
 import { MenuElement } from '@/shared/model/enumerations/menu-element.model';
+import { EstadoSolicitud } from '@/shared/model/enumerations/estado-solicitud.model';
 
 const useSelectOptions = () => ({
   tipoComponente(): Array<IOption> {
@@ -13,6 +14,10 @@ const useSelectOptions = () => ({
 
   tipoMenu(): Array<IOption> {
     return this.mapKeys('apeironGwApp.MenuElement.', MenuElement);
+  },
+
+  states(): Array<IOption> {
+    return this.mapKeys('archeApp.EstadoSolicitud.', EstadoSolicitud);
   },
 
   mapKeys(i18nkey: string, element: any): Array<IOption> {

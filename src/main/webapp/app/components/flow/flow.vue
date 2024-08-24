@@ -1,20 +1,19 @@
 <template>
   <div>
-    <div style="height: 50vh">
+    <div style="height: 100vh">
       <vue-flow
         class="canvas-flow"
         :default-viewport="{ zoom: 1.5 }"
         :min-zoom="0.2"
         :max-zoom="4"
-        :nodes="nodes"
+        v-model:nodes="nodes"
         :edges="edges"
-        :class="{ dark }"
         fit-view-on-init
         :apply-default="false"
         :default-zoom="1.5"
       >
-        <template #node-operator="props">
-          <operator-node :id="props.id" :data="props.data" />
+        <template #node-state="props">
+          <state-node :id="props.id" :data="props.data" />
         </template>
 
         <background></background>
@@ -49,7 +48,10 @@
           </control-button>
         </controls>
       </vue-flow>
-      <core-confirmation-modal ref="removeElementModal" @confirmed="confirmedHandler" @canceled="canceledHandler" />
+      <core-confirmation-modal ref="removeElementModal" @confirmed="confirmedHandler" @canceled="canceledHandler">
+        <b-table striped hover :items="nodeToRemove"></b-table>
+        <b-table striped hover :items="edgeToRemove"></b-table>
+      </core-confirmation-modal>
     </div>
   </div>
 </template>

@@ -1,0 +1,27 @@
+{
+  "archeApp": {
+    "EstadoSolicitud": {
+      "null": "",
+      "EN_CAPTURA": "En captura",
+      "PREASIGNADA": "Preasignada",
+      "ASIGNADA": "Asignada",
+      "EN_ACTUALIZACION": "En Actualización",
+      "ENVIADA": "Enviada",
+      "CANCELADA": "Cancelada",
+      "REVISADA": "Revisada",
+      "APROBADA": "Aprobada",
+      "RECHAZADA": "Rechazada",
+      "BAJA": "Baja",
+      "RECLASIFICADA": "Reclasificada",
+      "FORMALIZADA": "Formalizada",
+      "OPERACION_EN_PROCESO": "Operación en proceso",
+      "TERMINADO": "Terminado",
+      "IMPROCEDENTE": "Improcedente",
+      "VALIDADA": "Validada",
+      "EN_CORRECCION": "En corrección",
+      "EN_FIRMA": "En firma",
+      "DICTAMINADA": "Dictaminada",
+      "FINALIZADA": "Finalizada"
+    }
+  }
+}

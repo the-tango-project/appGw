@@ -94,6 +94,7 @@ export default defineComponent({
   },
   methods: {
     cancelHandler(): void {
+      this.$emit('canceled', this.comentario);
       this.accept = false;
       this.hide();
     },
