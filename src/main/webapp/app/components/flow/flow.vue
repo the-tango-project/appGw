@@ -6,8 +6,8 @@
         :default-viewport="{ zoom: 1.5 }"
         :min-zoom="0.2"
         :max-zoom="4"
-        v-model:nodes="nodes"
-        v-model:edges="edges"
+        :nodes="nodes"
+        :edges="edges"
         fit-view-on-init
         :apply-default="false"
         :default-zoom="1.5"

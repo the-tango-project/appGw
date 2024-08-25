@@ -14,6 +14,8 @@ import ScriptService from '@/shared/script/script.service';
 import { Solucion, type ISolucion } from '@/shared/model/solucion.model';
 
 import useSelectOptions from '@/shared/composables/select-options';
+import { EstadoSolucion } from '@/shared/model/enumerations/estado-solucion.model';
+import { EstadoSolicitud } from '@/shared/model/enumerations/estado-solicitud.model';
 
 const useValidationRules = (validations: any, t$: any) => {
   return {

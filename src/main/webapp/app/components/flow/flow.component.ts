@@ -55,7 +55,7 @@ export default defineComponent({
       onNodeMouseLeave,
       applyNodeChanges,
       applyEdgeChanges,
-      updateNode,
+      updateNodeData,
       findNode,
       maxZoom,
       minZoom,
@@ -124,8 +124,7 @@ export default defineComponent({
     });
 
     onNodesChange(changes => {
-      console.log('Changes');
-      console.log(changes);
+      console.log('onNodesChange');
       const nextChanges = [];
       for (const change of changes) {
         if (change.type === 'remove') {
@@ -144,7 +143,6 @@ export default defineComponent({
 
     onEdgesChange(changes => {
       console.log('onEdgesChange');
-      console.log(changes);
       const nextChanges = [];
       for (const change of changes) {
         if (change.type === 'remove') {
@@ -162,22 +160,18 @@ export default defineComponent({
     };
 
     // TODO: MERGE INTO onNodeChange
-    onNodeDoubleClick(async data => {
-      console.log('update node');
-      updateNode(data.node.id, { data: { edit: true } });
+    onNodeDoubleClick(data => {
+      console.log('onNodeDoubleClick');
+      //updateNodeData(data.node.id, { edit: true });
       data.node.data.edit = true;
     });
 
     // TODO: MERGE INTO onNodeChange
-    onNodeClick(async data => {
+    onNodeClick(data => {
       edges.value = edges.value.map((edge: any) => {
         edge.animated = edge.source === data.node.id;
         return edge;
       });
-    });
-
-    onNodeMouseLeave(async data => {
-      data.node.data.edit = false;
     });
 
     onEdgeDoubleClick(async data => {
@@ -187,29 +181,19 @@ export default defineComponent({
       });
     });
 
-    const mapNodesAndEdges = (proceso: IProceso) => {
-      console.log('Maping values');
+    const createNodesAndEdges = (proceso: IProceso) => {
       nodes.value = [];
       edges.value = [];
-
-      while (nodes.value.length > 0) {
-        nodes.value.pop();
-      }
-      while (edges.value.length > 0) {
-        edges.value.pop();
-      }
       proceso.estados?.forEach(estado => {
-        const x = Math.floor(Math.random() * 1000) % 1000;
-        const y = Math.floor(Math.random() * 1000) % 1000;
         nodes.value.push({
           id: estado.nombre,
+          position: { x: estado.diagram?.x, y: estado.diagram?.y },
           type: 'state',
-          position: { x: x, y: y },
         });
         estado.transiciones?.forEach(transition => {
           edges.value.push({
             id: estado.nombre + '-' + transition.accion,
-            label: transition.accion + ' roles ' + resolveRoles(estado, transition.accion),
+            label: transition.accion + ' >',
             source: estado.nombre,
             target: transition.destino,
             labelStyle: { fill: '#10b981', fontWeight: 700 },
@@ -226,7 +210,7 @@ export default defineComponent({
 
     watch([flow], () => {
       //Make a copy of the flow
-      mapNodesAndEdges(JSON.parse(JSON.stringify(flow.value)));
+      createNodesAndEdges(JSON.parse(JSON.stringify(flow.value)));
     });
     return {
       flow,
