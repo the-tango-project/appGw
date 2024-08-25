@@ -7,7 +7,7 @@
         :min-zoom="0.2"
         :max-zoom="4"
         v-model:nodes="nodes"
-        :edges="edges"
+        v-model:edges="edges"
         fit-view-on-init
         :apply-default="false"
         :default-zoom="1.5"

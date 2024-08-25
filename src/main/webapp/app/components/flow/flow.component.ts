@@ -9,7 +9,7 @@ import { type IProceso, Proceso } from '@/shared/model/proceso/proceso.model';
 import { TipoAccion } from '@/shared/model/enumerations/tipo-accion.model';
 import { Estado, type IEstado } from '@/shared/model/proceso/estado.model';
 
-import { useVueFlow, MarkerType, type NodeRemoveChange, type EdgeRemoveChange, Position } from '@vue-flow/core';
+import { useVueFlow, MarkerType, type NodeRemoveChange, type EdgeRemoveChange, Position, type Connection } from '@vue-flow/core';
 /* these are necessary styles for vue flow */
 import '@vue-flow/core/dist/style.css';
 /* this contains the default theme, these are optional styles */
@@ -46,6 +46,8 @@ export default defineComponent({
       onConnect,
       onNodesChange,
       onEdgesChange,
+      onSelectionStart,
+      onSelectionEnd,
       onEdgeClick,
       onEdgeDoubleClick,
       onNodeDoubleClick,
@@ -54,6 +56,7 @@ export default defineComponent({
       applyNodeChanges,
       applyEdgeChanges,
       updateNode,
+      findNode,
       maxZoom,
       minZoom,
       viewport,
@@ -86,14 +89,52 @@ export default defineComponent({
       vueFlowInstance.fitView();
     });
 
-    onConnect(addEdges);
+    onConnect((connection: Connection) => {
+      connection.sourceHandle = 'source';
+      console.log('on connect', connection);
+      if (connection.sourceHandle) {
+        edges.value.push({
+          id: faker.database.mongodbObjectId(),
+          label: 'hola',
+          source: connection.source,
+          target: connection.target,
+          labelStyle: { fill: '#10b981', fontWeight: 700 },
+          labelBgStyle: { fill: '#edf2f7' },
+          markerEnd: MarkerType.ArrowClosed,
+          animated: false,
+          type: 'step',
+          sourceHandle: 'source',
+          targetHandle: connection.targetHandle,
+        });
+      } else {
+        console.log('no connected');
+      }
+    });
 
-    onNodesChange(async changes => {
+    // TODO: Find out how it works
+    onSelectionStart(changes => {
+      console.log('on selection start');
+      console.log(changes);
+    });
+
+    // TODO: Find out how it works
+    onSelectionEnd(changes => {
+      console.log('on selection end');
+      console.log(changes);
+    });
+
+    onNodesChange(changes => {
+      console.log('Changes');
+      console.log(changes);
       const nextChanges = [];
       for (const change of changes) {
         if (change.type === 'remove') {
           nodeToRemove.value?.push(change);
           removeElementModal.value.show();
+        } else if (change.type === 'select') {
+          const nodeFinded = findNode(change.id);
+          //updateNode(.node.id, { data: { edit: true } });
+          //data.node.data.edit = true;
         } else {
           nextChanges.push(change);
         }
@@ -101,7 +142,9 @@ export default defineComponent({
       applyNodeChanges(nextChanges);
     });
 
-    onEdgesChange(async changes => {
+    onEdgesChange(changes => {
+      console.log('onEdgesChange');
+      console.log(changes);
       const nextChanges = [];
       for (const change of changes) {
         if (change.type === 'remove') {
@@ -118,10 +161,14 @@ export default defineComponent({
       removeElementModal.value.show();
     };
 
+    // TODO: MERGE INTO onNodeChange
     onNodeDoubleClick(async data => {
+      console.log('update node');
+      updateNode(data.node.id, { data: { edit: true } });
       data.node.data.edit = true;
     });
 
+    // TODO: MERGE INTO onNodeChange
     onNodeClick(async data => {
       edges.value = edges.value.map((edge: any) => {
         edge.animated = edge.source === data.node.id;
@@ -165,10 +212,13 @@ export default defineComponent({
             label: transition.accion + ' roles ' + resolveRoles(estado, transition.accion),
             source: estado.nombre,
             target: transition.destino,
-            labelBgStyle: { fill: 'orange' },
+            labelStyle: { fill: '#10b981', fontWeight: 700 },
+            labelBgStyle: { fill: '#edf2f7' },
             markerEnd: MarkerType.ArrowClosed,
             animated: false,
-            type: 'straight',
+            type: 'step',
+            sourceHandle: 'source',
+            targetHandle: 'target-a',
           });
         });
       });

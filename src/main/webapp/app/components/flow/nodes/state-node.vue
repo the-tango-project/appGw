@@ -5,9 +5,10 @@
     </b-button>
   </node-toolbar>
   <div>
+    <div v-if="data?.edit">hello</div>
     {{ $t('archeApp.EstadoSolicitud.' + id) }}
   </div>
-  <handle type="source" :position="rightEnum" :connectable="true"></handle>
+  <handle d="source" type="source" :position="rightEnum" :connectable="true"></handle>
   <handle id="target-a" type="target" :position="leftEnum" :connectable="true"></handle>
   <handle id="target-b" type="target" :position="leftEnum" :connectable="true"></handle>
 </template>
