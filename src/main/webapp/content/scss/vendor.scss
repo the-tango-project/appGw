@@ -10,10 +10,11 @@ eg $input-color: red;
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-vue/src/index.scss';
 @import 'bootswatch/dist/journal/bootswatch';
+
 /* Dirty fix on navbar active link with bootswatch theme */
 nav li.router-link-active .navbar-dropdown-menu {
   color: $navbar-dark-active-color;
 }
 
 @import 'vueflow';
-/* jhipster-needle-scss-add-vendor JHipster will add new css style */
+@import 'sideNavbar'; /* jhipster-needle-scss-add-vendor JHipster will add new css style */

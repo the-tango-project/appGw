@@ -15,6 +15,7 @@ import ComentariosSkeleton from '@/components/skeletons/comentarios-skeleton/com
 import TableRowSkeleton from '@/components/skeletons/table-row-skeleton/table-row-skeleton.vue';
 import PerfilNavbarSkeleton from '@/components/skeletons/perfil-navbar-skeleton/perfil-navbar-skeleton.vue';
 import SelectMany from '@/components/fields/select-many/select-many.vue';
+import SideNavbar from '@/components/layout/side-navbar/side-navbar.vue';
 
 export function initCoreComponents(vue: any) {
   vue.component('core-card-list-skeleton', CardListSkeleton);
@@ -34,4 +35,5 @@ export function initCoreComponents(vue: any) {
   vue.component('core-input-tags', InputTags);
   vue.component('core-icon-picker', IconPicker);
   vue.component('core-code-editor', CodeEditor);
+  vue.component('core-side-navbar', SideNavbar);
 }

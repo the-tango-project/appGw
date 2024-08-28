@@ -17,11 +17,13 @@ import '@vue-flow/core/dist/theme-default.css';
 import '@vue-flow/controls/dist/style.css';
 import StateNode from './nodes/state-node.vue';
 import { faker } from '@faker-js/faker';
+import { NodeChange } from '@/shared/model/proceso/diagram.model';
+import { NodeChangeType } from '@/shared/model/enumerations/node-change-type.model';
 
 export default defineComponent({
   compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
   name: 'Flow',
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'update:node', 'update:edge'],
   components: {
     'state-node': StateNode,
   },
@@ -44,15 +46,16 @@ export default defineComponent({
       addEdges,
       nodesDraggable,
       onConnect,
+      onNodeClick,
       onNodesChange,
+      onNodeDragStop,
+      onNodeDoubleClick,
+      onEdgeClick,
       onEdgesChange,
+      onEdgeDoubleClick,
+      onNodeMouseLeave,
       onSelectionStart,
       onSelectionEnd,
-      onEdgeClick,
-      onEdgeDoubleClick,
-      onNodeDoubleClick,
-      onNodeClick,
-      onNodeMouseLeave,
       applyNodeChanges,
       applyEdgeChanges,
       updateNodeData,
@@ -123,6 +126,10 @@ export default defineComponent({
       console.log(changes);
     });
 
+    /**
+     * Node events
+     */
+
     onNodesChange(changes => {
       console.log('onNodesChange');
       const nextChanges = [];
@@ -139,6 +146,15 @@ export default defineComponent({
         }
       }
       applyNodeChanges(nextChanges);
+    });
+
+    onNodeDragStop(change => {
+      const nodeChange = new NodeChange();
+      nodeChange.type = NodeChangeType.POSITION;
+      nodeChange.id = change.node.id;
+      nodeChange.x = change.node.position.x;
+      nodeChange.y = change.node.position.y;
+      emit('update:node', nodeChange);
     });
 
     onEdgesChange(changes => {
@@ -161,9 +177,10 @@ export default defineComponent({
 
     // TODO: MERGE INTO onNodeChange
     onNodeDoubleClick(data => {
-      console.log('onNodeDoubleClick');
-      //updateNodeData(data.node.id, { edit: true });
-      data.node.data.edit = true;
+      const nodeChange = new NodeChange();
+      nodeChange.type = NodeChangeType.DOUBLE_CLICK;
+      nodeChange.id = data.node.id;
+      emit('update:node', nodeChange);
     });
 
     // TODO: MERGE INTO onNodeChange

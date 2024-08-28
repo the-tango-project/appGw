@@ -16,6 +16,9 @@ import { Solucion, type ISolucion } from '@/shared/model/solucion.model';
 import useSelectOptions from '@/shared/composables/select-options';
 import { EstadoSolucion } from '@/shared/model/enumerations/estado-solucion.model';
 import { EstadoSolicitud } from '@/shared/model/enumerations/estado-solicitud.model';
+import type { NodeChange } from '@/shared/model/proceso/diagram.model';
+import { NodeChangeType } from '@/shared/model/enumerations/node-change-type.model';
+import { EdgeChangeType } from '@/shared/model/enumerations/edge-change-type.model';
 
 const useValidationRules = (validations: any, t$: any) => {
   return {
@@ -64,7 +67,7 @@ export default defineComponent({
     // Method definition
     const retriveById = async (solucionId: any) => {
       try {
-        const res: ISolucion = await solucionService().find(solucionId);
+        const res: ISolucion = await solucionService().findByLastEdited(solucionId);
         solucion.value = res;
       } catch (error: any) {
         alertService.showHttpError(error.response);
@@ -148,6 +151,62 @@ export default defineComponent({
             this.alertService.showHttpError(error.response);
           });
       }
+    },
+
+    nodeChangeHandler(change: NodeChange) {
+      if (change.type === NodeChangeType.POSITION) {
+        this.positionChangeHandler(change);
+      } else if (change.type === NodeChangeType.ADD) {
+        this.addNodeHandler(change);
+      } else if (change.type === NodeChangeType.DELETE) {
+        this.deleteNodeHandler(change);
+      } else if (change.type === NodeChangeType.DOUBLE_CLICK) {
+        this.doubleClickNodeHandler(change);
+      }
+    },
+
+    edgeChangeHandler(change: any) {
+      if (change.type === EdgeChangeType.ADD) {
+        this.addEdgeHandler(change);
+      } else if (change.type === EdgeChangeType.DELETE) {
+        this.deleteEdgeHandler(change);
+      } else if (change.type === EdgeChangeType.DOUBLE_CLICK) {
+        this.doubleClickEdgeHandler(change);
+      }
+    },
+
+    positionChangeHandler(change: any) {
+      console.log('positionChangeHandler');
+      this.solucion.proceso?.estados?.forEach(estado => {
+        if (estado.nombre === change.id && estado.diagram) {
+          estado.diagram.x = change.x;
+          estado.diagram.y = change.y;
+        }
+      });
+    },
+    addNodeHandler(change: any) {
+      console.log('addNodeHandler');
+    },
+    addEdgeHandler(change: any) {
+      console.log('addEdgeHandler');
+    },
+    deleteNodeHandler(change: any) {
+      console.log('deleteNodeHandler');
+    },
+    deleteEdgeHandler(change: any) {
+      console.log('deleteEdgeHandler');
+    },
+    clickNodeHandler(change: any) {
+      console.log('clickNodeHandler');
+    },
+    doubleClickNodeHandler(change: any) {
+      console.log('doubleClickNodeHandler');
+    },
+    clickEdgeHandler(change: any) {
+      console.log('clickEdgeHandler');
+    },
+    doubleClickEdgeHandler(change: any) {
+      console.log('doubleClickEdgeHandler');
     },
   },
 });

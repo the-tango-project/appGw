@@ -1,15 +1,11 @@
 <template>
   <div>
-    <!--  Form submit -->
-    <div v-if="solucion.proceso">
-      {{ solucion.proceso }}
-    </div>
     <b-tabs fill v-model="tabIndex" @input="handleActivatedTab">
       <b-tab class="mt-4" :title-link-class="linkClass(0)">
         <template #title> <b-icon :icon="resolveIcon('info-square', 0)"></b-icon> {{ $t('form.main-data.title') }} </template>
         <b-card>
           <div v-if="solucion.proceso?.estados?.length != undefined">
-            <core-flow v-model="solucion.proceso"></core-flow>
+            <core-flow v-model="solucion.proceso" @update:node="nodeChangeHandler" @update:edge="edgeChangeHandler"></core-flow>
           </div>
         </b-card>
       </b-tab>
@@ -24,7 +20,7 @@
           <span> Guardar importado</span>
           <b-icon icon="save"></b-icon>
         </b-button>
-        <b-button v-else @click="save()" :disabled="v$.$invalid || isSaving" variant="primary">
+        <b-button v-else @click="save()" :disabled="isSaving" variant="primary">
           <span v-text="$t('entity.action.save')"></span>
           <b-icon icon="save"></b-icon>
         </b-button>
