@@ -10,11 +10,11 @@
   transition: all 0.5s ease;
 }
 
-#wrapper.toggled {
+#wrapper.toggled-left {
   padding-left: 250px;
 }
 
-#sidebar-wrapper {
+#left-sidebar-wrapper {
   z-index: 1000;
   position: fixed;
   left: 250px;
@@ -29,7 +29,7 @@
   transition: all 0.5s ease;
 }
 
-#wrapper.toggled #sidebar-wrapper {
+#wrapper.toggled-left #left-sidebar-wrapper {
   width: 250px;
 }
 
@@ -39,7 +39,7 @@
   padding: 0px;
 }
 
-#wrapper.toggled #page-content-wrapper {
+#wrapper.toggled-left #page-content-wrapper {
   position: absolute;
   margin-right: -250px;
 }
@@ -101,15 +101,15 @@
     padding-left: 250px;
   }
 
-  #wrapper.toggled {
+  #wrapper.toggled-left {
     padding-left: 0;
   }
 
-  #sidebar-wrapper {
+  #left-sidebar-wrapper {
     width: 250px;
   }
 
-  #wrapper.toggled #sidebar-wrapper {
+  #wrapper.toggled-left #left-sidebar-wrapper {
     width: 0;
   }
 
@@ -118,7 +118,7 @@
     position: relative;
   }
 
-  #wrapper.toggled #page-content-wrapper {
+  #wrapper.toggled-left #page-content-wrapper {
     position: relative;
     margin-right: 0;
   }
@@ -210,7 +210,7 @@
     }
   }
 
-  .sidebar__toggled {
+  .sidebar__toggled-left {
     display: inline-block;
     position: absolute;
     top: 20px;
@@ -295,4 +295,76 @@ $border-perfil-usuario-sidebar: #011d4a;
       text-decoration: none !important;
     }
   }
+}
+
+// Right navbar
+
+#wrapper.toggled-right {
+  padding-right: -250px;
+}
+
+#right-sidebar-wrapper {
+  z-index: 1000;
+  position: fixed;
+  right: 250px;
+  width: 0;
+  height: 100%;
+  margin-right: -250px;
+  overflow-y: auto;
+  background: $primary;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+#wrapper.toggled-right #right-sidebar-wrapper {
+  width: 250px;
+}
+
+#wrapper.toggled-right #page-content-wrapper {
+  position: absolute;
+  margin-right: -250px;
+}
+
+@mixin all-transition {
+  transition: all 0.5s ease;
+}
+
+@media (min-width: 768px) {
+  #wrapper {
+    padding-left: 250px;
+  }
+
+  #wrapper.toggled-right {
+    padding-left: 0;
+  }
+
+  #right-sidebar-wrapper {
+    width: 250px;
+  }
+
+  #wrapper.toggled-right #right-sidebar-wrapper {
+    width: 0;
+  }
+
+  #page-content-wrapper {
+    padding: 0px;
+    position: relative;
+  }
+
+  #wrapper.toggled-right #page-content-wrapper {
+    position: relative;
+    margin-right: 0;
+  }
+}
+
+.right-sidebar.b-sidebar-outer {
+  position: absolute !important;
+  height: 100% !important;
+}
+
+.right-sidebar .b-sidebar {
+  position: absolute !important;
+  height: 100% !important;
 }

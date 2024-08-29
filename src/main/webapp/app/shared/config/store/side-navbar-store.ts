@@ -1,27 +1,39 @@
 import { defineStore } from 'pinia';
 
 export interface SideNavbarStateStorable {
-  opened: boolean;
+  leftOpened: boolean;
+  rightOpened: boolean;
 }
 
 export const defaultSideNavbarState: SideNavbarStateStorable = {
-  opened: false,
+  leftOpened: false,
+  rightOpened: false,
 };
 
 export const useSideNavbarStore = defineStore('sideNavbarStore', {
   state: (): SideNavbarStateStorable => ({ ...defaultSideNavbarState }),
   getters: {
-    isOpened: state => state.opened,
+    isLeftOpened: state => state.leftOpened,
+    isRightOpened: state => state.rightOpened,
   },
   actions: {
-    closeSidebar() {
-      this.opened = false;
+    closeLeftSidebar() {
+      this.leftOpened = false;
     },
-    openSidebar() {
-      this.opened = true;
+    openLeftSidebar() {
+      this.leftOpened = true;
     },
-    toggleSidebar() {
-      this.opened = !this.opened;
+    toggleLeftSidebar() {
+      this.leftOpened = !this.leftOpened;
+    },
+    closeRightSidebar() {
+      this.rightOpened = false;
+    },
+    openRightSidebar() {
+      this.rightOpened = true;
+    },
+    toggleRightSidebar() {
+      this.rightOpened = !this.rightOpened;
     },
   },
 });

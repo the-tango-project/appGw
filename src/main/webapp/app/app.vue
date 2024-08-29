@@ -1,10 +1,15 @@
 <template>
   <div id="app" class="wrapper-remove">
-    <div id="wrapper" :class="{ toggled: !sideNavbarStore.isOpened }">
+    <div id="wrapper" :class="{ 'toggled-left': !sideNavbarStore.isLeftOpened, 'toggled-right': !sideNavbarStore.isLeftOpened }">
       <ribbon></ribbon>
 
-      <!-- Sidebar -->
-      <div id="sidebar-wrapper">
+      <!-- Left Sidebar -->
+      <div id="left-sidebar-wrapper">
+        <core-side-navbar></core-side-navbar>
+      </div>
+
+      <!-- Right Sidebar -->
+      <div id="right-sidebar-wrapper">
         <core-side-navbar></core-side-navbar>
       </div>
 

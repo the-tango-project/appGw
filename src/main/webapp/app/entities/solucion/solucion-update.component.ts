@@ -207,7 +207,8 @@ export default defineComponent({
     },
     doubleClickNodeHandler(change: any) {
       console.log('doubleClickNodeHandler');
-      this.sideNavbarStore.openSidebar();
+      this.sideNavbarStore.openLeftSidebar();
+      this.sideNavbarStore.openRightSidebar();
     },
     clickEdgeHandler(change: any) {
       console.log('clickEdgeHandler');
