@@ -20,6 +20,8 @@ import type { NodeChange } from '@/shared/model/proceso/diagram.model';
 import { NodeChangeType } from '@/shared/model/enumerations/node-change-type.model';
 import { EdgeChangeType } from '@/shared/model/enumerations/edge-change-type.model';
 
+import { useSideNavbarStore } from '@/store';
+
 const useValidationRules = (validations: any, t$: any) => {
   return {
     title: { required: validations.required(t$('entity.validation.required').toString()) },
@@ -64,6 +66,9 @@ export default defineComponent({
     const tipoMenuOptions = ref(selectOptions.tipoMenu());
     const tipoComponentOptions = ref(selectOptions.tipoComponente());
 
+    //Store configuration
+    const sideNavbarStore = useSideNavbarStore();
+
     // Method definition
     const retriveById = async (solucionId: any) => {
       try {
@@ -96,6 +101,7 @@ export default defineComponent({
       alertService,
       solucionService,
       scriptService,
+      sideNavbarStore,
     };
   },
   methods: {
@@ -201,6 +207,7 @@ export default defineComponent({
     },
     doubleClickNodeHandler(change: any) {
       console.log('doubleClickNodeHandler');
+      this.sideNavbarStore.openSidebar();
     },
     clickEdgeHandler(change: any) {
       console.log('clickEdgeHandler');

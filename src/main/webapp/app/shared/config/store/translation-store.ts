@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 
 interface TranslationState {
-  currentLanguage: string;
+  currentLanguage: string | undefined;
 }
 
 export const useTranslationStore = defineStore('translationStore', {
@@ -9,7 +9,7 @@ export const useTranslationStore = defineStore('translationStore', {
     currentLanguage: undefined,
   }),
   actions: {
-    setCurrentLanguage(newLanguage) {
+    setCurrentLanguage(newLanguage: any) {
       this.currentLanguage = newLanguage;
       localStorage.setItem('currentLanguage', newLanguage);
     },

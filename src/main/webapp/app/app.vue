@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="wrapper-remove">
-    <div id="wrapper" class="">
+    <div id="wrapper" :class="{ toggled: !sideNavbarStore.isOpened }">
       <ribbon></ribbon>
 
       <!-- Sidebar -->

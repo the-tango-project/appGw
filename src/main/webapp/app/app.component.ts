@@ -6,6 +6,7 @@ import JhiNavbar from '@/core/jhi-navbar/jhi-navbar.vue';
 import LoginForm from '@/account/login-form/login-form.vue';
 
 import { useAlertService } from '@/shared/alert/alert.service';
+import { useSideNavbarStore } from '@/store';
 
 import '@/shared/config/dayjs';
 
@@ -20,9 +21,11 @@ export default defineComponent({
   },
   setup() {
     provide('alertService', useAlertService());
-
+    const sideNavbarStore = useSideNavbarStore();
+    sideNavbarStore.closeSidebar();
     return {
       t$: useI18n().t,
+      sideNavbarStore,
     };
   },
 });

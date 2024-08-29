@@ -3,11 +3,9 @@
     <b-tabs fill v-model="tabIndex" @input="handleActivatedTab">
       <b-tab class="mt-4" :title-link-class="linkClass(0)">
         <template #title> <b-icon :icon="resolveIcon('info-square', 0)"></b-icon> {{ $t('form.main-data.title') }} </template>
-        <b-card>
-          <div v-if="solucion.proceso?.estados?.length != undefined">
-            <core-flow v-model="solucion.proceso" @update:node="nodeChangeHandler" @update:edge="edgeChangeHandler"></core-flow>
-          </div>
-        </b-card>
+        <div v-if="solucion.proceso?.estados?.length != undefined">
+          <core-flow v-model="solucion.proceso" @update:node="nodeChangeHandler" @update:edge="edgeChangeHandler"></core-flow>
+        </div>
       </b-tab>
     </b-tabs>
     <div class="mb-5 mt-5 float-right">
