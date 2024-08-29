@@ -12,7 +12,6 @@
       <div id="right-sidebar-wrapper">
         <core-side-navbar></core-side-navbar>
       </div>
-
       <!-- Page content -->
       <div id="page-content-wrapper">
         <jhi-navbar></jhi-navbar>

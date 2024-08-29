@@ -1,4 +1,4 @@
-import { defineComponent, inject, ref, type Ref } from 'vue';
+import { defineComponent, inject, ref, type Ref, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
@@ -86,6 +86,12 @@ export default defineComponent({
     //Validation configuration
     const v$ = useVuelidate(validationRules, solucion as any);
     v$.value.$validate();
+
+    onUnmounted(() => {
+      sideNavbarStore.closeLeftSidebar();
+      sideNavbarStore.closeRightSidebar();
+    });
+
     return {
       tipoMenuOptions,
       tipoComponentOptions,

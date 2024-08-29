@@ -300,7 +300,7 @@ $border-perfil-usuario-sidebar: #011d4a;
 // Right navbar
 
 #wrapper.toggled-right {
-  padding-right: -250px;
+  padding-right: 250px;
 }
 
 #right-sidebar-wrapper {
@@ -333,11 +333,11 @@ $border-perfil-usuario-sidebar: #011d4a;
 
 @media (min-width: 768px) {
   #wrapper {
-    padding-left: 250px;
+    padding-right: 250px;
   }
 
   #wrapper.toggled-right {
-    padding-left: 0;
+    padding-right: 0;
   }
 
   #right-sidebar-wrapper {
