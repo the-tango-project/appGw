@@ -1,13 +1,17 @@
+import type { EstadoSolicitud } from '@/shared/model/enumerations/estado-solicitud.model';
+import type { IEstado, IStateEditable } from '@/shared/model/proceso/estado.model';
 import { defineStore } from 'pinia';
 
 export interface SideNavbarStateStorable {
   leftOpened: boolean;
   rightOpened: boolean;
+  stateHolder: IStateEditable | null;
 }
 
 export const defaultSideNavbarState: SideNavbarStateStorable = {
   leftOpened: false,
   rightOpened: false,
+  stateHolder: null,
 };
 
 export const useSideNavbarStore = defineStore('sideNavbarStore', {
@@ -15,6 +19,7 @@ export const useSideNavbarStore = defineStore('sideNavbarStore', {
   getters: {
     isLeftOpened: state => state.leftOpened,
     isRightOpened: state => state.rightOpened,
+    stateToEdit: state => state.stateHolder,
   },
   actions: {
     closeLeftSidebar() {
@@ -34,6 +39,9 @@ export const useSideNavbarStore = defineStore('sideNavbarStore', {
     },
     toggleRightSidebar() {
       this.rightOpened = !this.rightOpened;
+    },
+    setStateToEdit(newState: IStateEditable) {
+      this.stateHolder = newState;
     },
   },
 });

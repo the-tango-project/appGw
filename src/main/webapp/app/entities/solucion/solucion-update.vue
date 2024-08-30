@@ -1,5 +1,7 @@
 <template>
   <div>
+    {{ stateToEdit?.id }}
+    {{ stateToEdit?.state?.nombre }}
     <b-tabs fill v-model="tabIndex" @input="handleActivatedTab">
       <b-tab class="mt-4" :title-link-class="linkClass(0)">
         <template #title> <b-icon :icon="resolveIcon('info-square', 0)"></b-icon> {{ $t('form.main-data.title') }} </template>

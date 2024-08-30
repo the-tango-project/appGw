@@ -3,6 +3,18 @@ import { type ITransicion } from '@/shared/model/proceso/transicion.model';
 import { type IPermiso } from '@/shared/model/proceso/permiso.model';
 import { Diagram, type IDiagram } from './diagram.model';
 
+export interface IStateEditable {
+  id?: EstadoSolicitud | null;
+  state?: IEstado | null;
+}
+
+export class StateEditable implements IStateEditable {
+  constructor(
+    public id?: EstadoSolicitud | null,
+    public state?: IEstado | null,
+  ) {}
+}
+
 export interface IEstado {
   nombre?: EstadoSolicitud | null;
   transiciones?: ITransicion[] | null;

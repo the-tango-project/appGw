@@ -1,10 +1,9 @@
-import { computed, defineComponent, inject, ref, type Ref } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { defineComponent, ref, type Ref } from 'vue';
 
-import useSelectOptions from '@/shared/composables/select-options';
-import { type ICardItem, type IRouter, CardItem, Router } from '@/components/card-list/CardItem.model';
+import { type ICardItem } from '@/components/card-list/CardItem.model';
 import { DataFaker } from '@/shared/model/DataFaker';
-import { Option, type IOption } from '@/shared/model/ui/option.model';
+
+import { useSelectOptions } from '@/shared/composables/use-select-options';
 
 export default defineComponent({
   compatConfig: { MODE: 3 },
@@ -30,7 +29,7 @@ export default defineComponent({
     const modalResult: Ref<string | null> = ref(null);
     const modalResultComment: Ref<string | null> = ref(null);
 
-    const tipoComponentsValues: Ref<IOption[]> = ref(selectOptions.tipoComponente());
+    const tipoComponentsValues = selectOptions.componenteOptions;
 
     return {
       items,

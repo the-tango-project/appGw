@@ -4,6 +4,8 @@ import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 import { useAlertService } from '@/shared/alert/alert.service';
 import useDataUtils from '@/shared/data/data-utils.service';
+import useSolucionUtils from '@/shared/util/solucion-utils.service';
+
 import { useValidation, useDateFormat } from '@/shared/composables';
 
 //Entity services
@@ -21,6 +23,7 @@ import { NodeChangeType } from '@/shared/model/enumerations/node-change-type.mod
 import { EdgeChangeType } from '@/shared/model/enumerations/edge-change-type.model';
 
 import { useSideNavbarStore } from '@/store';
+import { StateEditable, type IEstado, type IStateEditable } from '@/shared/model/proceso/estado.model';
 
 const useValidationRules = (validations: any, t$: any) => {
   return {
@@ -50,6 +53,7 @@ export default defineComponent({
     const validationRules = useValidationRules(validations, t$);
     const dateFormat = useDateFormat();
     const dataUtils = useDataUtils();
+    const solucionUtils = useSolucionUtils();
     const route = useRoute();
     const router = useRouter();
     //Common services
@@ -62,6 +66,7 @@ export default defineComponent({
     const isSaving: Ref<boolean> = ref(false);
     const isImporting: Ref<boolean> = ref(false);
     const tabIndex: Ref<number> = ref(0);
+    const stateToEdit: Ref<IStateEditable | null> = ref(null);
     //SelectOne options
     const tipoMenuOptions = ref(selectOptions.tipoMenu());
     const tipoComponentOptions = ref(selectOptions.tipoComponente());
@@ -108,6 +113,8 @@ export default defineComponent({
       solucionService,
       scriptService,
       sideNavbarStore,
+      solucionUtils,
+      stateToEdit,
     };
   },
   methods: {
@@ -213,8 +220,16 @@ export default defineComponent({
     },
     doubleClickNodeHandler(change: any) {
       console.log('doubleClickNodeHandler');
-      this.sideNavbarStore.openLeftSidebar();
-      this.sideNavbarStore.openRightSidebar();
+
+      this.stateToEdit = new StateEditable();
+      this.stateToEdit.state = this.solucionUtils.findState(this.solucion.proceso, change.id);
+
+      if (this.stateToEdit.state?.nombre) {
+        this.stateToEdit.id = this.stateToEdit.state.nombre;
+        this.sideNavbarStore.setStateToEdit(this.stateToEdit);
+        this.sideNavbarStore.openRightSidebar();
+        //this.sideNavbarStore.openLeftSidebar();
+      }
     },
     clickEdgeHandler(change: any) {
       console.log('clickEdgeHandler');

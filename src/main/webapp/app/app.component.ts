@@ -23,6 +23,7 @@ export default defineComponent({
     provide('alertService', useAlertService());
     const sideNavbarStore = useSideNavbarStore();
     sideNavbarStore.closeLeftSidebar();
+    sideNavbarStore.closeRightSidebar();
     return {
       t$: useI18n().t,
       sideNavbarStore,

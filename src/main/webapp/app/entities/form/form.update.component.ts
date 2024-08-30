@@ -15,7 +15,7 @@ import { TipoComponente } from '@/shared/model/enumerations/tipo-componente.mode
 import { MenuElement } from '@/shared/model/enumerations/menu-element.model';
 import { Form, type IForm } from '@/shared/model/form.model';
 
-import useSelectOptions from '@/shared/composables/select-options';
+import { useSelectOptions } from '@/shared/composables/use-select-options';
 
 const useValidationRules = (validations: any, t$: any) => {
   return {
@@ -60,8 +60,8 @@ export default defineComponent({
     const isImporting: Ref<Boolean> = ref(false);
     const tabIndex: Ref<Number> = ref(0);
     //SelectOne options
-    const tipoMenuOptions = ref(selectOptions.tipoMenu());
-    const tipoComponentOptions = ref(selectOptions.tipoComponente());
+    const tipoMenuOptions = ref(selectOptions.menuOptions);
+    const tipoComponentOptions = ref(selectOptions.componenteOptions);
     // Method definition
     const retriveById = async (formId: any) => {
       try {

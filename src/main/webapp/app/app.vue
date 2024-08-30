@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="wrapper-remove">
-    <div id="wrapper" :class="{ 'toggled-left': !sideNavbarStore.isLeftOpened, 'toggled-right': !sideNavbarStore.isLeftOpened }">
+    <div id="wrapper" :class="{ 'toggled-left': !sideNavbarStore.isLeftOpened, 'toggled-right': !sideNavbarStore.isRightOpened }">
       <ribbon></ribbon>
 
       <!-- Left Sidebar -->
@@ -10,7 +10,7 @@
 
       <!-- Right Sidebar -->
       <div id="right-sidebar-wrapper">
-        <core-side-navbar></core-side-navbar>
+        <prop-side-navbar></prop-side-navbar>
       </div>
       <!-- Page content -->
       <div id="page-content-wrapper">
