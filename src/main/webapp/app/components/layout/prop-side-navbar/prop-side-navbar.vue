@@ -20,14 +20,7 @@
       <div class="sidebar_header mb-3 mt-1">
         <div class="text-white">Secciones</div>
       </div>
-
-      <core-select-one
-        v-if="stateToEdit?.state?.nombre"
-        label="Estado"
-        v-model="stateToEdit.state.nombre"
-        :options="stateOptionsMethod()"
-      ></core-select-one>
-
+      <core-state v-model="stateToEdit" @update:state="updateStateHandler"></core-state>
       <b-button @click="save()" variant="primary">
         <span v-text="$t('entity.action.save')"></span>
         <b-icon icon="save"></b-icon>

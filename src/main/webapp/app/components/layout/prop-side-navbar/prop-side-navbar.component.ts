@@ -22,8 +22,8 @@ export default defineComponent({
   },
   methods: {
     save(): void {},
-    stateOptionsMethod(): IOption[] {
-      return useSelectOptions().stateOptions;
+    updateStateHandler(): void {
+      console.log('udpateStateHandler');
     },
   },
 });

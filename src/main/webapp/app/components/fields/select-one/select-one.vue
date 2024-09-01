@@ -12,7 +12,8 @@
         </b-popover>
       </span>
     </label>
-    <b-form-select :id="id" v-model="selected" :options="options" :state="valid" :disabled="readonly" @change="handleChange">
+    <b-form-select :id="id" v-model="selected" :state="valid" :disabled="readonly" @change="handleChange">
+      <b-form-select-option v-for="option of options" :value="option.value">{{ $t(option.langKey) }}</b-form-select-option>
     </b-form-select>
     <small v-if="description" class="form-text helper-text">{{ description }}</small>
   </div>

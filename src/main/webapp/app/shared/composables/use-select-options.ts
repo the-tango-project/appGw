@@ -28,9 +28,14 @@ export function useSelectOptions() {
 
   function mapKeys(i18nkey: string, element: any): Array<IOption> {
     const options = Object.keys(element).map(key => {
-      return new Option(key, t$(i18nkey + key).toString());
+      return new Option(key, t$(i18nkey + key).toString(), i18nkey + key);
     });
-    options.unshift({ value: null, text: t$('global.form.selectone.placeholder'), disabled: true });
+    options.unshift({
+      value: null,
+      text: t$('global.form.selectone.placeholder'),
+      langKey: 'global.form.selectone.placeholder',
+      disabled: true,
+    });
     return options;
   }
 

@@ -17,6 +17,7 @@ import PerfilNavbarSkeleton from '@/components/skeletons/perfil-navbar-skeleton/
 import SelectMany from '@/components/fields/select-many/select-many.vue';
 import SideNavbar from '@/components/layout/side-navbar/side-navbar.vue';
 import PropSideNavbar from '@/components/layout/prop-side-navbar/prop-side-navbar.vue';
+import StateComponent from '@/components/state/state.vue';
 
 export function initCoreComponents(vue: any) {
   vue.component('core-card-list-skeleton', CardListSkeleton);
@@ -38,4 +39,5 @@ export function initCoreComponents(vue: any) {
   vue.component('core-code-editor', CodeEditor);
   vue.component('core-side-navbar', SideNavbar);
   vue.component('prop-side-navbar', PropSideNavbar);
+  vue.component('core-state', StateComponent);
 }
