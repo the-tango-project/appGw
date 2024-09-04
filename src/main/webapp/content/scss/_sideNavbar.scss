@@ -1,5 +1,7 @@
 @import 'bootswatch/dist/journal/variables';
 
+$right-side-navbar-width: 520px;
+
 /* Toggle Styles */
 
 #wrapper {
@@ -333,7 +335,7 @@ $border-perfil-usuario-sidebar: #011d4a;
 
 @media (min-width: 768px) {
   #wrapper {
-    padding-right: 250px;
+    padding-right: $right-side-navbar-width;
   }
 
   #wrapper.toggled-right {
@@ -341,7 +343,7 @@ $border-perfil-usuario-sidebar: #011d4a;
   }
 
   #right-sidebar-wrapper {
-    width: 250px;
+    width: $right-side-navbar-width;
   }
 
   #wrapper.toggled-right #right-sidebar-wrapper {

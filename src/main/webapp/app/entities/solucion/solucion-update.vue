@@ -2,14 +2,9 @@
   <div>
     {{ stateToEdit?.id }}
     {{ stateToEdit?.state?.nombre }}
-    <b-tabs fill v-model="tabIndex" @input="handleActivatedTab">
-      <b-tab class="mt-4" :title-link-class="linkClass(0)">
-        <template #title> <b-icon :icon="resolveIcon('info-square', 0)"></b-icon> {{ $t('form.main-data.title') }} </template>
-        <div v-if="solucion.proceso?.estados?.length != undefined">
-          <core-flow v-model="solucion.proceso" @update:node="nodeChangeHandler" @update:edge="edgeChangeHandler"></core-flow>
-        </div>
-      </b-tab>
-    </b-tabs>
+    <div v-if="solucion.proceso?.estados?.length != undefined">
+      <core-flow v-model="solucion.proceso" @update:node="nodeChangeHandler" @update:edge="edgeChangeHandler"></core-flow>
+    </div>
     <div class="mb-5 mt-5 float-right">
       <div class="d-flex justify-content-end">
         <b-button class="mr-1" @click="previousState()" variant="outline-danger">

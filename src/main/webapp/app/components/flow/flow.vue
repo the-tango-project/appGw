@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="height: 100vh">
+    <div style="height: 80vh">
       <vue-flow
         class="canvas-flow"
         :default-viewport="{ zoom: 1.5 }"
@@ -17,6 +17,7 @@
         </template>
 
         <background></background>
+        <mini-map pannable zoomable nodeColor="#90afce" nodeStrokeColor="#90afce" maskColor="rgb(216, 234, 243, 0.7)"></mini-map>
         <controls
           :showZoom="false"
           :showFitView="false"
@@ -44,6 +45,16 @@
             <b-button class="p-0" size="sm" variant="light" @click="lockAndUnlockHandler">
               <b-icon v-if="isLock" icon="lock-fill"></b-icon>
               <b-icon v-else icon="unlock-fill"></b-icon>
+            </b-button>
+          </control-button>
+          <control-button>
+            <b-button class="p-0" size="sm" variant="light" @click="lockAndUnlockHandler">
+              <b-icon icon="person-bounding-box"></b-icon>
+            </b-button>
+          </control-button>
+          <control-button>
+            <b-button class="p-0" size="sm" variant="light" @click="lockAndUnlockHandler">
+              <b-icon icon="people-fill"></b-icon>
             </b-button>
           </control-button>
         </controls>

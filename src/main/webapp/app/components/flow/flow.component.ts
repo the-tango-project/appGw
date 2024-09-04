@@ -19,6 +19,7 @@ import StateNode from './nodes/state-node.vue';
 import { faker } from '@faker-js/faker';
 import { NodeChange } from '@/shared/model/proceso/diagram.model';
 import { NodeChangeType } from '@/shared/model/enumerations/node-change-type.model';
+import { MiniMap } from '@vue-flow/minimap';
 
 export default defineComponent({
   compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
@@ -26,6 +27,7 @@ export default defineComponent({
   emits: ['update:modelValue', 'update:node', 'update:edge'],
   components: {
     'state-node': StateNode,
+    'mini-map': MiniMap,
   },
   props: {
     modelValue: {
