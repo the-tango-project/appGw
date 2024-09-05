@@ -19,6 +19,9 @@ import SideNavbar from '@/components/layout/side-navbar/side-navbar.vue';
 import PropSideNavbar from '@/components/layout/prop-side-navbar/prop-side-navbar.vue';
 import StateComponent from '@/components/process/state/state.vue';
 import GrantedAuthoritiesComponent from '@/components/process/granted-authorities/granted-authorities.vue';
+import TextEditorComponent from '@/components/editors/text-editor/text-editor.vue';
+import AvisoEditableComponent from '@/components/editors/aviso-editable/aviso-editable.vue';
+import MessageComponent from '@/components/message/message.vue';
 
 export function initCoreComponents(vue: any) {
   vue.component('core-card-list-skeleton', CardListSkeleton);
@@ -42,4 +45,7 @@ export function initCoreComponents(vue: any) {
   vue.component('prop-side-navbar', PropSideNavbar);
   vue.component('core-state', StateComponent);
   vue.component('core-granted-authorities', GrantedAuthoritiesComponent);
+  vue.component('core-text-editor', TextEditorComponent);
+  vue.component('core-aviso-editable', AvisoEditableComponent);
+  vue.component('core-message', MessageComponent);
 }

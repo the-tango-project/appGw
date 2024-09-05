@@ -1,0 +1,27 @@
+{
+  "apeironGwApp": {
+    "RolAutoridad": {
+      "null": "",
+      "SISTEMA": "Sistema",
+      "PROPIETARIO": "Propietario",
+      "ADMINISTRADOR": "Administrador",
+      "SOLICITANTE": "Solicitante",
+      "OPERADOR": "Operador",
+      "REVISOR": "Revisor",
+      "APROBADOR": "Aprobador",
+      "SOPORTE": "Soporte",
+      "VALIDADOR_DOCUMENTAL": "Validador documental",
+      "DIRECTOR": "Director",
+      "SUBDIRECTOR": "Subdirector",
+      "APOYO": "Apoyo",
+      "COORDINADOR_PROGRAMA": "Coordinador de programa",
+      "BECARIO": "Becarios",
+      "ALUMNO": "Alumno",
+      "PROFESOR": "Profesor",
+      "AYUDANTE": "Ayudante"
+    },
+    "alertRol": {
+      "noAutorizado": "Usuario/rol no autorizado."
+    }
+  }
+}

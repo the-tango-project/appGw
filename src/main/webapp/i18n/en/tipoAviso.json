@@ -1,0 +1,15 @@
+{
+  "apeironGwApp": {
+    "TipoAviso": {
+      "null": "",
+      "PRIMARY": "Primary",
+      "SECONDARY": "Secondary",
+      "SUCCESS": "Success",
+      "DANGER": "Danger",
+      "WARNING": "Warning",
+      "INFO": "Info",
+      "LIGHT": "Light",
+      "DARK": "Dark"
+    }
+  }
+}

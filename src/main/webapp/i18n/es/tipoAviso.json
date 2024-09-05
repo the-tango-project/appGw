@@ -1,0 +1,15 @@
+{
+  "apeironGwApp": {
+    "TipoAviso": {
+      "null": "",
+      "PRIMARY": "Informativo",
+      "INFO": "Informativo ligero",
+      "SECONDARY": "Sistema",
+      "SUCCESS": "Operación exitosa",
+      "DANGER": "Peligro",
+      "WARNING": "Advertencia",
+      "LIGHT": "Ligero",
+      "DARK": "Obscuro"
+    }
+  }
+}
