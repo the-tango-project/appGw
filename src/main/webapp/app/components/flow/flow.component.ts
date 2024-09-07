@@ -31,7 +31,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Proceso,
+      type: [Proceso, Object],
       required: true,
     },
   },

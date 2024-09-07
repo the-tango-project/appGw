@@ -10,7 +10,7 @@
 
       <!-- Right Sidebar -->
       <div id="right-sidebar-wrapper">
-        <prop-side-navbar></prop-side-navbar>
+        <right-side-navbar></right-side-navbar>
       </div>
       <!-- Page content -->
       <div id="page-content-wrapper">

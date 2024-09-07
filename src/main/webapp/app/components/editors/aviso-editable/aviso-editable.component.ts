@@ -1,6 +1,5 @@
 import { computed, defineComponent, type Ref, ref } from 'vue';
 import { Aviso } from '@/shared/model/proceso/aviso.model';
-import { TipoAviso } from '@/shared/model/enumerations/tipo-aviso.model';
 import { useSelectOptions } from '@/shared/composables/use-select-options';
 
 export default defineComponent({
@@ -8,7 +7,7 @@ export default defineComponent({
   name: 'AvisoEditableComponent',
   props: {
     modelValue: {
-      type: Aviso,
+      type: [Aviso, Object],
       required: true,
     },
   },

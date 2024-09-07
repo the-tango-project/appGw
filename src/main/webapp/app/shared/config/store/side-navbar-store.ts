@@ -1,5 +1,4 @@
-import type { EstadoSolicitud } from '@/shared/model/enumerations/estado-solicitud.model';
-import type { IEstado, IStateEditable } from '@/shared/model/proceso/estado.model';
+import type { IStateEditable } from '@/shared/model/proceso/estado.model';
 import { defineStore } from 'pinia';
 
 export interface SideNavbarStateStorable {

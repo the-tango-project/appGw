@@ -9,3 +9,7 @@ export { useTranslationStore };
 import { useSideNavbarStore } from '@/shared/config/store/side-navbar-store';
 export type SideNavbarStore = ReturnType<typeof useSideNavbarStore>;
 export { useSideNavbarStore };
+
+import { useSolutionStore } from '@/shared/config/store/solution-store';
+export type SolutionStore = ReturnType<typeof useSolutionStore>;
+export { useSolutionStore };

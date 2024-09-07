@@ -6,12 +6,14 @@ import { Diagram, type IDiagram } from './diagram.model';
 export interface IStateEditable {
   id?: EstadoSolicitud | null;
   state?: IEstado | null;
+  saved?: boolean;
 }
 
 export class StateEditable implements IStateEditable {
   constructor(
     public id?: EstadoSolicitud | null,
     public state?: IEstado | null,
+    public saved?: boolean,
   ) {}
 }
 

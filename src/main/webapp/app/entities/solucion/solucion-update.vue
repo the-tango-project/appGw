@@ -1,7 +1,5 @@
 <template>
   <div>
-    {{ stateToEdit?.id }}
-    {{ stateToEdit?.state?.nombre }}
     <div v-if="solucion.proceso?.estados?.length != undefined">
       <core-flow v-model="solucion.proceso" @update:node="nodeChangeHandler" @update:edge="edgeChangeHandler"></core-flow>
     </div>

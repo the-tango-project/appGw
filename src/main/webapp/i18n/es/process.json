@@ -1,0 +1,13 @@
+{
+  "appGwApp": {
+    "process": {
+      "state": {
+        "actions": {
+          "title": "Acciones",
+          "permissions": "Permisos",
+          "transitionMessage": "Mensaje"
+        }
+      }
+    }
+  }
+}

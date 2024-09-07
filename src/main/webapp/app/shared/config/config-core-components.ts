@@ -16,12 +16,13 @@ import TableRowSkeleton from '@/components/skeletons/table-row-skeleton/table-ro
 import PerfilNavbarSkeleton from '@/components/skeletons/perfil-navbar-skeleton/perfil-navbar-skeleton.vue';
 import SelectMany from '@/components/fields/select-many/select-many.vue';
 import SideNavbar from '@/components/layout/side-navbar/side-navbar.vue';
-import PropSideNavbar from '@/components/layout/prop-side-navbar/prop-side-navbar.vue';
+import RightSideNavbar from '@/components/layout/right-side-navbar/right-side-navbar.vue';
 import StateComponent from '@/components/process/state/state.vue';
 import GrantedAuthoritiesComponent from '@/components/process/granted-authorities/granted-authorities.vue';
 import TextEditorComponent from '@/components/editors/text-editor/text-editor.vue';
 import AvisoEditableComponent from '@/components/editors/aviso-editable/aviso-editable.vue';
 import MessageComponent from '@/components/message/message.vue';
+import ButtonComponent from '@/components/button/button.vue';
 
 export function initCoreComponents(vue: any) {
   vue.component('core-card-list-skeleton', CardListSkeleton);
@@ -42,10 +43,11 @@ export function initCoreComponents(vue: any) {
   vue.component('core-icon-picker', IconPicker);
   vue.component('core-code-editor', CodeEditor);
   vue.component('core-side-navbar', SideNavbar);
-  vue.component('prop-side-navbar', PropSideNavbar);
+  vue.component('right-side-navbar', RightSideNavbar);
   vue.component('core-state', StateComponent);
   vue.component('core-granted-authorities', GrantedAuthoritiesComponent);
   vue.component('core-text-editor', TextEditorComponent);
   vue.component('core-aviso-editable', AvisoEditableComponent);
   vue.component('core-message', MessageComponent);
+  vue.component('core-button', ButtonComponent);
 }

@@ -1,13 +1,18 @@
 <template>
   <div class="container">
-    <div class="row">
-      <div class="col-6">
+    <div class="row float-right">
+      <b-button :variant="showPreview ? 'primary' : 'light'" @click="togglePreview">
+        <b-icon :icon="showPreview ? 'stop-circle' : 'play-circle'" :animation="showPreview ? 'fade' : ''"> </b-icon>
+        {{ $t('entity.action.preview') }}
+      </b-button>
+    </div>
+    <div v-if="!showPreview" class="row">
+      <div class="col-10">
         <core-select-one label="Tipo de aviso" v-model="aviso.tipo" :options="tipoAvisoOptions"></core-select-one>
       </div>
     </div>
     <div class="row">
       <div v-if="!showPreview" class="col">
-        <b-button variant="light" @click="togglePreview"> <b-icon icon="play-circle"></b-icon></b-button>
         <b-alert show :variant="aviso.tipo ? aviso.tipo.toLowerCase() : ''">
           <h4 class="alert-heading">
             <b-form-group id="componente-aviso-titulo" size="sm" label="Título" label-for="aviso-titulo-id">
@@ -29,8 +34,7 @@
           </div>
         </b-alert>
       </div>
-      <div v-else class="col">
-        <b-button variant="light" @click="togglePreview"> <b-icon icon="play-circle-fill"></b-icon></b-button>
+      <div v-else class="col mt-5">
         <core-message
           :variant="aviso.tipo ? aviso.tipo.toLowerCase() : ''"
           :title="aviso.titulo"

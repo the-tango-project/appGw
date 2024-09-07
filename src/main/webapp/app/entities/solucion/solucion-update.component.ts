@@ -1,4 +1,4 @@
-import { defineComponent, inject, ref, type Ref, onUnmounted } from 'vue';
+import { defineComponent, inject, ref, type Ref, onUnmounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
@@ -16,14 +16,12 @@ import ScriptService from '@/shared/script/script.service';
 import { Solucion, type ISolucion } from '@/shared/model/solucion.model';
 
 import useSelectOptions from '@/shared/composables/select-options';
-import { EstadoSolucion } from '@/shared/model/enumerations/estado-solucion.model';
-import { EstadoSolicitud } from '@/shared/model/enumerations/estado-solicitud.model';
 import type { NodeChange } from '@/shared/model/proceso/diagram.model';
 import { NodeChangeType } from '@/shared/model/enumerations/node-change-type.model';
 import { EdgeChangeType } from '@/shared/model/enumerations/edge-change-type.model';
 
-import { useSideNavbarStore } from '@/store';
-import { StateEditable, type IEstado, type IStateEditable } from '@/shared/model/proceso/estado.model';
+import { useSideNavbarStore, useSolutionStore } from '@/store';
+import { StateEditable, type IStateEditable } from '@/shared/model/proceso/estado.model';
 
 const useValidationRules = (validations: any, t$: any) => {
   return {
@@ -73,12 +71,14 @@ export default defineComponent({
 
     //Store configuration
     const sideNavbarStore = useSideNavbarStore();
+    const solutionStore = useSolutionStore();
 
     // Method definition
     const retriveById = async (solucionId: any) => {
       try {
         const res: ISolucion = await solucionService().findByLastEdited(solucionId);
         solucion.value = res;
+        solutionStore.initContext(solucion.value);
       } catch (error: any) {
         alertService.showHttpError(error.response);
       }
@@ -95,6 +95,25 @@ export default defineComponent({
     onUnmounted(() => {
       sideNavbarStore.closeLeftSidebar();
       sideNavbarStore.closeRightSidebar();
+    });
+
+    const saveStateToEditInSolution = () => {
+      if (stateToEdit.value && solucion.value.proceso?.estados) {
+        const index = solucion.value.proceso.estados.findIndex(state => state.nombre === stateToEdit.value?.state?.nombre);
+
+        if (index >= 0 && stateToEdit.value.state) {
+          solucion.value.proceso.estados[index] = stateToEdit.value.state;
+        }
+
+        stateToEdit.value.saved = false;
+      }
+    };
+
+    // Save the statetoEdit into the solution
+    watch([stateToEdit], () => {
+      if (stateToEdit?.value?.saved) {
+        saveStateToEditInSolution();
+      }
     });
 
     return {
@@ -115,6 +134,7 @@ export default defineComponent({
       sideNavbarStore,
       solucionUtils,
       stateToEdit,
+      solutionStore,
     };
   },
   methods: {

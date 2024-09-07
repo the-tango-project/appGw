@@ -1,0 +1,26 @@
+{
+  "apeironGwApp": {
+    "TipoAccion": {
+      "null": "",
+      "ACTIVAR": "Activate",
+      "ACTUALIZAR": "Update",
+      "ASIGNAR": "Assign",
+      "PREASIGNAR": "Preassing",
+      "FINALIZAR": "Finish",
+      "LEER": "Read",
+      "ESCRIBIR": "Write",
+      "COMENTAR": "Comment",
+      "ENVIAR": "Send",
+      "VALIDAR": "Validate",
+      "APROBAR": "Approve",
+      "RECHAZAR": "Reject",
+      "CANCELAR": "Cancel",
+      "RECLASIFICAR": "Reclasificar",
+      "FORMALIZAR": "Formalizar",
+      "BAJAR": "Dar de baja",
+      "BAJAR_POR_ACUERDO": "Dar de baja por acuerdo",
+      "DICTAMINAR": "Dictaminar",
+      "REVISAR": "Revisar"
+    }
+  }
+}

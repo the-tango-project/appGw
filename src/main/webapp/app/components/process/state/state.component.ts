@@ -9,8 +9,8 @@ export default defineComponent({
   name: 'StateComponent',
   props: {
     modelValue: {
-      type: StateEditable,
-      required: true,
+      type: [StateEditable],
+      required: false,
     },
   },
   setup(props, { emit }) {

@@ -126,7 +126,8 @@
       "confirm": "Confirmar",
       "clone": "Clonar",
       "import": "Importar",
-      "export": "Exportar"
+      "export": "Exportar",
+      "preview": "Vista previa"
     },
     "detail": {
       "field": "Campo",

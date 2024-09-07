@@ -1,14 +1,10 @@
-import { computed, defineComponent, inject, ref, type Ref } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
-import type LoginService from '@/account/login.service';
-import type AccountService from '@/account/account.service';
-import languages from '@/shared/config/languages';
-import EntitiesMenu from '@/entities/entities-menu.vue';
+import { computed, defineComponent, ref, type Ref } from 'vue';
 import { Permiso } from '@/shared/model/proceso/permiso.model';
 
-import { useStore } from '@/store';
 import type { RolAutoridad } from '@/shared/model/enumerations/rol-autoridad.model';
+import { useSelectOptions } from '@/shared/composables/use-select-options';
+
+import { useSolutionStore } from '@/store';
 
 export default defineComponent({
   compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
@@ -18,14 +14,23 @@ export default defineComponent({
       type: Array<Permiso>,
       required: true,
     },
+    stateName: {
+      type: String,
+      required: false,
+    },
   },
   setup(props, { emit }) {
     const toggledMap: Ref<Map<RolAutoridad | null | undefined, boolean>> = ref(new Map());
+    const actionByEstateOptions = useSelectOptions().actionByEstateOptions;
+    const solutionStore = useSolutionStore();
+    const actionsOptions = computed(() => actionByEstateOptions(solutionStore.selectedStates, props.stateName));
     const permisos = computed({
       get: () => props.modelValue,
       set: value => emit('update:modelValue', value),
     });
+
     return {
+      actionsOptions,
       permisos,
       emit,
       toggledMap,
@@ -37,7 +42,6 @@ export default defineComponent({
       this.toggledMap.set(rol, !this.toggledMap.get(rol));
     },
     isVisible(rol: RolAutoridad | null | undefined): boolean | undefined {
-      console.log('is visible?');
       if (this.toggledMap.get(rol)) {
         this.toggledMap.set(rol, !this.toggledMap.get(rol));
         return this.toggledMap.get(rol);
