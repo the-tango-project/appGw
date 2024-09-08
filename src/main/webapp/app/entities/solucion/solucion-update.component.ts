@@ -1,10 +1,10 @@
-import { defineComponent, inject, ref, type Ref, onUnmounted, watch } from 'vue';
+import { computed, defineComponent, inject, ref, type Ref, onUnmounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 import { useAlertService } from '@/shared/alert/alert.service';
 import useDataUtils from '@/shared/data/data-utils.service';
-import useSolucionUtils from '@/shared/util/solucion-utils.service';
+import useSolucionUtils from '@/shared/solucion/solucion-utils.service';
 
 import { useValidation, useDateFormat } from '@/shared/composables';
 
@@ -21,7 +21,10 @@ import { NodeChangeType } from '@/shared/model/enumerations/node-change-type.mod
 import { EdgeChangeType } from '@/shared/model/enumerations/edge-change-type.model';
 
 import { useSideNavbarStore, useSolutionStore } from '@/store';
-import { StateEditable, type IStateEditable } from '@/shared/model/proceso/estado.model';
+import { type IStateEditable } from '@/shared/model/proceso/estado.model';
+import useObjectUtils from '@/shared/util/object-utils';
+import { EstadoSolucion } from '@/shared/model/enumerations/estado-solucion.model';
+import VersionComponent from '@/components/process/version/version.vue';
 
 const useValidationRules = (validations: any, t$: any) => {
   return {
@@ -43,6 +46,9 @@ const useValidationRules = (validations: any, t$: any) => {
 export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'SolucionUpdate',
+  components: {
+    version: VersionComponent,
+  },
   setup() {
     //Commons methods
     const { t: t$ } = useI18n();
@@ -54,6 +60,7 @@ export default defineComponent({
     const solucionUtils = useSolucionUtils();
     const route = useRoute();
     const router = useRouter();
+    const objectUtils = useObjectUtils();
     //Common services
     const alertService = inject('alertService', () => useAlertService(), true);
     const solucionService = inject('solucionService', () => new SolucionService());
@@ -99,15 +106,16 @@ export default defineComponent({
 
     const saveStateToEditInSolution = () => {
       if (stateToEdit.value && solucion.value.proceso?.estados) {
-        const index = solucion.value.proceso.estados.findIndex(state => state.nombre === stateToEdit.value?.state?.nombre);
+        const index = solucion.value.proceso.estados.findIndex(state => state.nombre === stateToEdit.value?.id);
 
         if (index >= 0 && stateToEdit.value.state) {
-          solucion.value.proceso.estados[index] = stateToEdit.value.state;
+          solucion.value.proceso.estados[index] = objectUtils.clone(stateToEdit.value.state);
         }
-
-        stateToEdit.value.saved = false;
+        sideNavbarStore.closeRightSidebar();
       }
     };
+
+    const isNavbarOpen = computed(() => sideNavbarStore.isLeftOpened || sideNavbarStore.isRightOpened);
 
     // Save the statetoEdit into the solution
     watch([stateToEdit], () => {
@@ -115,6 +123,8 @@ export default defineComponent({
         saveStateToEditInSolution();
       }
     });
+
+    const isArchivada = computed(() => solucion.value.estado === EstadoSolucion.ARCHIVADA);
 
     return {
       tipoMenuOptions,
@@ -135,6 +145,9 @@ export default defineComponent({
       solucionUtils,
       stateToEdit,
       solutionStore,
+      objectUtils,
+      isArchivada,
+      isNavbarOpen,
     };
   },
   methods: {
@@ -142,17 +155,17 @@ export default defineComponent({
     handleExport(): void {},
     handleOpenImportModal(): void {},
     handleActivatedTab(): void {},
-    linkClass(index: Number): String[] {
+    linkClass(index: number): string[] {
       if (this.tabIndex === index) {
-        return ['bg-primary', 'text-light'];
+        return ['bg-light', 'text-primary'];
       } else {
         return ['bg-light'];
       }
     },
-    resolveIcon(icon: String, index: Number): String {
+    resolveIcon(icon: string, index: number): string {
       return icon + (this.isTabActive(index) ? '-fill' : '');
     },
-    isTabActive(index: Number): Boolean {
+    isTabActive(index: number): boolean {
       if (this.tabIndex === index) {
         return true;
       } else {
@@ -239,16 +252,11 @@ export default defineComponent({
       console.log('clickNodeHandler');
     },
     doubleClickNodeHandler(change: any) {
-      console.log('doubleClickNodeHandler');
-
-      this.stateToEdit = new StateEditable();
-      this.stateToEdit.state = this.solucionUtils.findState(this.solucion.proceso, change.id);
+      this.stateToEdit = this.solucionUtils.createStateToEdit(this.solucion.proceso, change.id);
 
       if (this.stateToEdit.state?.nombre) {
-        this.stateToEdit.id = this.stateToEdit.state.nombre;
         this.sideNavbarStore.setStateToEdit(this.stateToEdit);
         this.sideNavbarStore.openRightSidebar();
-        //this.sideNavbarStore.openLeftSidebar();
       }
     },
     clickEdgeHandler(change: any) {

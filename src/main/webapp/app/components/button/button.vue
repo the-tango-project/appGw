@@ -1,7 +1,7 @@
 <template>
-  <b-button :variant="variant" @click="clickHandler">
-    <b-icon v-if="icon" :icon="icon" class="mr-1"></b-icon>
-    <span v-text="$t(i18nKeyText)"></span>
+  <b-button class="shadow d-inline-block border-0" :variant="variant" @click="clickHandler">
+    <b-icon v-if="icon" :icon="icon" :class="{ 'mr-1': !notext }"></b-icon>
+    <span v-if="!notext" v-text="$t(i18nKeyText)"></span>
   </b-button>
 </template>
 

@@ -17,20 +17,33 @@ export default defineComponent({
       type: String,
       default: null,
     },
+
+    notext: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, { emit }) {
     const variant: Ref<string> = ref('primary');
     const icon: Ref<string | null> = ref(null);
     const i18nKeyText: Ref<string> = ref('entity.action.confirm');
 
+    const configBtnProps = (variantOp: string, iconOp: string, i18nKeyTextOp: string) => {
+      variant.value = variantOp;
+      icon.value = iconOp;
+      i18nKeyText.value = i18nKeyTextOp;
+    };
+
     if (props.type === 'save') {
-      variant.value = 'primary';
-      icon.value = 'save';
-      i18nKeyText.value = 'entity.action.save';
+      configBtnProps('primary', 'save', 'entity.action.save');
     } else if (props.type === 'cancel') {
-      variant.value = 'outline-danger';
-      icon.value = 'x-circle';
-      i18nKeyText.value = 'entity.action.cancel';
+      configBtnProps('outline-danger', 'x-circle', 'entity.action.cancel');
+    } else if (props.type === 'return') {
+      configBtnProps('outline-danger', 'arrow-return-left', 'global.navigation.return');
+    } else if (props.type === 'import') {
+      configBtnProps('outline-success', 'arrow-bar-up', 'entity.action.import.title');
+    } else if (props.type === 'export') {
+      configBtnProps('outline-success', 'arrow-bar-down', 'entity.action.import.export');
     }
 
     return {
