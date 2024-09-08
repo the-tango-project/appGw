@@ -25,41 +25,49 @@
       </b-tab>
       <b-tab v-if="!isNavbarOpen" :title-link-class="linkClass(1)">
         <template #title>
-          <b-icon :icon="resolveIcon('info-circle', 1)"></b-icon> {{ $t('archeApp.solucion.seccion.informacion.title') }}</template
+          <b-icon :icon="resolveIcon('info-circle', 1)"></b-icon> {{ $t('archeApp.solucion.seccion.general-data.title') }}</template
         >
+        <general-data v-model="solucion"></general-data>
       </b-tab>
       <b-tab v-if="!isNavbarOpen" class="mt-4" :title-link-class="linkClass(2)">
         <template #title>
           <b-icon :icon="resolveIcon('chat-text', 2)"></b-icon> {{ $t('archeApp.solucion.seccion.mensaje.title') }}
         </template>
+        <messages v-model="solucion"></messages>
       </b-tab>
       <b-tab v-if="!isNavbarOpen" id="tab-parametros-id" class="mt-4" :title-link-class="linkClass(3)">
         <template #title>
           <b-icon :icon="resolveIcon('gear', 3)"></b-icon> {{ $t('archeApp.solucion.seccion.parametros.config') }}
         </template>
+        <configuration v-model="solucion"></configuration>
       </b-tab>
       <b-tab v-if="!isNavbarOpen" id="tab-componentes-id" class="mt-4" :title-link-class="linkClass(4)">
         <template #title>
           <b-icon :icon="resolveIcon('puzzle', 4)"></b-icon> {{ $t('archeApp.solucion.seccion.formularios.title') }}
         </template>
+        <forms v-model="solucion"></forms>
       </b-tab>
       <b-tab v-if="!isNavbarOpen" id="tab-correo-id" class="mt-4" :title-link-class="linkClass(5)">
         <template #title>
           <b-icon :icon="resolveIcon('envelope', 5)"></b-icon> {{ $t('archeApp.solucion.seccion.correo.title') }}
         </template>
+        <email-template v-model="solucion"></email-template>
       </b-tab>
       <b-tab v-if="!isNavbarOpen" id="tab-card-info-id" class="mt-4" :title-link-class="linkClass(6)">
         <template #title>
           <b-icon :icon="resolveIcon('tablet-landscape', 6)"></b-icon> {{ $t('archeApp.solucion.seccion.card.title') }}
         </template>
+        <dashboard v-model="solucion"></dashboard>
       </b-tab>
       <b-tab v-if="!isNavbarOpen" id="tab-autoridades-id" class="mt-4" :title-link-class="linkClass(7)">
         <template #title>
           <b-icon :icon="resolveIcon('person-plus', 7)"></b-icon> {{ $t('archeApp.solucion.seccion.autoridad.title') }}
         </template>
+        <access-control v-model="solucion"></access-control>
       </b-tab>
       <b-tab v-if="!isNavbarOpen" class="mt-4" :title-link-class="linkClass(8)">
         <template #title> <b-icon :icon="resolveIcon('tags', 8)"></b-icon> {{ $t('archeApp.solucion.seccion.versiones.title') }}</template>
+        <change-control v-model="solucion"></change-control>
       </b-tab>
     </b-tabs>
   </div>

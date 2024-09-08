@@ -2,7 +2,7 @@ import { defineComponent, ref, type Ref } from 'vue';
 
 import { Handle, Position, useVueFlow } from '@vue-flow/core';
 import { NodeToolbar } from '@vue-flow/node-toolbar';
-import useSelectOptions from '@/shared/composables/select-options';
+import { useSelectOptions } from '@/shared/composables/use-select-options';
 import { type IOption } from '@/shared/model/ui/option.model';
 
 export default defineComponent({
@@ -39,7 +39,7 @@ export default defineComponent({
       viewport,
     } = useVueFlow();
     const selectOptions = useSelectOptions();
-    const states: Ref<IOption[]> = ref(selectOptions.states());
+    const states: Ref<IOption[]> = ref(selectOptions.stateOptions);
 
     const { updateNodeData } = useVueFlow();
     const toolbarPosition = ref(Position.Right);

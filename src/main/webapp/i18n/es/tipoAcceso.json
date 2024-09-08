@@ -1,0 +1,10 @@
+{
+  "apeironGwApp": {
+    "TipoAcceso": {
+      "null": "",
+      "PUBLICO": "Público",
+      "PRIVADO": "Privado",
+      "ADMINISTRADOR": "Administrador"
+    }
+  }
+}

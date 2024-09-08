@@ -7,6 +7,8 @@ import { TipoAviso } from '@/shared/model/enumerations/tipo-aviso.model';
 import { TipoAccion } from '../model/enumerations/tipo-accion.model';
 import type { IEstado } from '../model/proceso/estado.model';
 import useSolucionUtils from '../solucion/solucion-utils.service';
+import { TipoSolucion } from '../model/enumerations/tipo-solucion.model';
+import { TipoAcceso } from '../model/enumerations/tipo-acceso.model';
 
 // by convention, composable function names start with "use"
 export function useSelectOptions() {
@@ -18,6 +20,15 @@ export function useSelectOptions() {
   const menuOptions = tipoMenu();
   const tipoAvisoOptions = tipoAviso();
   const actionOptions = actions();
+  const tipoSolutionOptions = tipoSolutions();
+  const tipoAccessOptions = tipoAccess();
+
+  function tipoSolutions(): Array<IOption> {
+    return mapKeys('apeironGwApp.TipoSolucion.', TipoSolucion, false, '.simpleName');
+  }
+  function tipoAccess(): Array<IOption> {
+    return mapKeys('apeironGwApp.TipoAcceso.', TipoAcceso);
+  }
 
   function actions(): Array<IOption> {
     return mapKeys('apeironGwApp.TipoAccion.', TipoAccion, true);
@@ -48,9 +59,10 @@ export function useSelectOptions() {
     return mapKeys('apeironGwApp.TipoAviso.', TipoAviso);
   }
 
-  function mapKeys(i18nkey: string, element: any, notInludeHeader?: boolean): Array<IOption> {
+  function mapKeys(i18nkey: string, element: any, notInludeHeader?: boolean, append?: string): Array<IOption> {
     const options = Object.keys(element).map(key => {
-      return new Option(key, t$(i18nkey + key).toString(), i18nkey + key);
+      const keyLang = i18nkey + key + (append ?? '');
+      return new Option(key, t$(keyLang).toString(), keyLang);
     });
     if (!notInludeHeader) {
       options.unshift({
@@ -65,5 +77,14 @@ export function useSelectOptions() {
   }
 
   // expose managed state as return value
-  return { stateOptions, componenteOptions, menuOptions, tipoAvisoOptions, actionOptions, actionByEstateOptions };
+  return {
+    stateOptions,
+    componenteOptions,
+    menuOptions,
+    tipoAvisoOptions,
+    actionOptions,
+    tipoSolutionOptions,
+    tipoAccessOptions,
+    actionByEstateOptions,
+  };
 }

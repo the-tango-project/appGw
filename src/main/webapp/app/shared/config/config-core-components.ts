@@ -23,6 +23,7 @@ import TextEditorComponent from '@/components/editors/text-editor/text-editor.vu
 import AvisoEditableComponent from '@/components/editors/aviso-editable/aviso-editable.vue';
 import MessageComponent from '@/components/message/message.vue';
 import ButtonComponent from '@/components/button/button.vue';
+import tagsComponent from '@/components/fields/tags/tags.vue';
 
 export function initCoreComponents(vue: any) {
   vue.component('core-card-list-skeleton', CardListSkeleton);
@@ -50,4 +51,5 @@ export function initCoreComponents(vue: any) {
   vue.component('core-aviso-editable', AvisoEditableComponent);
   vue.component('core-message', MessageComponent);
   vue.component('core-button', ButtonComponent);
+  vue.component('core-tags', tagsComponent);
 }

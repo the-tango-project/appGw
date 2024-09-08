@@ -15,7 +15,8 @@ import ScriptService from '@/shared/script/script.service';
 //Entity model
 import { Solucion, type ISolucion } from '@/shared/model/solucion.model';
 
-import useSelectOptions from '@/shared/composables/select-options';
+import { useSelectOptions } from '@/shared/composables/use-select-options';
+
 import type { NodeChange } from '@/shared/model/proceso/diagram.model';
 import { NodeChangeType } from '@/shared/model/enumerations/node-change-type.model';
 import { EdgeChangeType } from '@/shared/model/enumerations/edge-change-type.model';
@@ -25,6 +26,14 @@ import { type IStateEditable } from '@/shared/model/proceso/estado.model';
 import useObjectUtils from '@/shared/util/object-utils';
 import { EstadoSolucion } from '@/shared/model/enumerations/estado-solucion.model';
 import VersionComponent from '@/components/process/version/version.vue';
+import GeneralData from './components/general-data/general-data.vue';
+import Messages from './components/messages/messages.vue';
+import AccessControl from './components/access-control/access-control.vue';
+import ChangeControl from './components/change-control/change-control.vue';
+import Configuration from './components/configuration/configuration.vue';
+import Dashboard from './components/dashboard/dashboard.vue';
+import EmailTemplate from './components/email-template/email-template.vue';
+import Forms from './components/forms/forms.vue';
 
 const useValidationRules = (validations: any, t$: any) => {
   return {
@@ -48,6 +57,14 @@ export default defineComponent({
   name: 'SolucionUpdate',
   components: {
     version: VersionComponent,
+    'access-control': AccessControl,
+    'change-control': ChangeControl,
+    configuration: Configuration,
+    dashboard: Dashboard,
+    'email-template': EmailTemplate,
+    forms: Forms,
+    'general-data': GeneralData,
+    messages: Messages,
   },
   setup() {
     //Commons methods
@@ -73,8 +90,8 @@ export default defineComponent({
     const tabIndex: Ref<number> = ref(0);
     const stateToEdit: Ref<IStateEditable | null> = ref(null);
     //SelectOne options
-    const tipoMenuOptions = ref(selectOptions.tipoMenu());
-    const tipoComponentOptions = ref(selectOptions.tipoComponente());
+    const tipoMenuOptions = ref(selectOptions.menuOptions);
+    const tipoComponentOptions = ref(selectOptions.componenteOptions);
 
     //Store configuration
     const sideNavbarStore = useSideNavbarStore();
@@ -183,7 +200,6 @@ export default defineComponent({
           .update(this.solucion)
           .then((param: any) => {
             this.isSaving = false;
-            this.previousState();
             this.alertService.showInfo(this.t$('flowMsApp.flowMsDemoPaginate.updated', { param: param.id }));
           })
           .catch((error: any) => {
@@ -195,7 +211,6 @@ export default defineComponent({
           .create(this.solucion)
           .then((param: any) => {
             this.isSaving = false;
-            this.previousState();
             this.alertService.showSuccess(this.t$('flowMsApp.flowMsDemoPaginate.created', { param: param.id }).toString());
           })
           .catch((error: any) => {

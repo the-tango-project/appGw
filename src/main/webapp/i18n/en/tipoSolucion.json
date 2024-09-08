@@ -1,0 +1,96 @@
+{
+  "apeironGwApp": {
+    "TipoSolucion": {
+      "null": {
+        "simpleName": "",
+        "title": "",
+        "subtitle": "",
+        "desc": ""
+      },
+      "AYUDANTES": {
+        "simpleName": "Ayudantes",
+        "title": "Ayudantes",
+        "subtitle": "Si eres investigador nivel III o emérito del SNI, registra y consulta aquí a tus ayudantes",
+        "desc": "Para realizar el registro de alta, reclasificación o baja de los Ayudantes de Investigador deberá revisar las fechas de apertura de la plataforma, en apego a los <a target='_blank' href='https://conahcyt.mx/wp-content/uploads/convocatorias/sni/convocatorias/2023/Convocatoria_SNII_2023_29-05-23.pdf'>Lineamientos de Ayudantes del Sistema Nacional de Investigadores</a>"
+      },
+      "INGRESO_PERMANENCIA_PROMOCION": {
+        "simpleName": "Ingreso, permanencia, promoción",
+        "title": "Sistema Nacional de Investigadoras(es)",
+        "subtitle": "Registro de solicitudes para la convocatoria de Reconocimiento en el Sistema Nacional de Investigadoras e Investigadores",
+        "desc": "A personas de cualquier nacionalidad que realicen actividades de investigación humanística o científica, o de desarrollo tecnológico o innovación en México, a presentar su solicitud para ingresar, permanecer o promoverse en el Sistema Nacional de Investigadoras e Investigadores (SNII), de conformidad con el Reglamento del Sistema Nacional de Investigadores y las Reglas de Operación del Programa del Sistema Nacional de Investigadores del Consejo Nacional de Ciencia y Tecnologías Pp S191, en términos de las siguientes:"
+      },
+      "EMERITOS": {
+        "simpleName": "Eméritos",
+        "title": "Eméritos",
+        "subtitle": "Convocatoria para investigadora o investigador nacional emérito",
+        "desc": "A personas de cualquier nacionalidad que realicen actividades de investigación humanística o científica, o de desarrollo tecnológico o innovación en universidades, instituciones de educación superior o centros de investigación del sector público en México, a presentar su solicitud para obtener el reconocimiento de Investigadora o Investigador Nacional Emérito, de conformidad con el Reglamento del Sistema Nacional de Investigadoras e Investigadores del Consejo Nacional de Humanidades, Ciencias y Tecnologías publicado en el Diario Oficial de la Federación el 11 de julio de 2023 y las Reglas de Operación del Programa Sistema Nacional de Investigadoras e Investigadores del Consejo Nacional de Humanidades, Ciencias y Tecnologías Pp S191"
+      },
+      "BECAS_NACIONALES": {
+        "simpleName": "Becas nacionales",
+        "title": "Becas nacionales",
+        "subtitle": "Registro de solicitudes para becas nacionales",
+        "desc": "Se convoca a profesionistas de nacionalidad mexicana o extranjera a participar en el proceso de selección para obtener una beca de Posgrado. Las y los interesados deben estar admitidos e inscritos en programas de posgrado registrados y vigentes en la plataforma del Sistema Nacional de Posgrados (SNP), en modalidad presencial y de tiempo completo en Instituciones de Educación Superior y Centros de Investigación en México"
+      },
+      "BECAS_EXTRANJERAS": {
+        "simpleName": "Becas en el extranjero",
+        "title": "Becas en el extranjero",
+        "subtitle": "Registro de becas en el extranjero",
+        "desc": "El Consejo Nacional de Humanidades, Ciencias y Tecnologías formula y financia programas de becas y, en general, brinda apoyo para la formación de investigadores y científicos en sus diversas modalidades, así como también integra la información de los programas de becas que ofrezcan otras instituciones nacionales, organismos internacionales y gobiernos extranjeros, a fin de optimizar los recursos en esta materia y establece esquemas de coordinación, en los términos de las convocatorias que para el efecto se emitan."
+      },
+      "POSDOCTORADO": {
+        "simpleName": "Posdoctorado",
+        "title": "Estancias posdoctorales",
+        "subtitle": "Registro de solicitudes para estancias posdoctorales nacionales",
+        "desc": "Es la participación de doctores experimentados en ciencias así como de reciente egreso, en programas con registro vigente en el Padrón Nacional de Posgrado de Calidad, con un programa específico de trabajo encaminado a fomentar la sinergia que redunde en un beneficio mayor a los esfuerzos individuales. ​ Vincular a los doctores en ciencias al sector académico y de investigación para fortalecer las líneas de generación y/o aplicación al conocimiento, así como la docencia de los programas de posgrado nacionales."
+      },
+      "CUENTAS_BANCARIAS": {
+        "simpleName": "Cuentas bancarias",
+        "title": "Registro de Cuenta Bancaria",
+        "subtitle": "Ingresa aquí para registrar tu cuenta bancaria",
+        "desc": "Es el registro de cuenta bancaria de los beneficiarios de un programa del Conahcyt"
+      },
+      "ACREDITACIONES": {
+        "simpleName": "Acreditaciones",
+        "title": "Acreditaciones del SNII",
+        "subtitle": "¿Cambió tu situación laboral? Notifícalo oportunamente al Sistema Nacional de Investigadores (SNII) aquí.",
+        "desc": "Notifica al Sistema Nacional de Investigadores (SNII) algún cambio de situación laboral, contractual o académica"
+      },
+      "ACREDITACIONES_SIN_INST": {
+        "simpleName": "Acreditaciones sin institución",
+        "title": "Acreditaciones del SNII sin institución",
+        "subtitle": "¿Cambió tu situación laboral? Notifícalo oportunamente al Sistema Nacional de Investigadores (SNII) aquí.",
+        "desc": "No tienes una institución y necesitas notificar al Sistema Nacional de Investigadores (SNII) algún cambio de situación laboral, contractual o académica, entonces inicia tu trámite aquí"
+      },
+      "INSTITUCIONES": {
+        "simpleName": "Instituciones",
+        "title": "Instituciones",
+        "subtitle": "¿Cambió autoridad? Notifícalo oportunamente al Sistema Nacional de Investigadores (SNII) aquí.",
+        "desc": "Administrar instituciones con sus autoridades"
+      },
+      "ACREDITACIONES_PROGRAMAS": {
+        "simpleName": "Acreditaciones de Programas",
+        "title": "Acreditaciones del SNII de programas",
+        "subtitle": "¿Cambió tu situación laboral? Notifícalo oportunamente al Sistema Nacional de Investigadores (SNII) aquí.",
+        "desc": "No tienes una institución y necesitas notificar al Sistema Nacional de Investigadores (SNII) algún cambio de situación laboral, contractual o académica, entonces inicia tu trámite aquí"
+      },
+      "REGISTRO_MATRICULA_SNP": {
+        "simpleName": "Registro de matricula SNP",
+        "title": "Sistema nacional de posgrado (SNP)",
+        "subtitle": "Registra aquí la matrícula de estudiantes asociada a un programa de posgrado",
+        "desc": "Los posgrados acreditados en el Sistema Nacional de Posgrados (SNP) deberán registrar la lista de los y las estudiantes admitidas e inscritas en los programas que actualmente cuentan con beca de manutención y la lista de las y los que postularán a una beca del Conahcyt."
+      },
+      "POSGRADO_NACIONAL": {
+        "simpleName": "Sistema Nacional de Posgrados",
+        "title": "Sistema nacional de posgrado (SNP)",
+        "subtitle": "Actualiza los programas de posgrados asociados a tu institución",
+        "desc": "Aquí aparecen las convocatorias para actualizar los programas de posgrados asociados al SNP"
+      },
+      "MOVIMIENTOS_SITUACION": {
+        "simpleName": "Movimientos de situación",
+        "title": "Movimientos de situación en el SNII",
+        "subtitle": "Registra y actualiza la situación de un investigador SNII",
+        "desc": "Aquí aparecen los trámites para modificar la situación de un investigador SNII"
+      }
+    }
+  }
+}

@@ -9,8 +9,9 @@
         "notFound": "Ningún Solucions encontrado"
       },
       "seccion": {
-        "informacion": {
-          "title": "Información"
+        "general-data": {
+          "title": "Datos generales",
+          "tags": "Etiquetas"
         },
         "mensaje": {
           "title": "Mensajes",
