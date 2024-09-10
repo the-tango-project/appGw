@@ -24,6 +24,7 @@ import AvisoEditableComponent from '@/components/editors/aviso-editable/aviso-ed
 import MessageComponent from '@/components/message/message.vue';
 import ButtonComponent from '@/components/button/button.vue';
 import tagsComponent from '@/components/fields/tags/tags.vue';
+import DateTimePickerComponent from '@/components/fields/date-time-picker/date-time-picker.vue';
 
 export function initCoreComponents(vue: any) {
   vue.component('core-card-list-skeleton', CardListSkeleton);
@@ -52,4 +53,5 @@ export function initCoreComponents(vue: any) {
   vue.component('core-message', MessageComponent);
   vue.component('core-button', ButtonComponent);
   vue.component('core-tags', tagsComponent);
+  vue.component('core-date-time-picker', DateTimePickerComponent);
 }

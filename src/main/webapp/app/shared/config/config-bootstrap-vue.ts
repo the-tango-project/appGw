@@ -22,6 +22,7 @@ import {
   BModal,
   VBModal,
   BFormDatepicker,
+  BFormTimepicker,
   BInputGroup,
   BInputGroupPrepend,
   ToastPlugin,
@@ -119,6 +120,7 @@ export function initBootstrapVue(vue: any) {
   vue.component('b-modal', BModal);
   vue.directive('b-modal', VBModal);
   vue.component('b-form-datepicker', BFormDatepicker);
+  vue.component('b-form-timepicker', BFormTimepicker);
   vue.component('b-input-group', BInputGroup);
   vue.component('b-input-group-prepend', BInputGroupPrepend);
   vue.component('b-form-checkbox-group', BFormCheckboxGroup);
