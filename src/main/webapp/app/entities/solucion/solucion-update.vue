@@ -15,7 +15,7 @@
       </div>
     </b-col>
   </b-row>
-  <div v-if="solucion.proceso?.estados?.length != undefined">
+  <div v-if="solucion.proceso?.estados?.length != undefined && !isFetching">
     <b-tabs v-model="tabIndex">
       <b-tab :title-link-class="linkClass(0)" active>
         <template #title>
@@ -84,7 +84,7 @@
       <b-tab v-if="!isNavbarOpen" class="mt-4" :title-link-class="linkClass(8)">
         <template #title> <b-icon :icon="resolveIcon('tags', 8)"></b-icon> {{ $t('archeApp.solucion.seccion.versiones.title') }}</template>
         <b-card class="shadow border-dark">
-          <change-control v-model="solucion"></change-control>
+          <change-control :new="solucion" :old="currentPublishedSolution"></change-control>
         </b-card>
       </b-tab>
     </b-tabs>

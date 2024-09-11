@@ -85,7 +85,11 @@ export default defineComponent({
 
     //Common properties
     const solucion: Ref<ISolucion> = ref(new Solucion());
+    const currentPublishedSolution: Ref<ISolucion> = ref(new Solucion());
+
     const isSaving: Ref<boolean> = ref(false);
+    const isFetching: Ref<boolean> = ref(false);
+
     const isImporting: Ref<boolean> = ref(false);
     const tabIndex: Ref<number> = ref(0);
     const stateToEdit: Ref<IStateEditable | null> = ref(null);
@@ -99,10 +103,21 @@ export default defineComponent({
 
     // Method definition
     const retriveById = async (solucionId: any) => {
+      isFetching.value = true;
       try {
         const res: ISolucion = await solucionService().findByLastEdited(solucionId);
         solucion.value = res;
-        solutionStore.initContext(solucion.value);
+        isFetching.value = false;
+        solutionStore.initContext(objectUtils.clone(solucion.value));
+      } catch (error: any) {
+        alertService.showHttpError(error.response);
+      }
+    };
+
+    const retriveLastPublishedById = async (solucionId: any) => {
+      try {
+        const res: ISolucion = await solucionService().find(solucionId);
+        currentPublishedSolution.value = res;
       } catch (error: any) {
         alertService.showHttpError(error.response);
       }
@@ -110,6 +125,7 @@ export default defineComponent({
 
     if (route.params?.solucionId) {
       retriveById(route.params.solucionId);
+      retriveLastPublishedById(route.params.solucionId);
     }
 
     //Validation configuration
@@ -149,9 +165,11 @@ export default defineComponent({
       ...dateFormat,
       ...dataUtils,
       solucion,
+      currentPublishedSolution,
       isSaving,
       tabIndex,
       isImporting,
+      isFetching,
       t$,
       v$,
       router,

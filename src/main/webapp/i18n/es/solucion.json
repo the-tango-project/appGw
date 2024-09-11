@@ -77,7 +77,7 @@
         "versiones": {
           "title": "Control de cambios",
           "nochanges": "No hay cambios",
-          "last": "La última versión publicada es la <strong> {{ version }} </strong>",
+          "last": "La última versión publicada es la <strong> { version } </strong>",
           "footer": "Sistema de versionamiento de soluciones"
         },
         "preview": {

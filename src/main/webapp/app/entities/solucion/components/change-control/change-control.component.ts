@@ -8,22 +8,26 @@ export default defineComponent({
     'code-diff': CodeDiff,
   },
   props: {
-    modelValue: {
+    old: {
       type: Object,
+      required: true,
+    },
+    new: {
+      type: Object,
+      required: true,
     },
   },
   setup(props, { emit }) {
-    const solution = computed({
-      get: () => props.modelValue,
-      set: value => emit('update:modelValue', value),
-    });
-    const oldSolucion = ref(JSON.stringify(solution.value, null, 3));
-    const newSolucion = ref(JSON.stringify(solution.value, null, 3));
+    const solution = computed(() => props.new);
+    const oldSolucion = computed(() => JSON.stringify(props.old, null, 3));
+    const newSolucion = computed(() => JSON.stringify(props.new, null, 3));
+    const hasChange = computed(() => oldSolucion.value != newSolucion.value);
 
     return {
+      solution,
       oldSolucion,
       newSolucion,
-      solution,
+      hasChange,
     };
   },
 });

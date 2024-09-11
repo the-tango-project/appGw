@@ -77,7 +77,7 @@
         "versiones": {
           "title": "Version control",
           "nochanges": "No changes",
-          "last": "The las publish version is {{ version }} </strong>",
+          "last": "The las publish version is { version } </strong>",
           "footer": "Control version sistem for solutions"
         },
         "preview": {
