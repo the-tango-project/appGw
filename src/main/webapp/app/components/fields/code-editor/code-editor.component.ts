@@ -1,9 +1,8 @@
-import { computed, defineComponent, inject, ref, type Ref, defineModel, onMounted, onUnmounted } from 'vue';
+import { computed, defineComponent, ref, onMounted, onUnmounted } from 'vue';
 import { useCoreProps } from '@/composables/coreProps';
 const { coreProps } = useCoreProps();
 import type { CmComponentRef } from 'codemirror-editor-vue3';
 import type { Editor, EditorConfiguration } from 'codemirror';
-import { required } from '@vuelidate/validators';
 
 import 'codemirror/lib/codemirror.css';
 export default defineComponent({

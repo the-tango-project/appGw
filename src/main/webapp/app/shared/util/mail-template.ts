@@ -7,7 +7,7 @@ export class MailTemplate {
   <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
     <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Notificación CONAHCYT</title>
+      <title>Notificación Ápeiron</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet" />
       <style>
@@ -65,7 +65,7 @@ export class MailTemplate {
                 <caption></caption>
                 <tbody>
                   <tr>
-                    <th>Rizoma <span> · </span> 2023</th>
+                    <th>Ápeiron <span> · </span> 2024</th>
                   </tr>
                 </tbody>
               </table>
@@ -94,7 +94,7 @@ export class MailTemplate {
                                 <span>Saludos cordiales.</span>
                                 <p>Atentamente</p>
 
-                                <p style="color: #000; font-weight: bold">Consejo Nacional de Humanidades Ciencias y Tecnología</p>
+                                <p style="color: #000; font-weight: bold">Ápeiron tecnology</p>
                               </td>
                             </tr>
                           </tbody>
