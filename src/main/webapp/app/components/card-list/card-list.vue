@@ -2,7 +2,12 @@
   <div>
     <div v-if="items && items.length > 0" class="form-group">
       <h3 class="m-h3" v-if="title">{{ title }}</h3>
-      <b-card v-for="item in items" v-bind:key="item.id" class="mb-4" :bg-variant="isEditable(item) ? '' : 'light'">
+      <b-card
+        v-for="item in items"
+        v-bind:key="item.id"
+        class="mb-4 shadow rounded border-dark"
+        :bg-variant="isEditable(item) ? '' : 'light'"
+      >
         <b-row>
           <b-col col lg="1" class="center-felx card-contacto">
             <b-icon variant="secondary" :icon="item.icon" font-scale="3"></b-icon>

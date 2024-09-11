@@ -1,5 +1,5 @@
 <template>
-  <b-card v-if="solution">
+  <div v-if="solution">
     <b-form-group label-cols="2" :label="$t('archeApp.solucion.seccion.mensaje.bienvenida.solicitante')">
       <core-text-editor id="mensaje-bienvenida-solicitante" v-model="solution.mensaje.bienvenida"></core-text-editor>
     </b-form-group>
@@ -12,7 +12,7 @@
     <b-form-group class="mt-5 mb-5" label-cols="2" :label="$t('archeApp.solucion.seccion.mensaje.bienvenida.operador')">
       <core-text-editor id="mensaje-bienvenida-operador" v-model="solution.mensaje.bienvenidaOperador"></core-text-editor>
     </b-form-group>
-  </b-card>
+  </div>
 </template>
 
 <script lang="ts" src="./messages.component.ts"></script>

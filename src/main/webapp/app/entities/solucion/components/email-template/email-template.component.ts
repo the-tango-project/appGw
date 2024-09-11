@@ -11,6 +11,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const codeFormKey = ref(0);
+    const editHtml = ref(false);
 
     const solution = computed({
       get: () => props.modelValue,
@@ -19,6 +20,7 @@ export default defineComponent({
     return {
       solution,
       codeFormKey,
+      editHtml,
     };
   },
   methods: {
@@ -27,6 +29,7 @@ export default defineComponent({
         this.solution.mailTemplate = MailTemplate.TEMPLATE;
       }
       this.codeFormKey += 1;
+      this.editHtml = !this.editHtml;
     },
   },
 });
