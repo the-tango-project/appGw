@@ -83,3 +83,15 @@ export function formatAndValidateDate(date: any) {
 export function stringDateInUtcComparator(leftDateString: any, rightDateString: any) {
   return new Date(leftDateString).getTime() - new Date(rightDateString).getTime();
 }
+
+export function convertDateTimeFromServer(date: Date): string | null {
+  return date && dayjs(date).isValid() ? dayjs(date).format(DATE_TIME_LONG_FORMAT) : null;
+}
+
+export function updateInstantField(dateField: Date | null): string | null {
+  if (dateField) {
+    return dayjs(dateField).utc().format();
+  } else {
+    return null;
+  }
+}

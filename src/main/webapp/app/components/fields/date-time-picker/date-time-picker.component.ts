@@ -1,6 +1,7 @@
 import { computed, defineComponent, ref } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
+import * as dateUtils from '@/shared/date/date-utils';
 
 export default defineComponent({
   compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
@@ -10,7 +11,7 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: Date,
+      type: String,
       required: true,
     },
     label: {
@@ -27,18 +28,31 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const date = ref(null);
-    const dateTime = computed({
-      get: () => props.modelValue,
+    const originalDateTime = computed(() => props.modelValue);
+    const dateTime = computed<Date | null>({
+      get: () => new Date(props.modelValue),
       set: value => {
-        emit('update:modelValue', value);
+        emit('update:modelValue', dateUtils.updateInstantField(value));
         emit('change', value);
       },
     });
 
     return {
+      originalDateTime,
       dateTime,
-      date,
+      dateUtils,
     };
+  },
+  methods: {
+    convertDateTimeFromServer(dateTimeFromServer: any) {
+      return this.dateUtils.convertDateTimeFromServer(dateTimeFromServer);
+    },
+    updateInstantField(event: any): void {
+      if (event.target?.value) {
+        this.dateTime = event.target.value;
+      } else {
+        this.dateTime = null;
+      }
+    },
   },
 });
