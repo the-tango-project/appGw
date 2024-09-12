@@ -15,15 +15,14 @@
       </div>
     </b-col>
   </b-row>
-  <div v-if="solucion.proceso?.estados?.length != undefined && !isFetching">
+  <core-tabs-skeleton v-show="isFetching"></core-tabs-skeleton>
+  <div v-show="!isFetching" v-if="solucion.proceso?.estados?.length != undefined">
     <b-tabs v-model="tabIndex">
-      <b-tab :title-link-class="linkClass(0)" active>
+      <b-tab :title-link-class="linkClass(0)">
         <template #title>
           <b-icon :icon="resolveIcon('diagram3', 0)"></b-icon> {{ $t('archeApp.solucion.seccion.proceso.title') }}
         </template>
-        <div class="shadow border-dark">
-          <core-flow v-model="solucion.proceso" @update:node="nodeChangeHandler" @update:edge="edgeChangeHandler"></core-flow>
-        </div>
+        <core-flow ref="coreFlow" v-model="solucion.proceso" @update:node="nodeChangeHandler" @update:edge="edgeChangeHandler"></core-flow>
       </b-tab>
       <b-tab v-if="!isNavbarOpen" :title-link-class="linkClass(1)">
         <template #title>

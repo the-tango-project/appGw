@@ -69,6 +69,7 @@ export default defineComponent({
   setup() {
     //Commons methods
     const { t: t$ } = useI18n();
+    const coreFlow = ref<any>(null);
     const selectOptions = useSelectOptions();
     const validations = useValidation();
     const validationRules = useValidationRules(validations, t$);
@@ -109,6 +110,8 @@ export default defineComponent({
         solucion.value = res;
         isFetching.value = false;
         solutionStore.initContext(objectUtils.clone(solucion.value));
+        //Dirty fix to fit the flow view after loading
+        setTimeout(() => coreFlow.value.fitViewHandler(), 100);
       } catch (error: any) {
         alertService.showHttpError(error.response);
       }
@@ -183,6 +186,7 @@ export default defineComponent({
       objectUtils,
       isArchivada,
       isNavbarOpen,
+      coreFlow,
     };
   },
   methods: {
@@ -297,6 +301,9 @@ export default defineComponent({
     },
     doubleClickEdgeHandler(change: any) {
       console.log('doubleClickEdgeHandler');
+    },
+    fitViewHandler() {
+      this.coreFlow.fitViewHandler();
     },
   },
 });

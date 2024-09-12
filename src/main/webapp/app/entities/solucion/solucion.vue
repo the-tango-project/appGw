@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 id="page-heading" data-cy="SolucionHeading">
+    <h2 id="page-heading" data-cy="SolucionHeading" class="mb-5">
       <span v-text="$t('archeApp.solucion.home.title')" id="solucion-heading"></span>
       <div class="d-flex justify-content-end">
         <router-link :to="{ name: 'SolucionCreate' }" custom v-slot="{ navigate }">
@@ -18,10 +18,15 @@
         </router-link>
       </div>
     </h2>
-    <br />
-    <core-card-list :items="solucionsCards"></core-card-list>
-    <span ref="infiniteScrollEl"></span>
-    <core-card-list-skeleton v-if="isFetching"></core-card-list-skeleton>
+    <div class="row">
+      <div class="col"></div>
+      <div class="col-10">
+        <core-card-list class="m-8" :items="solucionsCards" :show="!isFetching"></core-card-list>
+        <span ref="infiniteScrollEl"></span>
+        <core-card-list-skeleton v-if="isFetching"></core-card-list-skeleton>
+      </div>
+      <div class="col"></div>
+    </div>
   </div>
 </template>
 

@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div v-if="show">
     <div v-if="items && items.length > 0" class="form-group">
       <h3 class="m-h3" v-if="title">{{ title }}</h3>
       <b-card
         v-for="item in items"
         v-bind:key="item.id"
-        class="mb-4 shadow rounded border-dark"
+        class="mb-4 pr-3 shadow rounded border-dark"
         :bg-variant="isEditable(item) ? '' : 'light'"
       >
         <b-row>
