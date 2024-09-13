@@ -122,12 +122,14 @@
       "open": "Abrir",
       "save": "Guardar",
       "view": "Vista",
+      "search": "Buscar",
       "show": "Show { otherEntity }",
       "confirm": "Confirmar",
       "clone": "Clonar",
       "import": "Importar",
       "export": "Exportar",
-      "preview": "Vista previa"
+      "preview": "Vista previa",
+      "loading": "Cargando..."
     },
     "detail": {
       "field": "Campo",
@@ -150,9 +152,13 @@
       "datetimelocal": "Este campo debe ser una fecha y hora."
     },
     "filters": {
-      "set": "Following filters are set",
-      "clear": "Clear filter",
-      "clearAll": "Clear all filters"
+      "set": "Los siguientes filtros están configurados",
+      "clear": "Limpiar filtro",
+      "clearAll": "Limpiar todos los filtros"
+    },
+    "info": {
+      "no-data": "No hay registros",
+      "not-found": "Registro no encontrado"
     }
   },
   "error": {

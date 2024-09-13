@@ -14,10 +14,12 @@
     :size="size"
     :title="title"
   >
-    <div class="text-center">
-      <p v-html="question"></p>
+    <div v-if="!noquestion" class="mb-5 text-center">
+      <h3 v-text="question"></h3>
     </div>
-    <slot></slot>
+    <div class="text-center">
+      <slot></slot>
+    </div>
     <b-form-checkbox v-if="check" v-model="accept" name="terminos-condiciones" size="lg" class="text-center">
       {{ checkMessage }}
     </b-form-checkbox>

@@ -122,12 +122,14 @@
       "open": "Open",
       "save": "Save",
       "view": "View",
+      "search": "Search",
       "show": "Show { otherEntity }",
       "confirm": "Confirmar",
       "clone": "Clone",
       "import": "Import",
       "export": "Export",
-      "preview": "Show preview"
+      "preview": "Show preview",
+      "loading": "Loading..."
     },
     "detail": {
       "field": "Field",
@@ -154,6 +156,10 @@
       "set": "Following filters are set",
       "clear": "Clear filter",
       "clearAll": "Clear all filters"
+    },
+    "info": {
+      "no-data": "There are no records",
+      "not-found": "Register not found"
     }
   },
   "error": {

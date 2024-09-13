@@ -17,10 +17,13 @@ export default defineComponent({
       type: String,
       default: null,
     },
-
     notext: {
       type: Boolean,
       default: false,
+    },
+    size: {
+      type: String,
+      default: null,
     },
   },
   setup(props, { emit }) {
@@ -44,6 +47,10 @@ export default defineComponent({
       configBtnProps('outline-success', 'arrow-bar-up', 'entity.action.import.title');
     } else if (props.type === 'export') {
       configBtnProps('outline-success', 'arrow-bar-down', 'entity.action.import.export');
+    } else if (props.type === 'delete') {
+      configBtnProps('outline-danger', 'x-circle', 'entity.action.delete');
+    } else if (props.type === 'edit') {
+      configBtnProps('outline-secondary', 'pencil', 'entity.action.edit');
     }
 
     return {

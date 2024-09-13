@@ -15,7 +15,7 @@ export default defineComponent({
     question: {
       type: String,
       default: () => {
-        return '<h3>' + useI18n().t('global.messages.info.confirm.question') + '</h3>';
+        return useI18n().t('global.messages.info.confirm.question');
       },
     },
     check: {
@@ -48,6 +48,14 @@ export default defineComponent({
       type: String,
       default: 'primary',
     },
+    noquestion: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, ctx) {
     const confirmationModal = ref<any>(null);
@@ -71,6 +79,9 @@ export default defineComponent({
     };
 
     const isDisabled = computed(() => {
+      if (props.disabled) {
+        return true;
+      }
       if (props.addComentario && comentario.value.length < 10) {
         return true;
       }

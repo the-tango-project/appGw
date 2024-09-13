@@ -69,6 +69,7 @@
           "title": "Authorities",
           "noAuthorities": "No assigned authorities",
           "subtitle": "Add authorities for this solution",
+          "searchPlaceholder": "Insert the autority id",
           "action": {
             "assign": "Assign authority"
           },

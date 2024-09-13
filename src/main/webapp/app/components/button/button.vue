@@ -1,5 +1,5 @@
 <template>
-  <b-button class="shadow d-inline-block border-0" :variant="variant" @click="clickHandler">
+  <b-button class="shadow d-inline-block border-0" :variant="variant" @click="clickHandler" :size="size">
     <b-icon v-if="icon" :icon="icon" :class="{ 'mr-1': !notext }"></b-icon>
     <span v-if="!notext" v-text="$t(i18nKeyText)"></span>
   </b-button>

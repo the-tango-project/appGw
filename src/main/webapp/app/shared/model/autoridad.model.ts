@@ -2,6 +2,7 @@ import { RolAutoridad } from '@/shared/model/enumerations/rol-autoridad.model';
 
 export interface IAutoridad {
   usuarioId?: string | null;
+  login?: string | null;
   nombre?: string | null;
   apellidoMaterno?: string | null;
   apellidoPaterno?: string | null;
@@ -12,6 +13,7 @@ export interface IAutoridad {
 export class Autoridad implements IAutoridad {
   constructor(
     public usuarioId?: string,
+    public login?: string,
     public nombre?: string,
     public apellidoMaterno?: string | null,
     public apellidoPaterno?: string | null,

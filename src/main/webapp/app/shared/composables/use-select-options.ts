@@ -9,6 +9,7 @@ import type { IEstado } from '../model/proceso/estado.model';
 import useSolucionUtils from '../solucion/solucion-utils.service';
 import { TipoSolucion } from '../model/enumerations/tipo-solucion.model';
 import { TipoAcceso } from '../model/enumerations/tipo-acceso.model';
+import { RolAutoridad } from '../model/enumerations/rol-autoridad.model';
 
 // by convention, composable function names start with "use"
 export function useSelectOptions() {
@@ -22,12 +23,17 @@ export function useSelectOptions() {
   const actionOptions = actions();
   const tipoSolutionOptions = tipoSolutions();
   const tipoAccessOptions = tipoAccess();
+  const authorityOptions = authorities();
 
   function tipoSolutions(): Array<IOption> {
     return mapKeys('apeironGwApp.TipoSolucion.', TipoSolucion, false, '.simpleName');
   }
   function tipoAccess(): Array<IOption> {
     return mapKeys('apeironGwApp.TipoAcceso.', TipoAcceso);
+  }
+
+  function authorities(): Array<IOption> {
+    return mapKeys('apeironGwApp.RolAutoridad.', RolAutoridad, true);
   }
 
   function actions(): Array<IOption> {
@@ -85,6 +91,7 @@ export function useSelectOptions() {
     actionOptions,
     tipoSolutionOptions,
     tipoAccessOptions,
+    authorityOptions,
     actionByEstateOptions,
   };
 }

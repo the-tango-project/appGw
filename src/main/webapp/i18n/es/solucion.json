@@ -69,6 +69,7 @@
           "title": "Autoridades",
           "noAuthorities": "No hay autoridades asignadas",
           "subtitle": "Registro y modificación de autoridades para la solución",
+          "searchPlaceholder": "Ingrese el id de usuario para buscar",
           "action": {
             "assign": "Asignar autoridad"
           },
