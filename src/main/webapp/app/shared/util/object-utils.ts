@@ -5,7 +5,7 @@ const useObjectUtils = () => ({
   /**
    * Clone an object
    */
-  clone(object: Object): Object {
+  clone(object: Object | any): Object {
     return JSON.parse(JSON.stringify(object));
   },
 });

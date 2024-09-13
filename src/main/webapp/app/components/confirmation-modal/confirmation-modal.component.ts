@@ -34,7 +34,7 @@ export default defineComponent({
     },
     scrollable: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     size: {
       type: String,

@@ -1,12 +1,26 @@
 <template>
   <div v-if="solution">
-    <div class="d-flex justify-content-end mb-3">
-      <b-button class="mr-2" variant="primary" @click="openAddAutoridadModalHandler">
-        <b-icon icon="plus"></b-icon>
-        <span>{{ $t('entity.action.add') }}</span>
-      </b-button>
-    </div>
-    <b-table :items="solution.autoridades" :fields="fields" show-empty :busy="busy" head-variant="dark">
+    <b-row>
+      <b-col>
+        <b-form-group label="Filter" label-for="filter-input" label-cols-sm="3" label-align-sm="right" label-size="sm" class="mb-0">
+          <b-input-group size="sm">
+            <b-form-input id="filter-input" v-model="filter" type="search" placeholder="Type to Search"></b-form-input>
+
+            <b-input-group-append>
+              <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+            </b-input-group-append>
+          </b-input-group>
+        </b-form-group>
+      </b-col>
+      <b-col class="d-flex justify-content-end mb-3">
+        <b-button class="mr-2" variant="primary" @click="prepareAddHandler">
+          <b-icon icon="plus"></b-icon>
+          <span>{{ $t('entity.action.add') }}</span>
+        </b-button>
+      </b-col>
+    </b-row>
+
+    <b-table :items="solution.autoridades" :fields="fields" show-empty :busy="busy" head-variant="dark" :filter="filter">
       <template #table-busy>
         <div class="text-center text-danger my-2">
           <b-spinner class="align-middle"></b-spinner>
@@ -22,14 +36,18 @@
         </b-badge>
       </template>
       <template #cell(acciones)="row">
-        <core-button type="edit" size="sm" @click="prepareToRemoveHandler(row.item)" class="mr-2"></core-button>
-        <core-button type="delete" size="sm" @click="prepareToRemoveHandler(row.item)"></core-button>
+        <core-button type="edit" size="sm" @click="prepareToEditHandler(row.item)" class="mr-2"></core-button>
+        <core-button type="delete" size="sm" @click="prepareToDeleteHandler(row.item)"></core-button>
       </template>
     </b-table>
 
-    <core-confirmation-modal ref="addAuthorityModal" noquestion :disabled="!isAuthorityCorrect" @confirmed="addUserHandler">
+    <core-confirmation-modal ref="deleteAuthorityModal" @confirmed="deleteUserHandler">
+      <authority-details v-model="autorityToEdit" no-roles></authority-details>
+    </core-confirmation-modal>
+
+    <core-confirmation-modal ref="addOrUpdateAuthorityModal" noquestion :disabled="!isAuthorityCorrect" @confirmed="addUserHandler">
       <div v-if="autorityToEdit">
-        <b-form-group v-if="autorityToEdit" class="text-center" id="componente-add-autoridad" size="sm">
+        <b-form-group v-if="autorityToEdit && showSearcher" class="text-center" id="componente-add-autoridad" size="sm">
           <b-input-group class="mt-3">
             <b-form-input
               :disabled="isFetching"
@@ -51,31 +69,8 @@
             <strong>{{ autorityToEdit.login }}</strong></b-alert
           >
         </b-form-group>
-        <b-card v-if="autorityToEdit.usuarioId" class="pr-3 shadow rounded border-dark">
-          <div class="row">
-            <div class="col-2 text-left">
-              <strong>{{ $t('global.field.id') }}</strong>
-            </div>
-            <div class="col text-left">{{ autorityToEdit.usuarioId }}</div>
-          </div>
-          <div class="row">
-            <div class="col-2 text-left">
-              <strong>{{ $t('userManagement.firstName') }}</strong>
-            </div>
-            <div class="col text-left">{{ (autorityToEdit.nombre ?? '') + ' ' + (autorityToEdit.apellidoPaterno ?? '') }}</div>
-          </div>
-          <div class="row">
-            <div class="col-2 text-left">
-              <strong>{{ $t('userManagement.login') }}</strong>
-            </div>
-            <div class="col text-left">{{ autorityToEdit.login }}</div>
-          </div>
-        </b-card>
-        <b-card v-if="autorityToEdit.usuarioId" class="mt-3 shadow rounded border-dark">
-          <b-form-group id="componente-add-roles" size="sm" label="Roles" label-for="add-roles" class="text-left">
-            <b-form-checkbox-group id="add-roles" v-model="autorityToEdit.roles" :options="authorityOptions"></b-form-checkbox-group>
-          </b-form-group>
-        </b-card>
+
+        <authority-details v-if="autorityToEdit.usuarioId" v-model="autorityToEdit"></authority-details>
       </div>
     </core-confirmation-modal>
   </div>

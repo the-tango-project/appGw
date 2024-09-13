@@ -1,7 +1,6 @@
 <template>
   <b-modal
     ref="confirmationModal"
-    id="confirmationModal"
     :scrollable="scrollable"
     no-close-on-esc
     no-close-on-backdrop

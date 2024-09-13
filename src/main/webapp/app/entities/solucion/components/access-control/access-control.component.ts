@@ -2,10 +2,13 @@ import { computed, defineComponent, ref, type Ref, inject } from 'vue';
 import { Autoridad, type IAutoridad } from '@/shared/model/autoridad.model';
 import UserManagementService from '@/admin/user-management/user-management.service';
 import { useSelectOptions } from '@/shared/composables/use-select-options';
+import AuthorityDetails from './components/authority-details.vue';
+import useObjectUtils from '@/shared/util/object-utils';
 
 export default defineComponent({
   compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
   name: 'AccessControl',
+  components: { 'authority-details': AuthorityDetails },
   props: {
     modelValue: {
       type: Object,
@@ -13,11 +16,18 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const userManagementService = inject('userManagementService', () => new UserManagementService(), true);
-    const fields = ['cvu', 'usuarioId', 'nombre', 'roles', 'acciones'];
+    const fields = ['usuarioId', 'nombre', 'login', 'roles', 'acciones'];
     const busy = ref(false);
     const authorityOptions = useSelectOptions().authorityOptions;
+    const objectUtils = useObjectUtils();
 
-    const addAuthorityModal = ref<any>(null);
+    const addOrUpdateAuthorityModal = ref<any>(null);
+    const deleteAuthorityModal = ref<any>(null);
+    const filter: Ref<string> = ref(null);
+
+    const showSearcher: Ref<boolean> = ref(true);
+    const addAuthority: Ref<boolean> = ref(false);
+
     const loginToFind: Ref<string | null> = ref(null);
     const autorityToEdit: Ref<Autoridad | null> = ref(new Autoridad());
     const isFetching: Ref<boolean> = ref(false);
@@ -32,11 +42,13 @@ export default defineComponent({
       set: value => emit('update:modelValue', value),
     });
     return {
+      filter,
       solution,
       fields,
       busy,
       autorityToEdit,
-      addAuthorityModal,
+      addOrUpdateAuthorityModal,
+      deleteAuthorityModal,
       isFetching,
       userNotFound,
       userManagementService,
@@ -44,21 +56,33 @@ export default defineComponent({
       isAuthorityCorrect,
       userAlreadyInList,
       loginToFind,
+      showSearcher,
+      objectUtils,
+      addAuthority,
     };
   },
   methods: {
     isRemovable(autoridad: Autoridad): boolean {
       return true;
     },
-    prepareToRemoveHandler(autoridad: Autoridad): void {
+    prepareAddHandler(): void {
+      this.clear();
+      this.initAddOrEdit(new Autoridad());
+    },
+    prepareToEditHandler(autoridad: Autoridad): void {
+      this.showSearcher = false;
+      this.addAuthority = false;
+      this.initAddOrEdit(this.objectUtils.clone(autoridad));
+    },
+    initAddOrEdit(autoridad: Autoridad | null): void {
       this.userAlreadyInList = false;
       this.autorityToEdit = autoridad;
-      this.addAuthorityModal.show();
+      this.addOrUpdateAuthorityModal.show();
     },
-    openAddAutoridadModalHandler(): void {
-      this.clear();
-      this.loginToFind = null;
-      this.addAuthorityModal.show();
+    prepareToDeleteHandler(autoridad: Autoridad): void {
+      this.userAlreadyInList = false;
+      this.autorityToEdit = autoridad;
+      this.deleteAuthorityModal.show();
     },
     findAuthorityHandler(): void {
       this.clear();
@@ -89,8 +113,24 @@ export default defineComponent({
       }
     },
     addUserHandler(): void {
-      if (this.solution?.autoridades) {
-        this.solution.autoridades.push(this.autorityToEdit);
+      if (this.addAuthority) {
+        if (this.solution?.autoridades) {
+          this.solution.autoridades.push(this.autorityToEdit);
+        }
+      } else if (this.solution) {
+        const authorityIndex = this.findAuthorityIndexByLogin(this.autorityToEdit?.login);
+        this.solution.autoridades[authorityIndex] = this.objectUtils.clone(this.autorityToEdit);
+      }
+    },
+    deleteUserHandler(): void {
+      if (this.solution) {
+        const authorityIndex = this.findAuthorityIndexByLogin(this.autorityToEdit?.login);
+        this.solution.autoridades.splice(authorityIndex, 1);
+      }
+    },
+    findAuthorityIndexByLogin(login: string | null | undefined) {
+      if (this.solution) {
+        return this.solution.autoridades.findIndex((authority: IAutoridad) => authority.login === login);
       }
     },
     isUserInAuthorities(login: string): boolean {
@@ -109,6 +149,8 @@ export default defineComponent({
       this.userNotFound = false;
       this.userAlreadyInList = false;
       this.isFetching = false;
+      this.showSearcher = true;
+      this.addAuthority = true;
     },
   },
 });
