@@ -15,6 +15,12 @@
       <!-- Page content -->
       <div id="page-content-wrapper">
         <jhi-navbar></jhi-navbar>
+        <div v-if="!authenticated" class="jumbotron bg-primary text-white">
+          <div class="container">
+            <h1 class="display-1">Ápeiron Flow</h1>
+            <p class="lead">Codeless platform</p>
+          </div>
+        </div>
         <div class="container-fluid">
           <div class="jh-card">
             <router-view></router-view>
