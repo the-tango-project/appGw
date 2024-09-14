@@ -155,7 +155,8 @@
     "filters": {
       "set": "Following filters are set",
       "clear": "Clear filter",
-      "clearAll": "Clear all filters"
+      "clearAll": "Clear all filters",
+      "type-text": "Insert a text to search"
     },
     "info": {
       "no-data": "There are no records",

@@ -154,7 +154,8 @@
     "filters": {
       "set": "Los siguientes filtros están configurados",
       "clear": "Limpiar filtro",
-      "clearAll": "Limpiar todos los filtros"
+      "clearAll": "Limpiar todos los filtros",
+      "type-text": "Ingrese un texto para buscar"
     },
     "info": {
       "no-data": "No hay registros",
