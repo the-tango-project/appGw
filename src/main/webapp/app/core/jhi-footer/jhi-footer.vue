@@ -1,6 +1,6 @@
 <template>
-  <div id="footer" class="footer">
-    <p v-text="t$('footer')"></p>
+  <div id="footer" class="navbar fixed-bottom navbar-light bg-light">
+    <div class="container">©{{ currentDate }} | {{ t$('footer') }} | All rights reserved</div>
   </div>
 </template>
 

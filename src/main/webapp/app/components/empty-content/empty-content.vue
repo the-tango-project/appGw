@@ -1,21 +1,14 @@
 <template>
-  <b-col class="alert-info-card" cols="5">
-    <div class="mb-4"></div>
-    <b-row align-v="center">
-      <b-col></b-col>
-      <b-col cols="2">
-        <span class="rounded-circle shadow p-3 mt-1 bg-white d-inline-block">
-          <b-icon icon="info-circle" font-scale="3"></b-icon>
-        </span>
-      </b-col>
-      <b-col cols="6" class="m-3 p-3 text-center">
+  <b-row class="mt-5" align-v="center">
+    <b-overlay opacity=".25" show="true" rounded="sm">
+      <b-img v-b-hover="handleHover" src="content/images/messages/add.svg" fluid></b-img>
+      <template #overlay>
         <span class="float-right text-center">
           <p class="text-secondary" v-text="$t('global.messages.info.add-items')"></p>
           <h3 v-text="$t('global.messages.info.empty-content')"></h3>
         </span>
-      </b-col>
-      <b-col></b-col>
-    </b-row>
-  </b-col>
+      </template>
+    </b-overlay>
+  </b-row>
 </template>
 <script lang="ts" src="./empty-content.component.ts"></script>

@@ -15,15 +15,21 @@
       <!-- Page content -->
       <div id="page-content-wrapper">
         <jhi-navbar></jhi-navbar>
-        <div v-if="!authenticated" class="jumbotron bg-primary text-white">
-          <div class="container">
-            <h1 class="display-1">Ápeiron Flow</h1>
-            <p class="lead">Codeless platform</p>
+        <transition name="fade" mode="out-in">
+          <div v-if="!authenticated" class="jumbotron jumbotron-fluid bg-primary text-white opacity-75">
+            <div class="container">
+              <h1 class="display-4">{{ $t('global.title') }}</h1>
+              <p class="lead">{{ $t('global.subtitle') }}</p>
+            </div>
           </div>
-        </div>
+        </transition>
         <div class="container-fluid">
           <div class="jh-card">
-            <router-view></router-view>
+            <router-view v-slot="{ Component }">
+              <transition name="fade" mode="out-in">
+                <component :is="Component" />
+              </transition>
+            </router-view>
           </div>
           <b-modal id="login-page" hide-footer lazy>
             <template #modal-title>
@@ -39,3 +45,13 @@
 </template>
 
 <script lang="ts" src="./app.component.ts"></script>
+<style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter, .fade-leave-to
+/* .component-fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+</style>

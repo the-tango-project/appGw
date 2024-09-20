@@ -1,67 +1,88 @@
 <template>
-  <div class="home row">
-    <div class="col-md-3">
-      <span class="hipster img-fluid rounded"></span>
-    </div>
-    <div class="col-md-9">
-      <h1 class="display-4" v-text="$t('home.title')"></h1>
-      <p class="lead" v-text="$t('home.subtitle')"></p>
+  <div v-if="!authenticated" class="container">
+    <b-img src="content/images/home/landscape.svg" fluid alt="Responsive image"></b-img>
+  </div>
+  <div v-else class="container">
+    <b-row>
+      <b-card
+        title="Mis soluciones"
+        tag="article"
+        img-src="content/images/home/flow.svg"
+        img-alt="Image"
+        img-height="200"
+        img-top
+        footer-bg-variant="white"
+        footer-border-variant="white"
+        class="m-3 shadow rounded border-dark card-home"
+      >
+        <b-card-text>
+          Some quick example text to build on the card title and make up the bulk of the card's content.up the bulk of the card's content.up
+          the bulk of the card's content.up the bulk of the card's content.
+        </b-card-text>
 
-      <div>
-        <div class="alert alert-success" v-if="authenticated">
-          <span v-if="username" v-text="$t('home.logged.message', { username: username })"></span>
-        </div>
+        <template #footer>
+          <router-link :to="{ name: 'Solucion' }" custom v-slot="{ navigate }">
+            <button @click="navigate" class="btn btn-primary jh-create-entity create-solucion">
+              <span v-text="$t('entity.action.manage')"></span>
+            </button>
+          </router-link>
+        </template>
+      </b-card>
+      <b-card
+        title="Mis formularios"
+        tag="article"
+        img-src="content/images/home/add.svg"
+        img-alt="Image"
+        img-height="200"
+        img-top
+        footer-bg-variant="white"
+        footer-border-variant="white"
+        class="m-3 shadow rounded border-dark card-home"
+      >
+        <b-card-text>
+          Some quick example text to build on the card title and make up the bulk of the card's content.up the bulk of the card's content.up
+          the bulk of the card's content.up the bulk of the card's content.
+        </b-card-text>
 
-        <div class="alert alert-warning" v-if="!authenticated">
-          <span v-text="$t('global.messages.info.authenticated.prefix')"></span>
-          <a class="alert-link" v-on:click="openLogin()" v-text="$t('global.messages.info.authenticated.link')"></a
-          ><span v-html="$t('global.messages.info.authenticated.suffix')"></span>
-        </div>
-        <div class="alert alert-warning" v-if="!authenticated">
-          <span v-text="$t('global.messages.info.register.noaccount')"></span>&nbsp;
-          <router-link class="alert-link" to="/register" v-text="$t('global.messages.info.register.link')"></router-link>
-        </div>
-      </div>
+        <template #footer>
+          <router-link :to="{ name: 'Form' }" custom v-slot="{ navigate }">
+            <button @click="navigate" class="btn btn-primary jh-create-entity create-solucion">
+              <span v-text="$t('entity.action.manage')"></span>
+            </button>
+          </router-link>
+        </template>
+      </b-card>
+      <b-card
+        title="Gestión de usuarios"
+        tag="article"
+        img-src="content/images/home/manage.svg"
+        img-alt="Image"
+        img-height="200"
+        img-top
+        footer-bg-variant="white"
+        footer-border-variant="white"
+        class="m-3 shadow rounded border-dark card-home"
+      >
+        <b-card-text>
+          Some quick example text to build on the card title and make up the bulk of the card's content.up the bulk of the card's content.up
+          the bulk of the card's content.up the bulk of the card's content.
+        </b-card-text>
 
-      <p v-text="$t('home.question')"></p>
-
-      <ul>
-        <li><a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer" v-text="$t('home.link.homepage')"></a></li>
-        <li>
-          <a
-            href="https://stackoverflow.com/tags/jhipster/info"
-            target="_blank"
-            rel="noopener noreferrer"
-            v-text="$t('home.link.stackoverflow')"
-          ></a>
-        </li>
-        <li>
-          <a
-            href="https://github.com/jhipster/generator-jhipster/issues?state=open"
-            target="_blank"
-            rel="noopener noreferrer"
-            v-text="$t('home.link.bugtracker')"
-          ></a>
-        </li>
-        <li>
-          <a
-            href="https://gitter.im/jhipster/generator-jhipster"
-            target="_blank"
-            rel="noopener noreferrer"
-            v-text="$t('home.link.chat')"
-          ></a>
-        </li>
-        <li>
-          <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer" v-text="$t('home.link.follow')"></a>
-        </li>
-      </ul>
-
-      <p>
-        <span v-text="$t('home.like')"></span>
-        <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer" v-text="$t('home.github')"></a>!
-      </p>
-    </div>
+        <template #footer>
+          <router-link :to="{ name: 'JhiUser' }" custom v-slot="{ navigate }">
+            <button @click="navigate" class="btn btn-primary jh-create-entity create-solucion">
+              <span v-text="$t('entity.action.manage')"></span>
+            </button>
+          </router-link>
+        </template>
+      </b-card>
+    </b-row>
   </div>
 </template>
 
 <script lang="ts" src="./home.component.ts"></script>
+<style lang="scss" scoped>
+.card-home {
+  max-width: 20rem;
+}
+</style>

@@ -1,6 +1,7 @@
 {
   "global": {
-    "title": "AppGw",
+    "title": "AI flow composer",
+    "subtitle": "Codeless platform",
     "browsehappy": "Está usando un navegador <strong>no actualizado</strong>. Por favor, <a href=\"http://browsehappy.com/?locale=es\">actualice su navegador</a> para mejorar su experiencia.",
     "menu": {
       "home": "Inicio",
@@ -129,7 +130,9 @@
       "import": "Importar",
       "export": "Exportar",
       "preview": "Vista previa",
-      "loading": "Cargando..."
+      "loading": "Cargando...",
+      "go": "Ir",
+      "manage": "Administrar"
     },
     "detail": {
       "field": "Campo",
@@ -179,5 +182,5 @@
       "not.image": "Se esperaba que el fichero fuera una imagen pero se encontro \"{ fileType }\""
     }
   },
-  "footer": "Pie de página"
+  "footer": "AI Solutions"
 }

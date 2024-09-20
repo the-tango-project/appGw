@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h2 id="page-heading" data-cy="FormHeading">
+  <div class="container">
+    <h2 v-if="formsCards && formsCards.length > 0" id="page-heading" data-cy="FormHeading">
       <span v-text="$t('form.home.title')" id="form-heading"></span>
       <div class="d-flex justify-content-end">
         <router-link :to="{ name: 'FormCreate' }" custom v-slot="{ navigate }">
@@ -18,8 +18,7 @@
         </router-link>
       </div>
     </h2>
-    <br />
-    <core-card-list :items="formsCards"></core-card-list>
+    <core-card-list :items="formsCards" :show="!isFetching"></core-card-list>
     <span ref="infiniteScrollEl"></span>
     <b-modal ref="removeEntity" id="removeEntity">
       <span slot="modal-title"
