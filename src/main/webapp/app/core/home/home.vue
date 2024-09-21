@@ -1,10 +1,32 @@
 <template>
   <div v-if="!authenticated" class="container">
     <b-row>
-      <b-col><b-img src="content/images/home/landscape.svg" fluid alt="Responsive image"></b-img></b-col>
-      <b-col>This is a text</b-col>
+      <b-col class="mb-5"><b-img src="content/images/home/landscape.svg" fluid alt="Responsive image"></b-img></b-col>
     </b-row>
-    <b-row></b-row>
+    <b-row class="mt-5">
+      <b-card
+        v-for="item in resolveNoAuthenticatedMenuItems()"
+        :title="$t(item.titleKey)"
+        :img-src="item.imgSrc"
+        img-alt="Image"
+        img-height="200"
+        img-top
+        footer-bg-variant="white"
+        footer-border-variant="white"
+        class="m-3 shadow rounded border-dark card-home"
+      >
+        <b-card-text>{{ $t(item.descriptionKey) }} </b-card-text>
+
+        <template #footer>
+          <router-link :to="{ name: item.toName }" custom v-slot="{ navigate }">
+            <button @click="navigate" class="btn btn-primary jh-create-entity create-solucion">
+              <span v-if="item.btnNameKey" v-text="$t(item.btnNameKey)"></span>
+              <span v-else v-text="$t('entity.action.manage')"></span>
+            </button>
+          </router-link>
+        </template>
+      </b-card>
+    </b-row>
   </div>
   <div v-else class="container">
     <b-row>

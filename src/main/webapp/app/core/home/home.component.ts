@@ -57,5 +57,29 @@ export default defineComponent({
       );
       return items;
     },
+    resolveNoAuthenticatedMenuItems(): MenuItem[] {
+      const items: MenuItem[] = [];
+      items.push(
+        new MenuItem(
+          'global.menu.login.title',
+          'global.menu.login.subtitle',
+          'global.menu.login.description',
+          'Solucion',
+          'content/images/home/auth.svg',
+          'global.menu.account.login',
+        ),
+      );
+      items.push(
+        new MenuItem(
+          'global.menu.registration.title',
+          'global.menu.registration.subtitle',
+          'global.menu.registration.description',
+          'Register',
+          'content/images/home/signup.svg',
+          'global.menu.account.register',
+        ),
+      );
+      return items;
+    },
   },
 });

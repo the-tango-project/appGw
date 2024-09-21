@@ -20,6 +20,16 @@
         "subtitle": "Administración de usuarios",
         "description": "Crear y actualiza los usuarios de tu plataforma a través del módulo de administración de usuarios"
       },
+      "login": {
+        "title": "Inicia sesión",
+        "subtitle": "Iniciar sesión",
+        "description": "Para comenzar, inicia sesión y accede a los recursos de tu aplicativo"
+      },
+      "registration": {
+        "title": "Registrate",
+        "subtitle": "Registro",
+        "description": "No tienes una cuenta, registrate aquí y comienza a crear soluciones"
+      },
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entidades",

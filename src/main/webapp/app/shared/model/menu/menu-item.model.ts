@@ -4,6 +4,7 @@ export interface IMenuItem {
   descriptionKey: string;
   toName: string;
   imgSrc: string;
+  btnNameKey?: string;
 }
 
 export class MenuItem implements IMenuItem {
@@ -13,5 +14,6 @@ export class MenuItem implements IMenuItem {
     public descriptionKey: string,
     public toName: string,
     public imgSrc: string,
+    public btnNameKey?: string,
   ) {}
 }
