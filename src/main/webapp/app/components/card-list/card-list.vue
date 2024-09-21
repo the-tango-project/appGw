@@ -54,8 +54,8 @@
       </b-card>
       <slot></slot>
     </div>
-    <div v-else>
-      <core-empty-content></core-empty-content>
+    <div class="container text-center" v-else>
+      <core-empty-content @add="addHandler"></core-empty-content>
     </div>
   </div>
 </template>

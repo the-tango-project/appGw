@@ -18,7 +18,7 @@
         </router-link>
       </div>
     </h2>
-    <core-card-list :items="formsCards" :show="!isFetching"></core-card-list>
+    <core-card-list :items="formsCards" :show="!isFetching" @add-element="addFormHandler"></core-card-list>
     <span ref="infiniteScrollEl"></span>
     <b-modal ref="removeEntity" id="removeEntity">
       <span slot="modal-title"

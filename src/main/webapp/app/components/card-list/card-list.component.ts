@@ -4,6 +4,7 @@ import { type ICardItem, type IRouter } from './CardItem.model';
 export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'CardList',
+  emits: ['add-element'],
   props: {
     items: Array<ICardItem>,
     title: String,
@@ -21,7 +22,7 @@ export default defineComponent({
     hasEditableButtons(item: ICardItem): boolean {
       return item?.buttons?.length !== undefined && item?.buttons?.length > 0;
     },
-    findFirstEditableDestino(item: ICardItem): IRouter | String | null {
+    findFirstEditableDestino(item: ICardItem): IRouter | string | null {
       if (item?.buttons?.length !== undefined && item?.buttons?.length > 0) {
         return item?.buttons[0]?.to !== undefined ? item.buttons[0].to : '';
       } else {
@@ -30,6 +31,9 @@ export default defineComponent({
     },
     isCardFooterVisible(item: ICardItem): boolean {
       return this.isEditable(item);
+    },
+    addHandler(): void {
+      this.$emit('add-element');
     },
   },
 });

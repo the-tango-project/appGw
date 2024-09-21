@@ -5,6 +5,21 @@
     "browsehappy": "Está usando un navegador <strong>no actualizado</strong>. Por favor, <a href=\"http://browsehappy.com/?locale=es\">actualice su navegador</a> para mejorar su experiencia.",
     "menu": {
       "home": "Inicio",
+      "solutions": {
+        "title": "Mis soluciones",
+        "subtitle": "Soluciones",
+        "description": "Administra tus soluciones, procesos, roles, pantallas y dale vida a tu negocio"
+      },
+      "forms": {
+        "title": "Mis formularios",
+        "subtitle": "Formularios",
+        "description": "Crea, reutiliza y comparte tus formularios en varias soluciones a través de una intuitiva intefaz gráfica que no requiere programación"
+      },
+      "user-management": {
+        "title": "Mis usuarios",
+        "subtitle": "Administración de usuarios",
+        "description": "Crear y actualiza los usuarios de tu plataforma a través del módulo de administración de usuarios"
+      },
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entidades",

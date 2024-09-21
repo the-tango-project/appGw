@@ -5,6 +5,21 @@
     "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
     "menu": {
       "home": "Home",
+      "solutions": {
+        "title": "My solutions",
+        "subtitle": "Solutions",
+        "description": "Manage your solutions, processes, roles, screens and bring your business to life"
+      },
+      "forms": {
+        "title": "My forms",
+        "subtitle": "Forms",
+        "description": "Create, reuse and share your forms in various solutions through an intuitive graphical interface that requires no programming"
+      },
+      "user-management": {
+        "title": "My users",
+        "subtitle": "User management",
+        "description": "Create and update your platform users through the user management module"
+      },
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entities",

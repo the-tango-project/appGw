@@ -11,8 +11,6 @@ import LocalFormService from '@/entities/form/form.service';
 import ScriptService from '@/shared/script/script.service';
 
 //Entity model
-import { TipoComponente } from '@/shared/model/enumerations/tipo-componente.model';
-import { MenuElement } from '@/shared/model/enumerations/menu-element.model';
 import { Form, type IForm } from '@/shared/model/form.model';
 
 import { useSelectOptions } from '@/shared/composables/use-select-options';

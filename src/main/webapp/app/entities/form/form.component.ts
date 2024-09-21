@@ -1,5 +1,6 @@
 import { defineComponent, inject, onMounted, ref, type Ref, watch, watchEffect } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import { useAlertService } from '@/shared/alert/alert.service';
 import useDataUtils from '@/shared/data/data-utils.service';
 import { useDateFormat } from '@/shared/composables';
@@ -16,6 +17,8 @@ export default defineComponent({
   name: 'Form',
   setup() {
     const { t: t$ } = useI18n();
+    const router = useRouter();
+
     const dateFormat = useDateFormat();
     const dataUtils = useDataUtils();
     const alertService = inject('alertService', () => useAlertService(), true);
@@ -183,6 +186,7 @@ export default defineComponent({
     });
 
     return {
+      router,
       forms,
       formsCards,
       handleSyncList,
@@ -207,5 +211,10 @@ export default defineComponent({
       t$,
       ...dataUtils,
     };
+  },
+  methods: {
+    addFormHandler(): void {
+      this.router.push({ name: 'FormCreate' });
+    },
   },
 });

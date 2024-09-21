@@ -3,6 +3,7 @@ import { defineComponent, ref } from 'vue';
 export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'EmptyContent',
+  emits: ['add'],
   props: {
     icon: String,
   },
@@ -15,6 +16,9 @@ export default defineComponent({
   methods: {
     handleHover(hovered: any): void {
       this.isHovered = hovered;
+    },
+    addHandler(): void {
+      this.$emit('add');
     },
   },
 });
