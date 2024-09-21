@@ -1,6 +1,10 @@
 <template>
   <div v-if="!authenticated" class="container">
-    <b-img src="content/images/home/landscape.svg" fluid alt="Responsive image"></b-img>
+    <b-row>
+      <b-col><b-img src="content/images/home/landscape.svg" fluid alt="Responsive image"></b-img></b-col>
+      <b-col>This is a text</b-col>
+    </b-row>
+    <b-row></b-row>
   </div>
   <div v-else class="container">
     <b-row>

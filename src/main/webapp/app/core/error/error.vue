@@ -1,19 +1,12 @@
 <template>
-  <div>
-    <div class="row">
-      <div class="col-md-3">
-        <span class="hipster img-fluid rounded"></span>
-      </div>
-      <div class="col-md-9">
-        <h1 v-text="t$('error.title')"></h1>
-
-        <div v-if="errorMessage">
-          <div class="alert alert-danger">{{ errorMessage }}</div>
-        </div>
-        <div v-if="error403" class="alert alert-danger" v-text="t$('error.http.403')"></div>
-        <div v-if="error404" class="alert alert-warning" v-text="t$('error.http.404')"></div>
-      </div>
+  <div class="container">
+    <span v-if="error403" class="error403 img-fluid rounded"></span>
+    <span v-if="error404" class="error404 img-fluid rounded"></span>
+    <div v-if="errorMessage">
+      <div class="alert alert-danger">{{ errorMessage }}</div>
     </div>
+    <div class="text-center" v-if="error403" v-text="t$('error.http.403')"></div>
+    <div class="text-center" v-if="error404" v-text="t$('error.http.404')"></div>
   </div>
 </template>
 
