@@ -1,6 +1,6 @@
 import { type ComputedRef, defineComponent, inject, type Ref, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import type LoginService from '@/account/login.service';
 
 export default defineComponent({
@@ -13,6 +13,7 @@ export default defineComponent({
     const error403: Ref<boolean> = ref(false);
     const error404: Ref<boolean> = ref(false);
     const route = useRoute();
+    const router = useRouter();
 
     if (route.meta) {
       errorMessage.value = route.meta.errorMessage ?? null;
@@ -24,10 +25,16 @@ export default defineComponent({
     }
 
     return {
+      router,
       errorMessage,
       error403,
       error404,
       t$: useI18n().t,
     };
+  },
+  methods: {
+    goHomeHandler(): void {
+      this.router.push({ name: 'Home' });
+    },
   },
 });
