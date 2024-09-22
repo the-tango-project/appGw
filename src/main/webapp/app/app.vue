@@ -15,14 +15,7 @@
       <!-- Page content -->
       <div id="page-content-wrapper">
         <jhi-navbar></jhi-navbar>
-        <transition name="fade" mode="out-in">
-          <div v-if="!authenticated" class="jumbotron jumbotron-fluid bg-primary text-white opacity-75">
-            <div class="container">
-              <h1 class="display-4">{{ $t('global.title') }}</h1>
-              <p class="lead">{{ $t('global.subtitle') }}</p>
-            </div>
-          </div>
-        </transition>
+        <hero-image :show="!authenticated"></hero-image>
         <div class="container-fluid">
           <div class="jh-card">
             <router-view v-slot="{ Component }">
@@ -31,7 +24,15 @@
               </transition>
             </router-view>
           </div>
-          <b-modal id="login-page" hide-footer lazy>
+          <b-modal
+            id="login-page"
+            hide-footer
+            :centered="true"
+            header-text-variant="light"
+            header-bg-variant="primary"
+            header-border-variant="light"
+            lazy
+          >
             <template #modal-title>
               <span data-cy="loginTitle" id="login-title" v-text="t$('login.title')"></span>
             </template>
@@ -45,13 +46,3 @@
 </template>
 
 <script lang="ts" src="./app.component.ts"></script>
-<style lang="scss" scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-.fade-enter, .fade-leave-to
-/* .component-fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
-</style>

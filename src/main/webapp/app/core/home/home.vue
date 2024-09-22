@@ -1,9 +1,6 @@
 <template>
   <div v-if="!authenticated" class="container">
     <b-row>
-      <b-col class="mb-5"><b-img src="content/images/home/landscape.svg" fluid alt="Responsive image"></b-img></b-col>
-    </b-row>
-    <b-row class="mt-5">
       <b-card
         v-for="item in resolveNoAuthenticatedMenuItems()"
         :title="$t(item.titleKey)"

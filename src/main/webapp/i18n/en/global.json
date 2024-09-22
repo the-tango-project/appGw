@@ -20,6 +20,16 @@
         "subtitle": "User management",
         "description": "Create and update your platform users through the user management module"
       },
+      "login": {
+        "title": "Login",
+        "subtitle": "Login",
+        "description": "To begin, log in and access the resources of your application."
+      },
+      "registration": {
+        "title": "Register",
+        "subtitle": "Register",
+        "description": "You don't have an account, register here and start creating solutions"
+      },
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entities",

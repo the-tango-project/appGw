@@ -18,7 +18,7 @@ export default defineComponent({
     const loginService = inject<LoginService>('loginService');
     const accountService = inject<AccountService>('accountService');
     const currentLanguage = inject('currentLanguage', () => computed(() => navigator.language ?? 'es'), true);
-    const changeLanguage = inject<(string) => Promise<void>>('changeLanguage');
+    const changeLanguage = inject<(string: string) => Promise<void>>('changeLanguage');
 
     const isActiveLanguage = (key: string) => {
       return key === currentLanguage.value;

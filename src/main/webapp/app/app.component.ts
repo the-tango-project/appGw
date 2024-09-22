@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 import Ribbon from '@/core/ribbon/ribbon.vue';
 import JhiFooter from '@/core/jhi-footer/jhi-footer.vue';
 import JhiNavbar from '@/core/jhi-navbar/jhi-navbar.vue';
+import HeroImage from '@/core/hero-image/hero-image.vue';
 import LoginForm from '@/account/login-form/login-form.vue';
 
 import { useAlertService } from '@/shared/alert/alert.service';
@@ -18,6 +19,7 @@ export default defineComponent({
     'jhi-navbar': JhiNavbar,
     'login-form': LoginForm,
     'jhi-footer': JhiFooter,
+    'hero-image': HeroImage,
   },
   setup() {
     provide('alertService', useAlertService());
