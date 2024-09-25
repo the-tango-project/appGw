@@ -16,6 +16,9 @@ export default defineComponent({
     const columnSelected = ref(null);
     const currentColumnIndex: Ref<number | null> = ref(null);
     const solicitud: Ref<Solicitud> = ref(DataFaker.getSolicitud());
+    const visible: Ref<boolean> = ref(true);
+    const codeEditorModal = ref<any>(null);
+
     const solicitante: Ref<any> = ref(
       solicitud.value.solicitante?.nombre +
         ' ' +
@@ -40,6 +43,8 @@ export default defineComponent({
     const drag = ref(false);
 
     return {
+      codeEditorModal,
+      visible,
       columnSelected,
       currentColumnIndex,
       customFieldNumber,
@@ -54,12 +59,10 @@ export default defineComponent({
       return false;
     },
     openCodeEditorModal(index: number): void {
-      if (this.solution) {
-        if (<any>this.$refs.codeEditorModal) {
-          this.columnSelected = { ...this.solution.vistaResumen.columnas[index] };
-          this.currentColumnIndex = index;
-          (<any>this.$refs.codeEditorModal).show();
-        }
+      if (this.solution && this.codeEditorModal) {
+        this.columnSelected = { ...this.solution.vistaResumen.columnas[index] };
+        this.currentColumnIndex = index;
+        //this.codeEditorModal.show();
       }
     },
     handleDelete(index: number): void {
@@ -77,5 +80,7 @@ export default defineComponent({
     execute(index: any) {},
     handleOpenConfigEstadoModal() {},
     handleOpenEditButtonModal(index: number, button: any) {},
+    activateColumnOnFilter() {},
+    addElement() {},
   },
 });

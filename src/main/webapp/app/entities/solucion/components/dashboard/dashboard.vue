@@ -113,6 +113,138 @@
         <div class="text-muted" style="white-space: pre-line" v-html="solution.vistaResumen.pieDePagina"></div>
       </b-tfoot>
     </b-table-simple>
+    <b-modal
+      size="xl"
+      centered
+      ref="codeEditorModal"
+      header-bg-variant="primary"
+      scrollable
+      no-close-on-backdrop
+      no-close-on-esc
+      hide-header-close
+    >
+      <div slot="modal-title">
+        <div class="col-8 text-left">
+          <span>{{ $t('entity.action.edit') }}</span>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div :class="{ 'col-11': !visible, 'col-8': visible }">
+            <b-tabs v-if="columnSelected">
+              <b-tab @click="visible = true">
+                <template #title>
+                  <b-icon icon="code"></b-icon>
+                  {{ $t('apeironGwApp.configCard.editor.code.title') }}
+                </template>
+
+                <b-form-group id="fieldset-horizontal" class="mt-3" label="Resultado" label-for="result-script">
+                  <div id="result-script" class="bg-light" :set="(execution = execute(columnSelected.expresion))">
+                    <span v-if="execution.isValid && !execution.showResultAsObject">{{ execution.data }} </span>
+                    <span v-if="!execution.isValid" class="text-danger"
+                      ><b-icon class="mr-2" icon="exclamation-circle"></b-icon><em>{{ execution.data }}</em></span
+                    >
+                    <json-view v-if="execution.showResultAsObject" :data="execution.data" />
+                  </div>
+                </b-form-group>
+              </b-tab>
+              <b-tab @click="visible = false">
+                <template #title>
+                  <b-icon :icon="columnSelected?.roles?.length > 0 ? 'people-fill' : 'people'"></b-icon>
+                  {{ $t('apeironGwApp.configCard.permisos.label') }}
+                </template>
+                <b-card-body class="overflow-auto">
+                  <b-form-checkbox-group id="add-permisos" stacked v-model="columnSelected.roles" :options="roles"></b-form-checkbox-group>
+                </b-card-body>
+              </b-tab>
+              <b-tab @click="visible = false">
+                <template #title>
+                  <b-icon
+                    :animation="columnSelected.filter ? 'fade' : ''"
+                    :icon="columnSelected.filter ? 'funnel-fill' : 'funnel'"
+                  ></b-icon>
+                  {{ $t('logs.filter') }}
+                </template>
+
+                <core-empty-content v-if="!columnSelected?.filter"> </core-empty-content>
+                <div v-else>
+                  <b-form-group label-cols="4" :label="$t('apeironGwApp.configCard.filtro.disable')">
+                    <b-form-checkbox size="lg" v-model="columnSelected.filter" name="check-button" switch> </b-form-checkbox>
+                  </b-form-group>
+                  <b-form-group label-cols="4" :label="$t('apeironGwApp.configCard.filtro.path.label')">
+                    <b-form-input v-model="columnSelected.path" :placeholder="$t('apeironGwApp.configCard.filtro.path.placeholder')">
+                    </b-form-input>
+                  </b-form-group>
+                  <b-form-group label-cols="4" :label="$t('apeironGwApp.configCard.filtro.tipo.label')">
+                    <b-form-select v-model="columnSelected.tipoReglaFiltro" :options="tipoReglasFiltro" class="mb-3"> </b-form-select>
+                  </b-form-group>
+                  <b-form-group
+                    v-if="columnSelected.tipoReglaFiltro === 'TEXT_IS_IN_LIST' || columnSelected.tipoReglaFiltro === 'TEXT_IS_NOT_IN_LIST'"
+                    label-cols="4"
+                    :label="$t('apeironGwApp.configCard.filtro.tipo.valores.label')"
+                  >
+                    <core-tags
+                      id="filtro-list"
+                      v-model="columnSelected.filtroValores"
+                      variant="primary"
+                      :placeholder="$t('apeironGwApp.configCard.filtro.tipo.valores.placeholder')"
+                      size="md"
+                    />
+                  </b-form-group>
+                </div>
+              </b-tab>
+            </b-tabs>
+          </div>
+          <b-collapse v-model="visible" class="mt-5 col-4">
+            <b-card-header header-tag="header" class="p-1" role="tab">
+              <b-button block v-b-toggle.accordion-solucion variant="info">
+                <b-icon icon="code"></b-icon>
+                {{ $t('apeironGwApp.configCard.editor.code.variables.solucion') }}
+              </b-button>
+            </b-card-header>
+            <b-collapse id="accordion-solucion" accordion="solucion" role="tabpanel">
+              <b-card-body class="overflow-auto">
+                <json-view :data="solucion" rootKey="solucion" v-on:selected="addPathVariable" />
+              </b-card-body>
+            </b-collapse>
+            <b-card-header header-tag="header" class="p-1" role="tab">
+              <b-button block v-b-toggle.accordion-solicitud variant="info">
+                <b-icon icon="code"></b-icon>
+                {{ $t('apeironGwApp.configCard.editor.code.variables.solicitud') }}
+              </b-button>
+            </b-card-header>
+            <b-collapse id="accordion-solicitud" accordion="solicitud" role="tabpanel">
+              <b-card-body class="overflow-auto">
+                <json-view :data="solicitud" rootKey="solicitud" v-on:selected="addPathVariable" />
+              </b-card-body>
+            </b-collapse>
+            <b-card-header header-tag="header" class="p-1" role="tab">
+              <b-button block v-b-toggle.accordion-formatos variant="info">
+                <b-icon icon="code"></b-icon>
+                {{ $t('apeironGwApp.configCard.editor.code.variables.formatos') }}
+              </b-button>
+            </b-card-header>
+            <b-collapse id="accordion-formatos" accordion="formatos" role="tabpanel">
+              <b-card-body class="overflow-auto">
+                <b-badge
+                  class="ml-2 selectable"
+                  v-for="variable in variables"
+                  :key="variable.name"
+                  @click="addElement(variable)"
+                  :variant="variable.type === 'function' ? 'info' : 'success'"
+                  pill
+                  >{{ variable.name }} {{ variable.type === 'function' ? '()' : '' }}</b-badge
+                >
+              </b-card-body>
+            </b-collapse>
+          </b-collapse>
+        </div>
+      </div>
+      <div slot="modal-footer">
+        <b-button variant="outline-danger" @click="handleCancel('codeEditorModal')">{{ $t('entity.action.cancel') }}</b-button>
+        <b-button variant="primary" @click="handleConfirmation('codeEditorModal')">{{ $t('entity.action.confirm') }}</b-button>
+      </div>
+    </b-modal>
   </div>
 </template>
 
