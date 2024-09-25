@@ -62,8 +62,16 @@
             "comision": "Tipo de comisión"
           }
         },
-        "card": {
-          "title": "Card"
+        "dashboard": {
+          "title": "Panel",
+          "properties": {
+            "title": "Campos adicionales",
+            "placeholder": "Ingrese campos adicionales"
+          },
+          "table": {
+            "solicitante": "Solicitante",
+            "actions": "Acciones"
+          }
         },
         "autoridad": {
           "title": "Autoridades",

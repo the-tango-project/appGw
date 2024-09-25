@@ -3,11 +3,14 @@ import { type IBadge, type ICardItem, type IProcessInfo, Badge, CardItem, Proces
 import { faker } from '@faker-js/faker';
 import { type IRouter, Router, type IColumn, Column, type IButton, Button } from '@/components/card-list/CardItem.model';
 import { type ISolicitante, type ISolicitud, Solicitante, Solicitud } from '@/shared/model/solicitud.model';
-import { EstadoSolicitud } from './enumerations/estado-solicitud.model';
+import { EstadoSolicitud } from '../../model/enumerations/estado-solicitud.model';
+import { SolicitudFaker } from './SolicitudFaker';
+
 export class DataFaker {
-  static ICONS = ['alarm', 'archive', 'pause-circle', 'people', 'trash'];
-  static VARIANTS = ['primary', 'secondary', 'success', 'warning', 'danger', 'info', 'light', 'dark'];
-  static BUTTON_NAME = ['Edit', 'Details', 'Delete', 'Manage', 'Cancel', 'Admin'];
+  static readonly ICONS = ['alarm', 'archive', 'pause-circle', 'people', 'trash'];
+  static readonly VARIANTS = ['primary', 'secondary', 'success', 'warning', 'danger', 'info', 'light', 'dark'];
+  static readonly BUTTON_NAME = ['Edit', 'Details', 'Delete', 'Manage', 'Cancel', 'Admin'];
+
   static fakeRolAutoridad(): RolAutoridad {
     const keys = Object.keys(RolAutoridad);
     const random = Math.floor(Math.random() * 100) % keys.length;
@@ -110,5 +113,8 @@ export class DataFaker {
 
   static randomIndex(array: Array<any>) {
     return Math.floor(Math.random() * 100) % this.ICONS.length;
+  }
+  static getSolicitud(): Solicitud {
+    return SolicitudFaker.defaultSolicitud();
   }
 }

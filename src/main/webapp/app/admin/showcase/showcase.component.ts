@@ -1,7 +1,7 @@
 import { defineComponent, ref, type Ref } from 'vue';
 
 import { type ICardItem } from '@/components/card-list/CardItem.model';
-import { DataFaker } from '@/shared/model/DataFaker';
+import { DataFaker } from '@/shared/util/faker/DataFaker';
 
 import { useSelectOptions } from '@/shared/composables/use-select-options';
 

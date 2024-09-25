@@ -7,7 +7,7 @@ export default defineComponent({
   props: {
     show: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   setup() {

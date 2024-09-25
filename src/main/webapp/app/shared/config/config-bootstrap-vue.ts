@@ -57,6 +57,7 @@ import {
   BTr,
   BTh,
   BTd,
+  BTfoot,
   BJumbotron,
   BImg,
   BContainer,
@@ -180,6 +181,7 @@ export function initBootstrapVue(vue: any) {
   vue.component('b-tr', BTr);
   vue.component('b-th', BTh);
   vue.component('b-td', BTd);
+  vue.component('b-tfoot', BTfoot);
   vue.component('b-media', BMedia);
   vue.component('b-embed', BEmbed);
   vue.component('b-form-text', BFormText);

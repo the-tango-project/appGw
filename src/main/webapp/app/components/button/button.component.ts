@@ -11,7 +11,7 @@ export default defineComponent({
     },
     variant: {
       type: String,
-      default: 'primary',
+      default: null,
     },
     icon: {
       type: String,
@@ -27,13 +27,13 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const variant: Ref<string> = ref('primary');
-    const icon: Ref<string | null> = ref(null);
+    const variant: Ref<string> = ref(props.variant);
+    const icon: Ref<string | null> = ref(props.icon);
     const i18nKeyText: Ref<string> = ref('entity.action.confirm');
 
     const configBtnProps = (variantOp: string, iconOp: string, i18nKeyTextOp: string) => {
-      variant.value = variantOp;
-      icon.value = iconOp;
+      variant.value = variant.value ? variant.value : variantOp;
+      icon.value = icon.value ? icon.value : iconOp;
       i18nKeyText.value = i18nKeyTextOp;
     };
 
