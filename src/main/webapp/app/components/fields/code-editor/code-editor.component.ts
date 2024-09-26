@@ -50,7 +50,10 @@ export default defineComponent({
     };
 
     const onReady = (cm: Editor) => {
-      console.log(cm.focus());
+      cm.focus();
+      setTimeout(function () {
+        cm.refresh();
+      }, 10);
     };
 
     onMounted(() => {

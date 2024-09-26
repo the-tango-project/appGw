@@ -3,7 +3,7 @@ import { defineComponent, ref } from 'vue';
 export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'EmptyContent',
-  emits: ['add'],
+  emits: ['add', 'click'],
   props: {
     icon: String,
   },
@@ -19,6 +19,7 @@ export default defineComponent({
     },
     addHandler(): void {
       this.$emit('add');
+      this.$emit('click');
     },
   },
 });

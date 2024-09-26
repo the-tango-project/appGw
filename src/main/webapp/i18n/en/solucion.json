@@ -71,7 +71,72 @@
           "table": {
             "solicitante": "Requester",
             "actions": "Actions"
-          }
+          },
+          "icon": {
+            "title": "Select icon",
+            "label": "Icon"
+          },
+          "property": {
+            "title": "Aditional fields",
+            "placeholder": "Insert property name",
+            "noData": "No data for simulation"
+          },
+          "editor": {
+            "code": {
+              "title": "Code",
+              "variables": {
+                "solucion": "Solution variables",
+                "solicitud": "Request variables",
+                "formatos": "Util formats"
+              }
+            }
+          },
+          "estados": {
+            "mascara": {
+              "label": "Mask",
+              "title": "Mask states"
+            }
+          },
+          "buttons": {
+            "title": "Button configuration",
+            "nombre": {
+              "label": "Button name"
+            },
+            "destino": {
+              "label": "To"
+            },
+            "ayuda": {
+              "label": "Help message"
+            }
+          },
+          "permisos": {
+            "label": "Permissions",
+            "hint": "Selecciona los <strong>roles</strong> que podrán ver este elemento",
+            "public": "This element is visible for every body",
+            "private": "This element is restricted to some roles"
+          },
+          "filtro": {
+            "title": "Filter definition",
+            "disable": "Disable",
+            "activate": {
+              "label": "Activate",
+              "hint": "Click on the funnel to add this property as a filter",
+              "empty": "This property is not filtering"
+            },
+            "path": {
+              "label": "Filtered property",
+              "placeholder": "ej. properties.programa.clave"
+            },
+            "tipo": {
+              "label": "Type of filter",
+              "placeholder": "select a type of filter",
+              "valores": {
+                "label": "Values for this filter",
+                "placeholder": "Write the allowed values for this filter"
+              }
+            }
+          },
+          "footer": "Footer"
         },
         "autoridad": {
           "title": "Authorities",

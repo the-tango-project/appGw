@@ -1,8 +1,9 @@
 import * as personaUtils from '@/shared/util/format-util';
 import * as dateUtils from '@/shared/date/date-utils';
+import { ScriptResult, type IScriptResult } from './script-result.model';
 
 export default class ScriptService {
-  static CM_OPTIONS = {
+  static readonly CM_OPTIONS = {
     tabSize: 4,
     styleActiveLine: true,
     lineNumbers: true,
@@ -19,7 +20,7 @@ export default class ScriptService {
     },
   };
 
-  static HTML_OPTIONS = {
+  static readonly HTML_OPTIONS = {
     tabSize: 4,
     styleActiveLine: true,
     lineNumbers: true,
@@ -35,7 +36,7 @@ export default class ScriptService {
       completeSingle: false,
     },
   };
-  static VUEJS_OPTIONS = {
+  static readonly VUEJS_OPTIONS = {
     tabSize: 4,
     styleActiveLine: true,
     lineNumbers: true,
@@ -52,9 +53,9 @@ export default class ScriptService {
     },
   };
 
-  public runFunction(expression, context) {
+  public runFunction(expression: any, context: any): IScriptResult {
     context.format = this.configDefaultFormats();
-    const result = { isValid: true, data: {}, showResult: true, showResultAsObject: false };
+    const result = new ScriptResult(true, {}, true, false);
     try {
       result.data = new Function(...Object.keys(context), expression).bind(this)(...Object.values(context));
       result.showResult = typeof result.data !== 'boolean';
@@ -73,7 +74,7 @@ export default class ScriptService {
     };
   }
 
-  public onCmReady(codemirror) {
+  public onCmReady(codemirror: any) {
     setTimeout(function () {
       codemirror.refresh();
     }, 10);

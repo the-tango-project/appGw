@@ -71,7 +71,71 @@
           "table": {
             "solicitante": "Solicitante",
             "actions": "Acciones"
-          }
+          },
+          "icon": {
+            "title": "Seleccione un icono",
+            "label": "Icono"
+          },
+          "property": {
+            "title": "Campos adicionales",
+            "placeholder": "Ingrese el nombre de la propiedad",
+            "noData": "No hay datos cargados para la simulación"
+          },
+          "editor": {
+            "code": {
+              "title": "Código",
+              "variables": {
+                "solucion": "Variables de la solución",
+                "solicitud": "Variables de la solicitud",
+                "formatos": "Formatos útiles"
+              }
+            }
+          },
+          "estados": {
+            "mascara": {
+              "label": "Máscara",
+              "title": "Enmascarar estados"
+            }
+          },
+          "buttons": {
+            "title": "Configuracion del botón",
+            "nombre": {
+              "label": "Nombre del botón"
+            },
+            "destino": {
+              "label": "Destino"
+            },
+            "ayuda": {
+              "label": "Mensaje de ayuda"
+            }
+          },
+          "permisos": {
+            "label": "Permisos",
+            "hint": "Selecciona los <strong>roles</strong> que podrán ver este elemento",
+            "public": "Este elemento lo pueden ver todos los roles",
+            "private": "Esta elemento esta restringido a los roles seleccionados"
+          },
+          "filtro": {
+            "title": "Definición del filtro",
+            "disable": "Desabilitar",
+            "activate": {
+              "hint": "Dé clic en el embudo para agregar como filtro esta propiedad ",
+              "empty": "Esta propieda no se está filtrando"
+            },
+            "path": {
+              "label": "Propiedad filtrada",
+              "placeholder": "ej. properties.programa.clave"
+            },
+            "tipo": {
+              "label": "Tipo de filtro",
+              "placeholder": "Seleccione el tipo de filtro",
+              "valores": {
+                "label": "Valores",
+                "placeholder": "Agregue valores permitidos para este filtro"
+              }
+            }
+          },
+          "footer": "Pie de página"
         },
         "autoridad": {
           "title": "Autoridades",

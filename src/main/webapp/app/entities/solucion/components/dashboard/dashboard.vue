@@ -113,30 +113,37 @@
         <div class="text-muted" style="white-space: pre-line" v-html="solution.vistaResumen.pieDePagina"></div>
       </b-tfoot>
     </b-table-simple>
+
+    <!-- ****************** -->
+    <!-- MODAL: EDIT COLUMN -->
+    <!-- ****************** -->
+
     <b-modal
       size="xl"
       centered
       ref="codeEditorModal"
       header-bg-variant="primary"
+      header-text-variant="light"
       scrollable
       no-close-on-backdrop
       no-close-on-esc
       hide-header-close
     >
-      <div slot="modal-title">
-        <div class="col-8 text-left">
+      <template #modal-title>
+        <div class="col-8 text-white text-left">
           <span>{{ $t('entity.action.edit') }}</span>
         </div>
-      </div>
-      <div class="modal-body">
+      </template>
+      <div class="modal-body container-fluid">
         <div class="row">
-          <div :class="{ 'col-11': !visible, 'col-8': visible }">
+          <div class="col">
             <b-tabs v-if="columnSelected">
               <b-tab @click="visible = true">
                 <template #title>
                   <b-icon icon="code"></b-icon>
-                  {{ $t('apeironGwApp.configCard.editor.code.title') }}
+                  {{ $t('archeApp.solucion.seccion.dashboard.editor.code.title') }}
                 </template>
+                <core-code-editor v-model="columnSelected.expresion" lang="text/javascript"></core-code-editor>
 
                 <b-form-group id="fieldset-horizontal" class="mt-3" label="Resultado" label-for="result-script">
                   <div id="result-script" class="bg-light" :set="(execution = execute(columnSelected.expresion))">
@@ -144,14 +151,14 @@
                     <span v-if="!execution.isValid" class="text-danger"
                       ><b-icon class="mr-2" icon="exclamation-circle"></b-icon><em>{{ execution.data }}</em></span
                     >
-                    <json-view v-if="execution.showResultAsObject" :data="execution.data" />
+                    <!-- <json-view v-if="execution.showResultAsObject" :data="execution.data" /> -->
                   </div>
                 </b-form-group>
               </b-tab>
               <b-tab @click="visible = false">
                 <template #title>
-                  <b-icon :icon="columnSelected?.roles?.length > 0 ? 'people-fill' : 'people'"></b-icon>
-                  {{ $t('apeironGwApp.configCard.permisos.label') }}
+                  <b-icon :icon="columnSelected?.roles?.length && columnSelected.roles.length > 0 ? 'people-fill' : 'people'"></b-icon>
+                  {{ $t('archeApp.solucion.seccion.dashboard.permisos.label') }}
                 </template>
                 <b-card-body class="overflow-auto">
                   <b-form-checkbox-group id="add-permisos" stacked v-model="columnSelected.roles" :options="roles"></b-form-checkbox-group>
@@ -168,82 +175,41 @@
 
                 <core-empty-content v-if="!columnSelected?.filter"> </core-empty-content>
                 <div v-else>
-                  <b-form-group label-cols="4" :label="$t('apeironGwApp.configCard.filtro.disable')">
+                  <b-form-group label-cols="4" :label="$t('archeApp.solucion.seccion.dashboard.filtro.disable')">
                     <b-form-checkbox size="lg" v-model="columnSelected.filter" name="check-button" switch> </b-form-checkbox>
                   </b-form-group>
-                  <b-form-group label-cols="4" :label="$t('apeironGwApp.configCard.filtro.path.label')">
-                    <b-form-input v-model="columnSelected.path" :placeholder="$t('apeironGwApp.configCard.filtro.path.placeholder')">
+                  <b-form-group label-cols="4" :label="$t('archeApp.solucion.seccion.dashboard.filtro.path.label')">
+                    <b-form-input
+                      v-model="columnSelected.path"
+                      :placeholder="$t('archeApp.solucion.seccion.dashboard.filtro.path.placeholder')"
+                    >
                     </b-form-input>
                   </b-form-group>
-                  <b-form-group label-cols="4" :label="$t('apeironGwApp.configCard.filtro.tipo.label')">
+                  <b-form-group label-cols="4" :label="$t('archeApp.solucion.seccion.dashboard.filtro.tipo.label')">
                     <b-form-select v-model="columnSelected.tipoReglaFiltro" :options="tipoReglasFiltro" class="mb-3"> </b-form-select>
                   </b-form-group>
                   <b-form-group
                     v-if="columnSelected.tipoReglaFiltro === 'TEXT_IS_IN_LIST' || columnSelected.tipoReglaFiltro === 'TEXT_IS_NOT_IN_LIST'"
                     label-cols="4"
-                    :label="$t('apeironGwApp.configCard.filtro.tipo.valores.label')"
+                    :label="$t('archeApp.solucion.seccion.dashboard.filtro.tipo.valores.label')"
                   >
-                    <core-tags
+                    <core-input-tags
                       id="filtro-list"
+                      label="Types of components"
                       v-model="columnSelected.filtroValores"
-                      variant="primary"
-                      :placeholder="$t('apeironGwApp.configCard.filtro.tipo.valores.placeholder')"
-                      size="md"
-                    />
+                      :placeholder="$t('archeApp.solucion.seccion.dashboard.filtro.tipo.valores.placeholder')"
+                    ></core-input-tags>
                   </b-form-group>
                 </div>
               </b-tab>
             </b-tabs>
           </div>
-          <b-collapse v-model="visible" class="mt-5 col-4">
-            <b-card-header header-tag="header" class="p-1" role="tab">
-              <b-button block v-b-toggle.accordion-solucion variant="info">
-                <b-icon icon="code"></b-icon>
-                {{ $t('apeironGwApp.configCard.editor.code.variables.solucion') }}
-              </b-button>
-            </b-card-header>
-            <b-collapse id="accordion-solucion" accordion="solucion" role="tabpanel">
-              <b-card-body class="overflow-auto">
-                <json-view :data="solucion" rootKey="solucion" v-on:selected="addPathVariable" />
-              </b-card-body>
-            </b-collapse>
-            <b-card-header header-tag="header" class="p-1" role="tab">
-              <b-button block v-b-toggle.accordion-solicitud variant="info">
-                <b-icon icon="code"></b-icon>
-                {{ $t('apeironGwApp.configCard.editor.code.variables.solicitud') }}
-              </b-button>
-            </b-card-header>
-            <b-collapse id="accordion-solicitud" accordion="solicitud" role="tabpanel">
-              <b-card-body class="overflow-auto">
-                <json-view :data="solicitud" rootKey="solicitud" v-on:selected="addPathVariable" />
-              </b-card-body>
-            </b-collapse>
-            <b-card-header header-tag="header" class="p-1" role="tab">
-              <b-button block v-b-toggle.accordion-formatos variant="info">
-                <b-icon icon="code"></b-icon>
-                {{ $t('apeironGwApp.configCard.editor.code.variables.formatos') }}
-              </b-button>
-            </b-card-header>
-            <b-collapse id="accordion-formatos" accordion="formatos" role="tabpanel">
-              <b-card-body class="overflow-auto">
-                <b-badge
-                  class="ml-2 selectable"
-                  v-for="variable in variables"
-                  :key="variable.name"
-                  @click="addElement(variable)"
-                  :variant="variable.type === 'function' ? 'info' : 'success'"
-                  pill
-                  >{{ variable.name }} {{ variable.type === 'function' ? '()' : '' }}</b-badge
-                >
-              </b-card-body>
-            </b-collapse>
-          </b-collapse>
         </div>
       </div>
-      <div slot="modal-footer">
+      <template #modal-footer>
         <b-button variant="outline-danger" @click="handleCancel('codeEditorModal')">{{ $t('entity.action.cancel') }}</b-button>
         <b-button variant="primary" @click="handleConfirmation('codeEditorModal')">{{ $t('entity.action.confirm') }}</b-button>
-      </div>
+      </template>
     </b-modal>
   </div>
 </template>
