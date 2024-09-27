@@ -1,6 +1,7 @@
 import EmptyContent from '@/components/empty-content/empty-content.vue';
 import CardsList from '@/components/card-list/card-list.vue';
 import ConfirmationModal from '@/components/confirmation-modal/confirmation-modal.vue';
+import BaseModal from '@/components/base-modal/base-modal.vue';
 import Flow from '@/components/flow/flow.vue';
 import InputText from '@/components/fields/input-text/input-text.vue';
 import SelectOne from '@/components/fields/select-one/select-one.vue';
@@ -25,7 +26,6 @@ import MessageComponent from '@/components/message/message.vue';
 import ButtonComponent from '@/components/button/button.vue';
 import tagsComponent from '@/components/fields/tags/tags.vue';
 import DateTimePickerComponent from '@/components/fields/date-time-picker/date-time-picker.vue';
-import { Sortable } from 'sortablejs-vue3';
 
 export function initCoreComponents(vue: any) {
   vue.component('core-card-list-skeleton', CardListSkeleton);
@@ -38,6 +38,7 @@ export function initCoreComponents(vue: any) {
   vue.component('core-empty-content', EmptyContent);
   vue.component('core-card-list', CardsList);
   vue.component('core-confirmation-modal', ConfirmationModal);
+  vue.component('core-base-modal', BaseModal);
   vue.component('core-flow', Flow);
   vue.component('core-input-text', InputText);
   vue.component('core-select-one', SelectOne);
@@ -55,5 +56,4 @@ export function initCoreComponents(vue: any) {
   vue.component('core-button', ButtonComponent);
   vue.component('core-tags', tagsComponent);
   vue.component('core-date-time-picker', DateTimePickerComponent);
-  vue.component('sortable', Sortable);
 }

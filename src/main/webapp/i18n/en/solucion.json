@@ -94,7 +94,8 @@
           "estados": {
             "mascara": {
               "label": "Mask",
-              "title": "Mask states"
+              "title": "Mask states",
+              "exist": "This mask already exist"
             }
           },
           "buttons": {

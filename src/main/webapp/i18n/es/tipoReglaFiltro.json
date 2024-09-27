@@ -1,0 +1,17 @@
+{
+  "apeironGwApp": {
+    "TipoReglaFiltro": {
+      "null": "",
+      "TEXT_IS_EMPTY": "Es vacío",
+      "TEXT_IS_NOT_EMPTY": "No está vacío",
+      "TEXT_CONTAINS": "Contiene el texto",
+      "TEXT_NOT_CONTAINS": "no contiene el texto",
+      "TEXT_BEGIN_WITH": "Comienza con",
+      "TEXT_FINISH_WITH": "Termina con",
+      "TEXT_EQUAL_TO": "Es igual a",
+      "TEXT_IS_IN_LIST": "Se encuentra en la lista",
+      "TEXT_IS_IN_COMMA_SEPARATED_VALUES": "Se encuentra en la lista de valores separados por coma",
+      "TEXT_IS_NOT_IN_LIST": "No se encuentra en la lista"
+    }
+  }
+}

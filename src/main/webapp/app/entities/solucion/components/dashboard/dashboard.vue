@@ -17,12 +17,8 @@
             </div>
             <div class="col-2 text-center float-right">
               <div>
-                <b-button class="mr-1" @click="openCodeEditorModal(index)" variant="success" size="sm">
-                  <b-icon icon="pencil"></b-icon>
-                </b-button>
-                <b-button variant="outline-danger" @click="handleDelete(index)" size="sm">
-                  <b-icon icon="x"></b-icon>
-                </b-button>
+                <core-button @click="openCodeEditorModal(index)" class="mr-2" type="edit" notext> </core-button>
+                <core-button @click="handleDelete(index)" class="mr-2" type="delete" notext> </core-button>
               </div>
             </div>
           </div>
@@ -41,12 +37,12 @@
         <b-tr class="text-center">
           <b-th>{{ $t('archeApp.solucion.seccion.dashboard.table.solicitante') }}</b-th>
           <b-th v-for="(column, index) in solution.vistaResumen.columnas" :key="column.id">
-            <b-button @click="openPermisosPerColumnEditorModal(index)" class="border-0" size="sm" variant="white">
+            <b-button @click="openPermisosPerColumnEditorModal(index)" class="border-0" size="sm" variant="white" pill>
               <b-avatar
                 :icon="column?.roles?.length > 0 ? 'people-fill' : 'people'"
                 :badge="column?.roles?.length.toString()"
-                variant="primary"
-                badge-variant="primary"
+                variant="light"
+                badge-variant="light"
                 badge-top
               ></b-avatar>
             </b-button>
@@ -72,7 +68,10 @@
             </div>
           </b-td>
           <b-td>
-            <b-button variant="info" size="sm" @click="handleOpenConfigEstadoModal">{{ $t('archeApp.solucion.estado') }}</b-button>
+            <b-button class="shadow d-inline-block border-0" variant="outline-primary" size="sm" @click="handleOpenConfigEstadoModal">
+              <b-icon icon="mask"></b-icon>
+              {{ $t('archeApp.solucion.seccion.dashboard.estados.mascara.title') }}</b-button
+            >
           </b-td>
           <b-td>
             <div class="btn-group">
@@ -114,103 +113,35 @@
       </b-tfoot>
     </b-table-simple>
 
-    <!-- ****************** -->
-    <!-- MODAL: EDIT COLUMN -->
-    <!-- ****************** -->
+    <!-- ************************ -->
+    <!-- MODAL: EDIT COLUMN       -->
+    <!-- ************************ -->
+    <core-base-modal ref="codeEditorModal" @confirmed="handleConfirmation('codeEditorModal')" @canceled="handleCancel('codeEditorModal')">
+      <edit-column v-if="columnSelected" v-model="columnSelected" :solution="solution" :solicitud="solicitud"></edit-column>
+    </core-base-modal>
 
-    <b-modal
-      size="xl"
-      centered
-      ref="codeEditorModal"
-      header-bg-variant="primary"
-      header-text-variant="light"
-      scrollable
-      no-close-on-backdrop
-      no-close-on-esc
-      hide-header-close
+    <!-- ************************ -->
+    <!-- MODAL: Cancel OPERATION  -->
+    <!-- ************************ -->
+    <core-confirmation-modal ref="removeElementModal" @confirmed="deleteColumnHandler"></core-confirmation-modal>
+
+    <!-- ************************ -->
+    <!-- MODAL: EDIT ROLES        -->
+    <!-- ************************ -->
+    <core-base-modal
+      ref="permisosPerColumnEditorModal"
+      @confirmed="handleConfirmation('permisosPerColumnEditorModal')"
+      @canceled="handleCancel('permisosPerColumnEditorModal')"
     >
-      <template #modal-title>
-        <div class="col-8 text-white text-left">
-          <span>{{ $t('entity.action.edit') }}</span>
-        </div>
-      </template>
-      <div class="modal-body container-fluid">
-        <div class="row">
-          <div class="col">
-            <b-tabs v-if="columnSelected">
-              <b-tab @click="visible = true">
-                <template #title>
-                  <b-icon icon="code"></b-icon>
-                  {{ $t('archeApp.solucion.seccion.dashboard.editor.code.title') }}
-                </template>
-                <core-code-editor v-model="columnSelected.expresion" lang="text/javascript"></core-code-editor>
+      <edit-column v-if="columnSelected" v-model="columnSelected" :solution="solution" :solicitud="solicitud"></edit-column>
+    </core-base-modal>
 
-                <b-form-group id="fieldset-horizontal" class="mt-3" label="Resultado" label-for="result-script">
-                  <div id="result-script" class="bg-light" :set="(execution = execute(columnSelected.expresion))">
-                    <span v-if="execution.isValid && !execution.showResultAsObject">{{ execution.data }} </span>
-                    <span v-if="!execution.isValid" class="text-danger"
-                      ><b-icon class="mr-2" icon="exclamation-circle"></b-icon><em>{{ execution.data }}</em></span
-                    >
-                    <!-- <json-view v-if="execution.showResultAsObject" :data="execution.data" /> -->
-                  </div>
-                </b-form-group>
-              </b-tab>
-              <b-tab @click="visible = false">
-                <template #title>
-                  <b-icon :icon="columnSelected?.roles?.length && columnSelected.roles.length > 0 ? 'people-fill' : 'people'"></b-icon>
-                  {{ $t('archeApp.solucion.seccion.dashboard.permisos.label') }}
-                </template>
-                <b-card-body class="overflow-auto">
-                  <b-form-checkbox-group id="add-permisos" stacked v-model="columnSelected.roles" :options="roles"></b-form-checkbox-group>
-                </b-card-body>
-              </b-tab>
-              <b-tab @click="visible = false">
-                <template #title>
-                  <b-icon
-                    :animation="columnSelected.filter ? 'fade' : ''"
-                    :icon="columnSelected.filter ? 'funnel-fill' : 'funnel'"
-                  ></b-icon>
-                  {{ $t('logs.filter') }}
-                </template>
-
-                <core-empty-content v-if="!columnSelected?.filter"> </core-empty-content>
-                <div v-else>
-                  <b-form-group label-cols="4" :label="$t('archeApp.solucion.seccion.dashboard.filtro.disable')">
-                    <b-form-checkbox size="lg" v-model="columnSelected.filter" name="check-button" switch> </b-form-checkbox>
-                  </b-form-group>
-                  <b-form-group label-cols="4" :label="$t('archeApp.solucion.seccion.dashboard.filtro.path.label')">
-                    <b-form-input
-                      v-model="columnSelected.path"
-                      :placeholder="$t('archeApp.solucion.seccion.dashboard.filtro.path.placeholder')"
-                    >
-                    </b-form-input>
-                  </b-form-group>
-                  <b-form-group label-cols="4" :label="$t('archeApp.solucion.seccion.dashboard.filtro.tipo.label')">
-                    <b-form-select v-model="columnSelected.tipoReglaFiltro" :options="tipoReglasFiltro" class="mb-3"> </b-form-select>
-                  </b-form-group>
-                  <b-form-group
-                    v-if="columnSelected.tipoReglaFiltro === 'TEXT_IS_IN_LIST' || columnSelected.tipoReglaFiltro === 'TEXT_IS_NOT_IN_LIST'"
-                    label-cols="4"
-                    :label="$t('archeApp.solucion.seccion.dashboard.filtro.tipo.valores.label')"
-                  >
-                    <core-input-tags
-                      id="filtro-list"
-                      label="Types of components"
-                      v-model="columnSelected.filtroValores"
-                      :placeholder="$t('archeApp.solucion.seccion.dashboard.filtro.tipo.valores.placeholder')"
-                    ></core-input-tags>
-                  </b-form-group>
-                </div>
-              </b-tab>
-            </b-tabs>
-          </div>
-        </div>
-      </div>
-      <template #modal-footer>
-        <b-button variant="outline-danger" @click="handleCancel('codeEditorModal')">{{ $t('entity.action.cancel') }}</b-button>
-        <b-button variant="primary" @click="handleConfirmation('codeEditorModal')">{{ $t('entity.action.confirm') }}</b-button>
-      </template>
-    </b-modal>
+    <!-- ************************ -->
+    <!-- MODAL: EDIT MASK         -->
+    <!-- ************************ -->
+    <core-base-modal :title="$t('archeApp.solucion.seccion.dashboard.estados.mascara.title')" ref="configEstadoModal" :actions="['close']">
+      <edit-mask v-model="solution.vistaResumen.mascaraEstados"></edit-mask>
+    </core-base-modal>
   </div>
 </template>
 

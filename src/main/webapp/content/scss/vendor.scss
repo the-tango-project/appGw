@@ -20,3 +20,111 @@ nav li.router-link-active .navbar-dropdown-menu {
 @import 'sideNavbar';
 @import 'loading';
 /* jhipster-needle-scss-add-vendor JHipster will add new css style */
+
+/*
+    * Alerts
+      PRIMARY = 'PRIMARY',
+  SECONDARY = 'SECONDARY',
+  SUCCESS = 'SUCCESS',
+  DANGER = 'DANGER',
+  WARNING = 'WARNING',
+  INFO = 'INFO',
+  LIGHT = 'LIGHT',
+  DARK = 'DARK',
+    * --------------------------------------------------
+    */
+.alert {
+  border-left-width: 4px;
+  border-left-style: solid;
+  border-radius: 0.25rem;
+  font-size: 20px;
+  margin: 1.25rem 0 1.25rem;
+}
+
+.alert.alert-primary {
+  border-color: $primary;
+}
+.alert.alert-secondary {
+  border-color: $secondary;
+}
+.alert.alert-success {
+  border-color: $success;
+}
+
+.alert.alert-danger {
+  border-color: $danger;
+}
+
+.alert.alert-warning {
+  border-color: $warning;
+}
+
+.alert.alert-info {
+  border-color: $info;
+}
+
+.alert.alert-light {
+  border-color: $light;
+}
+
+.alert.alert-dark {
+  border-color: $dark;
+}
+
+.info-svg {
+  fill: green;
+}
+
+.alert.alert-info::before {
+  content: '';
+  background: url('../images/icons/avisos/info.svg') no-repeat center;
+}
+
+.alert.alert-primary::before {
+  content: '';
+  background: url('../images/icons/avisos/primary.svg') no-repeat center;
+}
+
+.alert.alert-dark::before {
+  content: '';
+  background: url('../images/icons/avisos/dark.svg') no-repeat center;
+}
+
+.alert.alert-light::before {
+  content: '';
+  background: url('../images/icons/avisos/light.svg') no-repeat center;
+}
+
+.alert.alert-secondary::before {
+  content: '';
+  background: url('../images/icons/avisos/secondary.svg') no-repeat center;
+}
+
+.alert.alert-success::before {
+  content: '';
+  background: url('../images/icons/avisos/success.svg') no-repeat center;
+}
+
+.alert.alert-warning::before {
+  content: '';
+  background: url('../images/icons/avisos/warning.svg') no-repeat center;
+}
+
+.alert.alert-danger::before {
+  content: '';
+  background: url('../images/icons/avisos/danger.svg') no-repeat center;
+}
+
+.alert::before {
+  position: absolute;
+  top: 14px;
+  left: -12px;
+  color: #fff;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  text-align: center;
+  line-height: 20px;
+  font-weight: bold;
+  font-size: 12px;
+}

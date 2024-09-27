@@ -1,0 +1,17 @@
+{
+  "apeironGwApp": {
+    "TipoReglaFiltro": {
+      "null": "",
+      "TEXT_IS_EMPTY": "Is Empty",
+      "TEXT_IS_NOT_EMPTY": "Is not Empty",
+      "TEXT_CONTAINS": "Text contains",
+      "TEXT_NOT_CONTAINS": "Text not contains",
+      "TEXT_BEGIN_WITH": "Text begin with",
+      "TEXT_FINISH_WITH": "Text finish with",
+      "TEXT_EQUAL_TO": "Text is equals to",
+      "TEXT_IS_IN_LIST": "Text is in list",
+      "TEXT_IS_IN_COMMA_SEPARATED_VALUES": "Text is in list of comma separated values",
+      "TEXT_IS_NOT_IN_LIST": "Text is not in list"
+    }
+  }
+}

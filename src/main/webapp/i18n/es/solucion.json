@@ -94,7 +94,8 @@
           "estados": {
             "mascara": {
               "label": "Máscara",
-              "title": "Enmascarar estados"
+              "title": "Enmascarar estados",
+              "exist": "Esta máscara ya se encuentra registrada"
             }
           },
           "buttons": {

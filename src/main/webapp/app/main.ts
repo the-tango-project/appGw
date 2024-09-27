@@ -8,6 +8,7 @@ import App from './app.vue';
 import router from './router';
 import { initFortAwesome, initI18N } from './shared/config/config';
 import { initBootstrapVue } from './shared/config/config-bootstrap-vue';
+import { initThirdPartyComponents } from './shared/config/config-third-party-components';
 import { initCoreComponents } from './shared/config/config-core-components';
 import { initVueflow } from './shared/config/config-vueflow';
 import { initMiscellaneousComponents } from './shared/config/config-miscellaneous-components';
@@ -32,6 +33,7 @@ initMiscellaneousComponents(Vue);
 initCoreComponents(Vue);
 initVueflow(Vue);
 initCodeEditorVue(Vue);
+initThirdPartyComponents(Vue);
 
 // This part follow the bootrap-vue migration recommendations at https://bootstrap-vue.org/vue3
 (Vue as any).configureCompat({

@@ -5,3 +5,4 @@
 declare const SERVER_API_URL: string;
 declare const APP_VERSION: string;
 declare const I18N_HASH: string;
+declare module 'vue3-json-viewer';

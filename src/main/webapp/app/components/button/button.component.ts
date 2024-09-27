@@ -1,5 +1,4 @@
-import { computed, defineComponent, type Ref, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { defineComponent, type Ref, ref } from 'vue';
 
 export default defineComponent({
   compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
@@ -22,6 +21,10 @@ export default defineComponent({
       default: false,
     },
     size: {
+      type: String,
+      default: null,
+    },
+    text: {
       type: String,
       default: null,
     },
@@ -51,6 +54,8 @@ export default defineComponent({
       configBtnProps('outline-danger', 'x-circle', 'entity.action.delete');
     } else if (props.type === 'edit') {
       configBtnProps('outline-secondary', 'pencil', 'entity.action.edit');
+    } else if (props.type === 'add') {
+      configBtnProps('primary', 'plus', 'entity.action.add');
     }
 
     return {

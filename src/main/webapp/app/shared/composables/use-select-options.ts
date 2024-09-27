@@ -10,6 +10,7 @@ import useSolucionUtils from '../solucion/solucion-utils.service';
 import { TipoSolucion } from '../model/enumerations/tipo-solucion.model';
 import { TipoAcceso } from '../model/enumerations/tipo-acceso.model';
 import { RolAutoridad } from '../model/enumerations/rol-autoridad.model';
+import { TipoReglaFiltro } from '../model/enumerations/tipo-regla-filtro.model';
 
 // by convention, composable function names start with "use"
 export function useSelectOptions() {
@@ -24,10 +25,16 @@ export function useSelectOptions() {
   const tipoSolutionOptions = tipoSolutions();
   const tipoAccessOptions = tipoAccess();
   const authorityOptions = authorities();
+  const tipoFilterRulesOptions = tipoFilterRules();
 
   function tipoSolutions(): Array<IOption> {
     return mapKeys('apeironGwApp.TipoSolucion.', TipoSolucion, false, '.simpleName');
   }
+
+  function tipoFilterRules(): Array<IOption> {
+    return mapKeys('apeironGwApp.TipoReglaFiltro.', TipoReglaFiltro);
+  }
+
   function tipoAccess(): Array<IOption> {
     return mapKeys('apeironGwApp.TipoAcceso.', TipoAcceso);
   }
@@ -92,6 +99,7 @@ export function useSelectOptions() {
     tipoSolutionOptions,
     tipoAccessOptions,
     authorityOptions,
+    tipoFilterRulesOptions,
     actionByEstateOptions,
   };
 }
