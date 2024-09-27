@@ -74,19 +74,7 @@
             >
           </b-td>
           <b-td>
-            <div class="btn-group">
-              <core-button
-                :title="button.tooltip"
-                @click="handleOpenEditButtonModal(index, button)"
-                v-for="(button, index) in solution.vistaResumen.buttons"
-                :key="index"
-                class="mr-2"
-                variant="outline-primary"
-                :icon="button.icon"
-                notext
-              >
-              </core-button>
-            </div>
+            <edit-buttons v-model="solution.vistaResumen.buttons"></edit-buttons>
           </b-td>
         </b-tr>
         <b-tr class="text-center" v-for="index in 5" :key="index">

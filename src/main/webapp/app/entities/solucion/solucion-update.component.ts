@@ -202,6 +202,7 @@ export default defineComponent({
       }
     },
     resolveIcon(icon: string, index: number): string {
+      if (icon === 'table') return icon;
       return icon + (this.isTabActive(index) ? '-fill' : '');
     },
     isTabActive(index: number): boolean {

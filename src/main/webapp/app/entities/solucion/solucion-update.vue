@@ -72,7 +72,7 @@
         </b-tab>
         <b-tab v-if="!isNavbarOpen" id="tab-card-info-id" class="mt-4" :title-link-class="linkClass(6)">
           <template #title>
-            <b-icon :icon="resolveIcon('tablet-landscape', 6)"></b-icon> {{ $t('archeApp.solucion.seccion.dashboard.title') }}
+            <b-icon :icon="resolveIcon('table', 6)"></b-icon> {{ $t('archeApp.solucion.seccion.dashboard.title') }}
           </template>
           <b-card class="shadow border-dark">
             <dashboard v-model="solucion"></dashboard>

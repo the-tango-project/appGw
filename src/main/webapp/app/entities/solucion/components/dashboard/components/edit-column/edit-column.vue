@@ -36,6 +36,7 @@
                 stacked
                 v-model="columnToEdit.roles"
                 :options="authorityOptions"
+                size="lg"
               ></b-form-checkbox-group>
             </b-card-body>
           </b-tab>

@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import type { IColumna } from '@/shared/model/columna.model';
 import EditColumn from './components/edit-column/edit-column.vue';
 import EditMask from './components/edit-mask/edit-mask.vue';
+import EditButtons from './components/edit-buttons/edit-buttons.vue';
 import ScriptService from '@/shared/script/script.service';
 import type { IScriptResult } from '@/shared/script/script-result.model';
 
@@ -15,6 +16,7 @@ export default defineComponent({
   components: {
     'edit-column': EditColumn,
     'edit-mask': EditMask,
+    'edit-buttons': EditButtons,
   },
   props: {
     modelValue: {
@@ -31,13 +33,10 @@ export default defineComponent({
     //EDIT MODAL
     const codeEditorModal = ref<any>(null);
     const removeElementModal = ref<any>(null);
-    const editarButtonModal = ref<any>(null);
     const permisosPerColumnEditorModal = ref<any>(null);
     const configEstadoModal = ref<any>();
     //INDEX
     const currentColumnIndex: Ref<number | null> = ref(null);
-    const currentButtonIndex: Ref<number | null> = ref(null);
-    const currentButtonEditable: Ref<any | null> = ref(null);
     const solicitante: Ref<any> = ref(
       solicitud.value.solicitante?.nombre +
         ' ' +
@@ -66,11 +65,8 @@ export default defineComponent({
       removeElementModal,
       configEstadoModal,
       scriptService,
-      currentButtonIndex,
       solicitud,
-      currentButtonEditable,
       codeEditorModal,
-      editarButtonModal,
       columnSelected,
       currentColumnIndex,
       customFieldNumber,
@@ -110,13 +106,6 @@ export default defineComponent({
     },
     handleOpenConfigEstadoModal() {
       this.configEstadoModal.show();
-    },
-    handleOpenEditButtonModal(buttonIndex: number, button: any) {
-      this.currentButtonEditable = { ...button };
-      this.currentButtonIndex = buttonIndex;
-      if (<any>this.$refs.editarButtonModal) {
-        (<any>this.$refs.editarButtonModal).show();
-      }
     },
     activateColumnOnFilter() {},
     addElement() {},
