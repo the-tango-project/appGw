@@ -17,12 +17,12 @@ import { Solucion, type ISolucion } from '@/shared/model/solucion.model';
 
 import { useSelectOptions } from '@/shared/composables/use-select-options';
 
-import type { NodeChange } from '@/shared/model/proceso/diagram.model';
+import type { EdgeChange, NodeChange } from '@/shared/model/proceso/diagram.model';
 import { NodeChangeType } from '@/shared/model/enumerations/node-change-type.model';
 import { EdgeChangeType } from '@/shared/model/enumerations/edge-change-type.model';
 
 import { useSideNavbarStore, useSolutionStore } from '@/store';
-import { type IStateEditable } from '@/shared/model/proceso/estado.model';
+import { type IEstado, type IStateEditable } from '@/shared/model/proceso/estado.model';
 import useObjectUtils from '@/shared/util/object-utils';
 import { EstadoSolucion } from '@/shared/model/enumerations/estado-solucion.model';
 import VersionComponent from '@/components/process/version/version.vue';
@@ -34,6 +34,8 @@ import Configuration from './components/configuration/configuration.vue';
 import Dashboard from './components/dashboard/dashboard.vue';
 import EmailTemplate from './components/email-template/email-template.vue';
 import Forms from './components/forms/forms.vue';
+import EditTransition from './components/edit-transition/edit-transition.vue';
+import type { ITransicion } from '@/shared/model/proceso/transicion.model';
 
 const useValidationRules = (validations: any, t$: any) => {
   return {
@@ -65,6 +67,7 @@ export default defineComponent({
     forms: Forms,
     'general-data': GeneralData,
     messages: Messages,
+    'edit-transition': EditTransition,
   },
   setup() {
     //Commons methods
@@ -94,6 +97,10 @@ export default defineComponent({
     const isImporting: Ref<boolean> = ref(false);
     const tabIndex: Ref<number> = ref(0);
     const stateToEdit: Ref<IStateEditable | null> = ref(null);
+    const transitionToEdit: Ref<ITransicion | null> = ref(null);
+    const transitionToEditIndex: Ref<number> = ref(0);
+    const stateToEditIndex: Ref<number> = ref(0);
+
     //SelectOne options
     const tipoMenuOptions = ref(selectOptions.menuOptions);
     const tipoComponentOptions = ref(selectOptions.componenteOptions);
@@ -101,6 +108,9 @@ export default defineComponent({
     //Store configuration
     const sideNavbarStore = useSideNavbarStore();
     const solutionStore = useSolutionStore();
+
+    //Modals
+    const editEdgeModal = ref<any>(null);
 
     // Method definition
     const retriveById = async (solucionId: any) => {
@@ -181,12 +191,16 @@ export default defineComponent({
       scriptService,
       sideNavbarStore,
       solucionUtils,
+      transitionToEdit,
+      stateToEditIndex,
+      transitionToEditIndex,
       stateToEdit,
       solutionStore,
       objectUtils,
       isArchivada,
       isNavbarOpen,
       coreFlow,
+      editEdgeModal,
     };
   },
   methods: {
@@ -300,8 +314,43 @@ export default defineComponent({
     clickEdgeHandler(change: any) {
       console.log('clickEdgeHandler');
     },
-    doubleClickEdgeHandler(change: any) {
-      console.log('doubleClickEdgeHandler');
+    doubleClickEdgeHandler(change: EdgeChange) {
+      console.log(change);
+      if (this.solucion.proceso?.estados) {
+        const result = this.findTransition(change.sourceId, change.action);
+        this.stateToEditIndex = result[0];
+        this.transitionToEditIndex = result[1];
+        this.transitionToEdit = result[2];
+        this.editEdgeModal.show();
+      }
+    },
+    updateTransitionHandler() {
+      let state: IEstado | null = null;
+
+      if (this.solucion.proceso?.estados) {
+        state = this.solucion.proceso?.estados[this.stateToEditIndex];
+      }
+
+      if (state?.transiciones && this.transitionToEdit) {
+        state.transiciones.splice(this.transitionToEditIndex, 1, this.transitionToEdit);
+      }
+    },
+    findTransition(from: string | null | undefined, action: string | null | undefined): any[] {
+      let stateIndex: number | undefined = -1;
+      let transitionIndex: number | undefined = -1;
+      let currentState: IEstado | null = null;
+      let currentTransition: ITransicion | null = null;
+      if (from && this.solucion.proceso?.estados) {
+        stateIndex = this.solucion.proceso.estados.findIndex(state => state.nombre === from);
+        currentState = this.solucion.proceso.estados[stateIndex];
+      }
+
+      if (currentState?.transiciones && action) {
+        transitionIndex = currentState.transiciones.findIndex(transition => transition.accion === action);
+        currentTransition = currentState.transiciones[transitionIndex];
+      }
+
+      return [stateIndex, transitionIndex, { ...currentTransition }];
     },
     fitViewHandler() {
       this.coreFlow.fitViewHandler();

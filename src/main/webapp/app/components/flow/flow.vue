@@ -58,7 +58,7 @@
         </control-button>
       </controls>
     </vue-flow>
-    <core-confirmation-modal ref="removeElementModal" @confirmed="confirmedHandler" @canceled="canceledHandler">
+    <core-confirmation-modal ref="removeElementModal" variant="danger" @confirmed="confirmedHandler" @canceled="canceledHandler">
       <b-table striped hover :items="nodeToRemove"></b-table>
       <b-table striped hover :items="edgeToRemove"></b-table>
     </core-confirmation-modal>

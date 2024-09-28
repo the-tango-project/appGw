@@ -95,6 +95,9 @@
           </b-card>
         </b-tab>
       </b-tabs>
+      <core-base-modal ref="editEdgeModal" @confirmed="updateTransitionHandler">
+        <edit-transition v-if="transitionToEdit" v-model="transitionToEdit"></edit-transition>
+      </core-base-modal>
     </div>
   </div>
 </template>

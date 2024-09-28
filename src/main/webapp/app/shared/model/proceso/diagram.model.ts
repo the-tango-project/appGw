@@ -25,6 +25,7 @@ export class NodeChange extends Diagram {
     public y?: number | null,
     public sourceId?: string | null,
     public targetId?: string | null,
+    public action?: string | null,
   ) {
     super(x, y, sourceId, targetId);
   }
@@ -38,6 +39,7 @@ export class EdgeChange extends Diagram {
     public y?: number | null,
     public sourceId?: string | null,
     public targetId?: string | null,
+    public action?: string | null,
   ) {
     super(x, y, sourceId, targetId);
   }

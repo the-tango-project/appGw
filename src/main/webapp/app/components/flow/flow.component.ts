@@ -1,13 +1,7 @@
-import { computed, defineComponent, inject, ref, type Ref, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
-import type LoginService from '@/account/login.service';
-import type AccountService from '@/account/account.service';
-import languages from '@/shared/config/languages';
-import EntitiesMenu from '@/entities/entities-menu.vue';
+import { computed, defineComponent, ref, type Ref, watch } from 'vue';
 import { type IProceso, Proceso } from '@/shared/model/proceso/proceso.model';
 import { TipoAccion } from '@/shared/model/enumerations/tipo-accion.model';
-import { Estado, type IEstado } from '@/shared/model/proceso/estado.model';
+import { Estado } from '@/shared/model/proceso/estado.model';
 
 import { useVueFlow, MarkerType, type NodeRemoveChange, type EdgeRemoveChange, Position, type Connection } from '@vue-flow/core';
 /* these are necessary styles for vue flow */
@@ -17,9 +11,10 @@ import '@vue-flow/core/dist/theme-default.css';
 import '@vue-flow/controls/dist/style.css';
 import StateNode from './nodes/state-node.vue';
 import { faker } from '@faker-js/faker';
-import { NodeChange } from '@/shared/model/proceso/diagram.model';
+import { EdgeChange, NodeChange } from '@/shared/model/proceso/diagram.model';
 import { NodeChangeType } from '@/shared/model/enumerations/node-change-type.model';
 import { MiniMap } from '@vue-flow/minimap';
+import { EdgeChangeType } from '@/shared/model/enumerations/edge-change-type.model';
 
 export default defineComponent({
   compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
@@ -70,20 +65,6 @@ export default defineComponent({
     const flow = computed({ get: () => props.modelValue, set: value => emit('update:modelValue', value) });
     const isMaxZoom = computed(() => viewport.value.zoom >= maxZoom.value);
     const isMinZoom = computed(() => viewport.value.zoom <= minZoom.value);
-
-    const resolveRoles = (estado: Estado, accion: TipoAccion | null | undefined): Array<any> => {
-      const roles: Array<any> = [];
-      if (estado.permisos) {
-        estado.permisos.forEach(permiso => {
-          if (permiso.acciones && permiso.acciones.findIndex(e => e === accion) > -1) {
-            if (permiso.rol) {
-              roles.push(permiso.rol.toLocaleLowerCase());
-            }
-          }
-        });
-      }
-      return roles;
-    };
 
     const nodes: Ref<any> = ref([]);
     const edges: Ref<any> = ref([]);
@@ -198,6 +179,13 @@ export default defineComponent({
         edge.animated = edge.id === data.edge.id;
         return edge;
       });
+      const edgeChange = new EdgeChange();
+      edgeChange.type = EdgeChangeType.DOUBLE_CLICK;
+      edgeChange.id = data.edge.id;
+      edgeChange.sourceId = data.edge.source;
+      edgeChange.targetId = data.edge.target;
+      edgeChange.action = data.edge.action;
+      emit('update:edge', edgeChange);
     });
 
     const createNodesAndEdges = (proceso: IProceso) => {
@@ -215,6 +203,7 @@ export default defineComponent({
             label: transition.accion + ' >',
             source: estado.nombre,
             target: transition.destino,
+            action: transition.accion,
             labelStyle: { fill: '#10b981', fontWeight: 700 },
             labelBgStyle: { fill: '#edf2f7' },
             markerEnd: MarkerType.ArrowClosed,
