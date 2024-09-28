@@ -3,7 +3,7 @@ import { DataFaker } from '@/shared/util/faker/DataFaker';
 import type { Solicitud } from '@/shared/model/solicitud.model';
 import { v4 as uuidv4 } from 'uuid';
 
-import type { IColumna } from '@/shared/model/columna.model';
+import { type IColumna, Columna } from '@/shared/model/columna.model';
 import EditColumn from './components/edit-column/edit-column.vue';
 import EditMask from './components/edit-mask/edit-mask.vue';
 import EditButtons from './components/edit-buttons/edit-buttons.vue';
@@ -25,15 +25,19 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const scriptService = inject('scriptService', () => new ScriptService());
+    const sortableKey = ref(0);
 
     const executions: Ref<any> = ref([]);
     const columnSelected: Ref<IColumna | null> = ref(null);
     const solicitud: Ref<Solicitud> = ref(DataFaker.getSolicitud());
+    const isHover: Ref<boolean> = ref(false);
 
     //EDIT MODAL
-    const codeEditorModal = ref<any>(null);
+    const createColumnModal = ref<any>(null);
+    const editColumnModal = ref<any>(null);
     const removeElementModal = ref<any>(null);
     const permisosPerColumnEditorModal = ref<any>(null);
+    const sortColumnsModal = ref<any>(null);
     const configEstadoModal = ref<any>();
     //INDEX
     const currentColumnIndex: Ref<number | null> = ref(null);
@@ -61,12 +65,16 @@ export default defineComponent({
     const drag = ref(false);
 
     return {
+      isHover,
+      sortableKey,
+      sortColumnsModal,
       permisosPerColumnEditorModal,
       removeElementModal,
       configEstadoModal,
       scriptService,
       solicitud,
-      codeEditorModal,
+      createColumnModal,
+      editColumnModal,
       columnSelected,
       currentColumnIndex,
       customFieldNumber,
@@ -81,10 +89,10 @@ export default defineComponent({
       return false;
     },
     openCodeEditorModal(index: number): void {
-      if (this.solution && this.codeEditorModal) {
+      if (this.solution && this.editColumnModal) {
         this.columnSelected = { ...this.solution.vistaResumen.columnas[index] };
         this.currentColumnIndex = index;
-        this.codeEditorModal.show();
+        this.editColumnModal.show();
       }
     },
     handleDelete(index: number): void {
@@ -92,18 +100,13 @@ export default defineComponent({
       this.removeElementModal.show();
     },
     addVariable() {
-      if (this.solution) {
-        this.solution.vistaResumen.columnas.push({ id: uuidv4(), nombre: '', expresion: '', filter: false });
-      }
+      this.columnSelected = new Columna();
+      this.columnSelected.id = uuidv4();
+      this.columnSelected.filter = false;
+      this.currentColumnIndex = -2;
+      this.createColumnModal.show();
     },
     mouseover(index: any) {},
-    openPermisosPerColumnEditorModal(index: any) {
-      if (this.solution) {
-        this.columnSelected = { ...this.solution.vistaResumen.columnas[index] };
-        this.currentColumnIndex = index;
-        this.permisosPerColumnEditorModal.show();
-      }
-    },
     handleOpenConfigEstadoModal() {
       this.configEstadoModal.show();
     },
@@ -113,7 +116,13 @@ export default defineComponent({
     handleCancel(modal: string) {
       (<any>this[modal]).hide();
     },
-    handleConfirmation(modal: string) {
+    addColumnHandler(modal: string) {
+      if (this.solution) {
+        this.solution.vistaResumen.columnas.push(this.columnSelected);
+        this.columnSelected = new Columna();
+      }
+    },
+    editColumnHandler(modal: string) {
       if (this.solution) {
         this.solution.vistaResumen.columnas.splice(this.currentColumnIndex, 1, this.columnSelected);
         this.currentColumnIndex = -1;
@@ -127,7 +136,24 @@ export default defineComponent({
     deleteColumnHandler() {
       if (this.solution) {
         this.solution.vistaResumen.columnas.splice(this.currentColumnIndex, 1);
+        this.sortableKey = this.sortableKey + 1;
       }
+    },
+    sortColumnsHandler() {
+      this.sortColumnsModal.show();
+    },
+    changeOrderHandler(event: any) {
+      if (this.solution) {
+        const leftElement = this.solution.vistaResumen.columnas[event.oldIndex];
+        const rightElement = this.solution.vistaResumen.columnas[event.newIndex];
+        this.solution.vistaResumen.columnas.splice(event.oldIndex, 1, rightElement);
+        this.solution.vistaResumen.columnas.splice(event.newIndex, 1, leftElement);
+        this.sortableKey = this.sortableKey + 1;
+      }
+    },
+    handleHover(hovered: any) {
+      console.log(hovered);
+      this.isHover = hovered;
     },
   },
 });

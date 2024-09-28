@@ -55,7 +55,9 @@ export default defineComponent({
     } else if (props.type === 'edit') {
       configBtnProps('outline-secondary', 'pencil', 'entity.action.edit');
     } else if (props.type === 'add') {
-      configBtnProps('primary', 'plus', 'entity.action.add');
+      configBtnProps('outline-primary', 'plus', 'entity.action.add');
+    } else if (props.type === 'sort') {
+      configBtnProps('outline-primary', 'sort-alpha-down', 'entity.action.sort');
     }
 
     return {

@@ -1,6 +1,15 @@
 <template>
   <div class="modal-body container-fluid">
     <div class="row">
+      <b-form-group :label="$t('archeApp.solucion.seccion.dashboard.properties.name')">
+        <b-form-input
+          v-model="columnToEdit.nombre"
+          :placeholder="$t('archeApp.solucion.seccion.dashboard.properties.placeholder')"
+          size="sm"
+        ></b-form-input>
+      </b-form-group>
+    </div>
+    <div class="row">
       <div class="col">
         <b-tabs v-if="columnToEdit">
           <b-tab @click="visible = true">

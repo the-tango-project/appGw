@@ -66,7 +66,9 @@
           "title": "Panel",
           "properties": {
             "title": "Campos adicionales",
-            "placeholder": "Ingrese campos adicionales"
+            "name": "Nombre",
+            "placeholder": "Nombre de la columna",
+            "sort": "Ordenar columnas"
           },
           "table": {
             "solicitante": "Solicitante",

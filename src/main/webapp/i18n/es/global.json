@@ -159,7 +159,8 @@
       "loading": "Cargando...",
       "go": "Ir",
       "go-home": "Ir a la página principal",
-      "manage": "Administrar"
+      "manage": "Administrar",
+      "sort": "Ordenar"
     },
     "detail": {
       "field": "Campo",
