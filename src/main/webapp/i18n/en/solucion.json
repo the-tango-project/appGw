@@ -72,7 +72,8 @@
           },
           "table": {
             "solicitante": "Requester",
-            "actions": "Actions"
+            "actions": "Actions",
+            "delete-column": "The column <b>'{ columnName }'<b> will be deleted"
           },
           "icon": {
             "title": "Select icon",

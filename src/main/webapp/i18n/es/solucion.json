@@ -72,7 +72,8 @@
           },
           "table": {
             "solicitante": "Solicitante",
-            "actions": "Acciones"
+            "actions": "Acciones",
+            "delete-column": "Se va a borrar la columna <b>'{ columnName }'<b>"
           },
           "icon": {
             "title": "Seleccione un icono",

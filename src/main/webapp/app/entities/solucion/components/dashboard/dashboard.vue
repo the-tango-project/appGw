@@ -4,16 +4,23 @@
       <caption>
         <div class="font-weight-bolder h4">{{ solution.titulo }}</div>
         <div v-if="solution.descripcion" v-html="solution.descripcion"></div>
-        <core-button type="sort" :text="$t('entity.action.sort')" class="float-right" @click="sortColumnsHandler"></core-button>
       </caption>
       <b-thead head-variant="primary">
         <b-tr class="text-center">
           <b-th>{{ $t('archeApp.solucion.seccion.dashboard.table.solicitante') }}</b-th>
-          <b-th v-b-hover="handleHover" v-for="(column, index) in solution.vistaResumen.columnas" :key="column.id">
-            <span class="mr-2">{{ column.nombre }}</span>
-
-            <core-button v-if="isHover" type="edit" size="sm" notext @click="openCodeEditorModal(index)"></core-button>
-            <core-button v-if="isHover" type="delete" size="sm" notext @click="handleDelete(index)"></core-button>
+          <b-th v-for="(column, index) in solution.vistaResumen.columnas" :key="column.id">
+            <b-dropdown :text="column.nombre" variant="light">
+              <b-dropdown-item @click="openCodeEditorModal(index)"
+                ><b-icon class="mr-2" icon="pencil"></b-icon> {{ $t('entity.action.edit') }}</b-dropdown-item
+              >
+              <b-dropdown-item @click="sortColumnsHandler"
+                ><b-icon class="mr-2" icon="sort-alpha-down"></b-icon> {{ $t('entity.action.sort') }}</b-dropdown-item
+              >
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item @click="handleDelete(index)" variant="danger">
+                <b-icon class="mr-2" icon="x-circle"></b-icon> {{ $t('entity.action.delete') }}</b-dropdown-item
+              >
+            </b-dropdown>
           </b-th>
           <b-th>
             <core-button type="add" notext @click="addVariable"></core-button>
@@ -92,9 +99,16 @@
     </core-base-modal>
 
     <!-- ************************ -->
-    <!-- MODAL: Cancel OPERATION  -->
+    <!-- MODAL: DELETE OPERATION  -->
     <!-- ************************ -->
-    <core-confirmation-modal ref="removeElementModal" @confirmed="deleteColumnHandler"></core-confirmation-modal>
+    <core-confirmation-modal ref="removeElementModal" variant="danger" @confirmed="deleteColumnHandler">
+      <core-message v-if="columnSelected?.nombre" variant="warning">
+        <p
+          class="text-warning"
+          v-html="$t('archeApp.solucion.seccion.dashboard.table.delete-column', { columnName: columnSelected.nombre })"
+        ></p>
+      </core-message>
+    </core-confirmation-modal>
 
     <!-- ************************ -->
     <!-- MODAL: EDIT MASK         -->
@@ -103,35 +117,11 @@
       <edit-mask v-model="solution.vistaResumen.mascaraEstados"></edit-mask>
     </core-base-modal>
 
-    <core-base-modal title="Ordenar columnas" ref="sortColumnsModal" :actions="['close']">
-      <sortable :key="sortableKey" :list="solution.vistaResumen.columnas" itemKey="id" @end="changeOrderHandler">
-        <template #item="{ element, index }">
-          <div class="draggable" :key="index">
-            <li class="list-group-item shadow-sm border-0 mb-1 bg-white">
-              <div class="row">
-                <div class="col-1"><b-icon variant="primary" font-scale="1.5" class="handle" icon="list"></b-icon></div>
-                <div class="col-8">
-                  <b-form-input
-                    v-model="element.nombre"
-                    :placeholder="$t('archeApp.solucion.seccion.dashboard.properties.placeholder')"
-                    size="sm"
-                  ></b-form-input>
-                </div>
-                <div class="col-1">
-                  <b-icon variant="primary" font-scale="1.2" :icon="element.filter ? 'funnel-fill' : 'funnel'"></b-icon>
-                </div>
-                <div class="col-2 text-center float-right">
-                  <div>
-                    {{ index }}
-                    <core-button @click="openCodeEditorModal(index)" class="mr-2" type="edit" notext> </core-button>
-                    <core-button @click="handleDelete(index)" class="mr-2" type="delete" notext> </core-button>
-                  </div>
-                </div>
-              </div>
-            </li>
-          </div>
-        </template>
-      </sortable>
+    <!-- ************************ -->
+    <!-- MODAL: SORT: Columns     -->
+    <!-- ************************ -->
+    <core-base-modal :title="$t('archeApp.solucion.seccion.dashboard.properties.sort')" ref="sortColumnsModal" :actions="['close']">
+      <sort-columns v-model="solution.vistaResumen.columnas"></sort-columns>
     </core-base-modal>
   </div>
 </template>

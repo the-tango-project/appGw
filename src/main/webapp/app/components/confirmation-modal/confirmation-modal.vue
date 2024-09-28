@@ -7,12 +7,14 @@
     hide-header-close
     :centered="centered"
     :header-bg-variant="variant"
-    :header-text-variant="textVariant()"
+    :header-text-variant="textVariant"
     footer-border-variant="light"
     header-border-variant="light"
     :size="size"
-    :title="title"
   >
+    <template #modal-title>
+      <h5><b-icon :icon="titleIcon" font-scale="1.2"></b-icon> {{ title }}</h5>
+    </template>
     <div v-if="!noquestion" class="mb-5 text-center">
       <h3 v-text="question"></h3>
     </div>

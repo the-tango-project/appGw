@@ -66,13 +66,8 @@ export default defineComponent({
       confirmationModal.value.hide();
     };
 
-    const textVariant = () => {
-      if (props.variant === 'light') {
-        return 'dark';
-      } else {
-        return 'light';
-      }
-    };
+    const titleIcon = computed(() => (props.variant === 'danger' ? 'exclamation-triangle' : 'exclamation-lg'));
+    const textVariant = computed(() => (props.variant === 'light' ? 'dark' : 'light'));
 
     const show = () => {
       confirmationModal.value.show();
@@ -101,6 +96,7 @@ export default defineComponent({
       comentario,
       accept,
       isDisabled,
+      titleIcon,
     };
   },
   methods: {

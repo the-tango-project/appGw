@@ -96,7 +96,7 @@
         "empty-content": "No hay contenido para mostrar",
         "add-items": "Agrega elementos",
         "confirm": {
-          "title": "Confirmación de operación",
+          "title": "Confirmar operación",
           "question": "¿Está seguro de ejecutar esta operación?",
           "accept": "He leido y acepto"
         },

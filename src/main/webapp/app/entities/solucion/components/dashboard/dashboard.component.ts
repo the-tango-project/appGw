@@ -7,6 +7,7 @@ import { type IColumna, Columna } from '@/shared/model/columna.model';
 import EditColumn from './components/edit-column/edit-column.vue';
 import EditMask from './components/edit-mask/edit-mask.vue';
 import EditButtons from './components/edit-buttons/edit-buttons.vue';
+import SortColumns from './components/sort-columns/sort-columns.vue';
 import ScriptService from '@/shared/script/script.service';
 import type { IScriptResult } from '@/shared/script/script-result.model';
 
@@ -17,6 +18,7 @@ export default defineComponent({
     'edit-column': EditColumn,
     'edit-mask': EditMask,
     'edit-buttons': EditButtons,
+    'sort-columns': SortColumns,
   },
   props: {
     modelValue: {
@@ -25,7 +27,6 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const scriptService = inject('scriptService', () => new ScriptService());
-    const sortableKey = ref(0);
 
     const executions: Ref<any> = ref([]);
     const columnSelected: Ref<IColumna | null> = ref(null);
@@ -66,7 +67,6 @@ export default defineComponent({
 
     return {
       isHover,
-      sortableKey,
       sortColumnsModal,
       permisosPerColumnEditorModal,
       removeElementModal,
@@ -96,8 +96,11 @@ export default defineComponent({
       }
     },
     handleDelete(index: number): void {
-      this.currentColumnIndex = index;
-      this.removeElementModal.show();
+      if (this.solution) {
+        this.columnSelected = { ...this.solution.vistaResumen.columnas[index] };
+        this.currentColumnIndex = index;
+        this.removeElementModal.show();
+      }
     },
     addVariable() {
       this.columnSelected = new Columna();
@@ -136,20 +139,10 @@ export default defineComponent({
     deleteColumnHandler() {
       if (this.solution) {
         this.solution.vistaResumen.columnas.splice(this.currentColumnIndex, 1);
-        this.sortableKey = this.sortableKey + 1;
       }
     },
     sortColumnsHandler() {
       this.sortColumnsModal.show();
-    },
-    changeOrderHandler(event: any) {
-      if (this.solution) {
-        const leftElement = this.solution.vistaResumen.columnas[event.oldIndex];
-        const rightElement = this.solution.vistaResumen.columnas[event.newIndex];
-        this.solution.vistaResumen.columnas.splice(event.oldIndex, 1, rightElement);
-        this.solution.vistaResumen.columnas.splice(event.newIndex, 1, leftElement);
-        this.sortableKey = this.sortableKey + 1;
-      }
     },
     handleHover(hovered: any) {
       console.log(hovered);
