@@ -1,0 +1,34 @@
+{
+  "apeironGwApp": {
+    "transicion": {
+      "add": "Add transition",
+      "businessRules": {
+        "title": "Business rules",
+        "search": "Search by words"
+      },
+      "message": {
+        "confirm": "Confirm message",
+        "dobleCheckQuestion": "is required doble check?",
+        "addMessageQuestion": " is required add a message?"
+      },
+      "arguments": {
+        "hint": "Configure params <br><br><i><strong>- {{ nombre }} -</strong></i>"
+      },
+      "notificacion": {
+        "title": "Notification",
+        "de": "From",
+        "para": "To",
+        "cc": "cc",
+        "cco": "cco",
+        "asunto": "Subject",
+        "variables": "Common Variables",
+        "placeholder": {
+          "asunto": "Enter the subject",
+          "para": "Enter the emails of the recipients",
+          "cc": "Enter the emails to which a copy of the message should reach",
+          "cco": "Enter the emails to which a hidden copy of the message should reach"
+        }
+      }
+    }
+  }
+}

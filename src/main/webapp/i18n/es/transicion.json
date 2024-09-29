@@ -1,0 +1,34 @@
+{
+  "apeironGwApp": {
+    "transicion": {
+      "add": "Agregar transión",
+      "businessRules": {
+        "title": "Reglas de negocio",
+        "search": "Buscar por palabras"
+      },
+      "message": {
+        "confirm": "Mensaje de confirmación",
+        "dobleCheckQuestion": "Requiere doble confirmación?",
+        "addMessageQuestion": " Requiere agregar un comentario?"
+      },
+      "arguments": {
+        "hint": "Configura los parámetros que se le pasarán a este componente: <br><br><i><strong>- {{ nombre }} -</strong></i>"
+      },
+      "notificacion": {
+        "title": "Notificaciones",
+        "de": "From",
+        "para": "To",
+        "cc": "cc",
+        "cco": "cco",
+        "asunto": "Subject",
+        "variables": "Common Variables",
+        "placeholder": {
+          "asunto": "Enter the subject",
+          "para": "Enter the emails of the recipients",
+          "cc": "Enter the emails to which a copy of the message should reach",
+          "cco": "Enter the emails to which a hidden copy of the message should reach"
+        }
+      }
+    }
+  }
+}
