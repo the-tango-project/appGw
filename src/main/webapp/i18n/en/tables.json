@@ -1,0 +1,7 @@
+{
+  "global": {
+    "tables": {
+      "selected-items": "You have <strong>{ count }</strong> selected items"
+    }
+  }
+}

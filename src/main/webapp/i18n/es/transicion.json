@@ -6,6 +6,9 @@
         "title": "Reglas de negocio",
         "search": "Buscar por palabras"
       },
+      "actions": {
+        "title": "Acciones"
+      },
       "message": {
         "confirm": "Mensaje de confirmación",
         "dobleCheckQuestion": "Requiere doble confirmación?",

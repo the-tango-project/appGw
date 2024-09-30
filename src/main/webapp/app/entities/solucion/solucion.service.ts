@@ -2,7 +2,6 @@ import axios from 'axios';
 
 import buildPaginationQueryOpts from '@/shared/sort/sorts';
 import buildQueryOpts from '@/shared/filter/filtering';
-import { EstadoSolucion } from '@/shared/model/enumerations/estado-solucion.model';
 
 import { type ISolucion } from '@/shared/model/solucion.model';
 

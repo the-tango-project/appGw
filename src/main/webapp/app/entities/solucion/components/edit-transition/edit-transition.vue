@@ -53,6 +53,51 @@
         </b-collapse>
       </b-col>
     </b-row>
+    <b-row>
+      <b-col cols="12" v-if="transition">
+        <b-card-header header-tag="header" class="p-1" role="tab">
+          <b-button block v-b-toggle.accordion-reglas variant="primary">
+            <b-icon icon="list-task"></b-icon>
+            {{ $t('apeironGwApp.transicion.businessRules.title') }}
+          </b-button>
+        </b-card-header>
+        <b-collapse id="accordion-reglas" accordion="reglas" role="tabpanel">
+          <b-card-body>
+            <select-transition-elements
+              class="mt-3"
+              id="reglas-id"
+              v-model="transition.reglas"
+              :items="reglas"
+              add-tags-column
+              add-condition-column
+            ></select-transition-elements>
+          </b-card-body>
+        </b-collapse>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col cols="12" v-if="transition">
+        <b-card-header header-tag="header" class="p-1" role="tab">
+          <b-button block v-b-toggle.accordion-acciones variant="primary">
+            <b-icon icon="lightning"></b-icon>
+            {{ $t('apeironGwApp.transicion.actions.title') }}
+          </b-button>
+        </b-card-header>
+        <b-collapse id="accordion-acciones" accordion="acciones" role="tabpanel">
+          <b-card-body>
+            <select-transition-elements
+              class="mt-3"
+              id="acciones-id"
+              v-model="transition.acciones"
+              :items="actions"
+            ></select-transition-elements>
+          </b-card-body>
+        </b-collapse>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col cols="12"></b-col>
+    </b-row>
   </b-container>
 </template>
 

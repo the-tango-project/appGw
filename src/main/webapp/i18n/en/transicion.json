@@ -6,6 +6,9 @@
         "title": "Business rules",
         "search": "Search by words"
       },
+      "actions": {
+        "title": "Actions"
+      },
       "message": {
         "confirm": "Confirm message",
         "dobleCheckQuestion": "is required doble check?",
