@@ -72,9 +72,9 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col cols="12">
+      <b-col cols="12" v-if="transition?.notificacion">
         <core-accordion :title="$t('apeironGwApp.transicion.notificacion.title')" icon="envelope">
-          <notification-config></notification-config>
+          <notification-config v-model="transition.notificacion"></notification-config>
         </core-accordion>
       </b-col>
     </b-row>

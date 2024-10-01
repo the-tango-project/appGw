@@ -100,6 +100,8 @@
           "question": "¿Está seguro de ejecutar esta operación?",
           "accept": "He leido y acepto"
         },
+        "notificacionNotActivated": "Las notificaciones se encuentran desactivadas",
+        "activate": "Dé clic en la campana para activar",
         "add-text": "Agrega un texto para continuar..."
       },
       "error": {

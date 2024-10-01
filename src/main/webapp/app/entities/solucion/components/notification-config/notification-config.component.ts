@@ -1,15 +1,49 @@
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, type PropType, type Ref, ref } from 'vue';
+import type { Notificacion } from '@/shared/model/notificacion.model';
 
 export default defineComponent({
   compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
   name: 'NotificationConfig',
   props: {
     modelValue: {
-      type: String,
+      type: Object as PropType<Notificacion>,
       required: true,
     },
   },
   setup(props, { emit }) {
-    return {};
+    const variableCorreos: Ref<any[]> = ref([{ nombre: 'Solicitante', path: 'solicitud.solicitante.correo' }]);
+    const variables: Ref<any[]> = ref([
+      { nombre: 'Nombre del solicitante', path: 'solicitud.solicitante.nombre' },
+      { nombre: 'Apellido paterno del solicitante', path: 'solicitud.solicitante.apellidoPaterno' },
+      { nombre: 'Apellido materno del solicitante', path: 'solicitud.solicitante.apellidoMaterno' },
+      { nombre: 'Correo del solicitante', path: 'solicitud.solicitante.correo' },
+    ]);
+
+    const notificacion = computed({
+      get: () => props.modelValue,
+      set: value => emit('update:modelValue', value),
+    });
+    return { notificacion, variableCorreos, variables };
+  },
+  methods: {
+    addCorreoToPara(variable: any) {
+      if (this.notificacion.para) {
+        this.notificacion.para.push('{{ ' + variable.path + ' }}');
+      }
+    },
+    addCorreoToCc(variable: any) {
+      if (this.notificacion.cc) {
+        this.notificacion.cc.push('{{ ' + variable.path + ' }}');
+      }
+    },
+    addCorreoToCco(variable: any) {
+      if (this.notificacion.cco) {
+        this.notificacion.cco.push('{{ ' + variable.path + ' }}');
+      }
+    },
+    addVariable(variable: any) {
+      const editor = this.$refs.mensajeNotificacion as any;
+      editor.quill.insertText(editor.quill.selection.savedRange.index, ' [[${' + variable.path + '}]] ');
+    },
   },
 });

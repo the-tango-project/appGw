@@ -100,6 +100,8 @@
           "question": "Are you sure to execute this operation?",
           "accept": "Accept"
         },
+        "notificacionNotActivated": "Notifications disabled",
+        "activate": "Click on the activation check",
         "add-text": "Add a text to continue..."
       },
       "error": {
