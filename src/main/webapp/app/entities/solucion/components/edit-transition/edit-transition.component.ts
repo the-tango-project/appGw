@@ -6,6 +6,7 @@ import type { IOption } from '@/shared/model/ui/option.model';
 import type { IRule } from '@/shared/model/rule.model';
 import RuleService from '@/entities/solucion/rule.service';
 import ActionService from '@/entities/solucion/action.service';
+import NotificationConfig from '../notification-config/notification-config.vue';
 import SelectTransitionElements from '../select-transition-elements/select-transition-elements.vue';
 import type { IAction } from '@/shared/model/action.model';
 
@@ -14,6 +15,7 @@ export default defineComponent({
   name: 'EditTransition',
   components: {
     'select-transition-elements': SelectTransitionElements,
+    'notification-config': NotificationConfig,
   },
   props: {
     modelValue: {

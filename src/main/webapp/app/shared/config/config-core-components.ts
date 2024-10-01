@@ -26,6 +26,7 @@ import MessageComponent from '@/components/message/message.vue';
 import ButtonComponent from '@/components/button/button.vue';
 import tagsComponent from '@/components/fields/tags/tags.vue';
 import DateTimePickerComponent from '@/components/fields/date-time-picker/date-time-picker.vue';
+import AccordionComponent from '@/components/accordion/accordion.vue';
 
 export function initCoreComponents(vue: any) {
   vue.component('core-card-list-skeleton', CardListSkeleton);
@@ -56,4 +57,5 @@ export function initCoreComponents(vue: any) {
   vue.component('core-button', ButtonComponent);
   vue.component('core-tags', tagsComponent);
   vue.component('core-date-time-picker', DateTimePickerComponent);
+  vue.component('core-accordion', AccordionComponent);
 }
