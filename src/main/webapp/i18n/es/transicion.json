@@ -15,7 +15,7 @@
         "addMessageQuestion": " Requiere agregar un comentario?"
       },
       "arguments": {
-        "hint": "Configura los parámetros que se le pasarán a este componente: <br><br><i><strong>- {{ nombre }} -</strong></i>"
+        "hint": "Configura los parámetros que se le pasarán a este componente: <br><br><i><strong>- { nombre } -</strong></i>"
       },
       "notificacion": {
         "title": "Notificaciones",

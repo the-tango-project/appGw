@@ -148,6 +148,8 @@
       "edit": "Editar",
       "open": "Abrir",
       "save": "Guardar",
+      "saving": "Guardando...",
+      "saved": "Guardado",
       "view": "Vista",
       "search": "Buscar",
       "show": "Show { otherEntity }",

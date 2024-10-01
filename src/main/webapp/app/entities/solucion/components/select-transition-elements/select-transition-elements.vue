@@ -56,7 +56,7 @@
           <b-icon class="i-selected" icon="check-square" variant="primary" font-scale="1.2" @click="handleRemoveComponente(row)"></b-icon>
           <b-icon
             v-if="hasArguments(row)"
-            class="i-selected"
+            class="i-selected ml-2"
             variant="primary"
             font-scale="1.2"
             icon="gear"

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import buildPaginationQueryOpts from '@/shared/sort/sorts';
-import buildQueryOpts from '@/shared/filter/filtering';
+import buildQueryOpts from '@/shared/filters/query-opts';
 
 import { type ISolucion } from '@/shared/model/solucion.model';
 

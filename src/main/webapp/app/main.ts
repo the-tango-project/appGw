@@ -19,6 +19,7 @@ import LoginService from './account/login.service';
 import AccountService from './account/account.service';
 import { setupAxiosInterceptors } from '@/shared/config/axios-interceptor';
 import { useStore, useTranslationStore } from '@/store';
+import * as filters from '@/shared/filters/filters';
 
 import '../content/scss/global.scss';
 import '../content/scss/vendor.scss';
@@ -166,7 +167,7 @@ const app = createApp({
 });
 
 initFortAwesome(app);
-
+app.config.globalProperties.$filters = filters.addFilters();
 app
   .component('jhi-item-count', JhiItemCountComponent)
   .component('jhi-sort-indicator', JhiSortIndicatorComponent)
