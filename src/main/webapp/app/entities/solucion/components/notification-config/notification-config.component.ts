@@ -19,11 +19,13 @@ export default defineComponent({
       { nombre: 'Correo del solicitante', path: 'solicitud.solicitante.correo' },
     ]);
 
+    const mensajeNotificacion = ref<any>(null);
+
     const notificacion = computed({
       get: () => props.modelValue,
       set: value => emit('update:modelValue', value),
     });
-    return { notificacion, variableCorreos, variables };
+    return { notificacion, variableCorreos, variables, mensajeNotificacion };
   },
   methods: {
     addCorreoToPara(variable: any) {
@@ -42,8 +44,7 @@ export default defineComponent({
       }
     },
     addVariable(variable: any) {
-      const editor = this.$refs.mensajeNotificacion as any;
-      editor.quill.insertText(editor.quill.selection.savedRange.index, ' [[${' + variable.path + '}]] ');
+      this.mensajeNotificacion.addVariable(variable);
     },
   },
 });
