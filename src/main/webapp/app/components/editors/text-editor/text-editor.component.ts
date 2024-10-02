@@ -2,8 +2,9 @@ import { computed, defineComponent, ref } from 'vue';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { faker } from '@faker-js/faker';
 
+//https://github.com/tinymce/tinymce-vue
+//https://github.com/JiHong88/awesome-wysiwyg?tab=readme-ov-file
 export default defineComponent({
   compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
   name: 'TextEditorComponent',
