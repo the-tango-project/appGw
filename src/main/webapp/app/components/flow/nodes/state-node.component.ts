@@ -13,7 +13,10 @@ export default defineComponent({
     'node-toolbar': NodeToolbar,
   },
   props: {
-    id: String,
+    id: {
+      type: String,
+      required: true,
+    },
     data: Object,
   },
   setup(props) {
@@ -69,6 +72,10 @@ export default defineComponent({
     },
 
     updateNodeHandler(): void {
+      this.updateNodeData(this.id, {});
+    },
+
+    addNodeHandler(): void {
       this.updateNodeData(this.id, {});
     },
   },

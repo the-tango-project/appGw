@@ -1,7 +1,5 @@
-import { computed, defineComponent, inject, ref, type Ref, defineModel, watch } from 'vue';
+import { computed, defineComponent, ref, type Ref, watch } from 'vue';
 import { useCoreProps } from '@/composables/coreProps';
-import type { IColumn } from '@/components/card-list/CardItem.model';
-import type { IOption } from '@/shared/model/ui/option.model';
 import { useI18n } from 'vue-i18n';
 const { coreProps } = useCoreProps();
 
@@ -18,7 +16,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const { t: t$ } = useI18n();
-    const selectOptionPlaceholder: Ref<String> = ref(t$('global.form.selecttags.placeholder').toString());
+    const selectOptionPlaceholder: Ref<string> = ref(t$('global.form.selecttags.placeholder').toString());
     const selectFormKey = ref(0);
 
     const theModel = computed({

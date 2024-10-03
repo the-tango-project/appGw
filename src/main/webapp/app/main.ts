@@ -8,6 +8,7 @@ import App from './app.vue';
 import router from './router';
 import { initFortAwesome, initI18N } from './shared/config/config';
 import { initBootstrapVue } from './shared/config/config-bootstrap-vue';
+import { initPrimeComponents } from './shared/config/config-prime-components';
 import { initThirdPartyComponents } from './shared/config/config-third-party-components';
 import { initCoreComponents } from './shared/config/config-core-components';
 import { initVueflow } from './shared/config/config-vueflow';
@@ -24,12 +25,14 @@ import * as filters from '@/shared/filters/filters';
 import '../content/scss/global.scss';
 import '../content/scss/vendor.scss';
 import TranslationService from '@/locale/translation.service';
+import PrimeVue from 'primevue/config';
 
 const pinia = createPinia();
 
 // jhipster-needle-add-entity-service-to-main-import - JHipster will import entities services here
 
 initBootstrapVue(Vue);
+initPrimeComponents(Vue);
 initMiscellaneousComponents(Vue);
 initCoreComponents(Vue);
 initVueflow(Vue);
@@ -174,4 +177,5 @@ app
   .use(router)
   .use(pinia)
   .use(i18n)
+  .use(PrimeVue, { unstyled: true })
   .mount('#app');

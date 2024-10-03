@@ -3,6 +3,7 @@ import { Rule } from '@/shared/model/rule.model';
 import { Action } from '@/shared/model/action.model';
 import { Notificacion, type INotificacion } from '@/shared/model/notificacion.model';
 import { TipoAccion } from '@/shared/model/enumerations/tipo-accion.model';
+import { Diagram, type IDiagram } from '@/shared/model/proceso/diagram.model';
 
 export interface ITransicion {
   accion?: TipoAccion | null;
@@ -13,6 +14,7 @@ export interface ITransicion {
   reglas?: Rule[] | null;
   acciones?: Action[] | null;
   notificacion?: INotificacion | null;
+  diagram?: IDiagram | null;
 }
 
 export class Transicion implements ITransicion {
@@ -25,9 +27,11 @@ export class Transicion implements ITransicion {
     public reglas?: Rule[] | null,
     public acciones?: Action[] | null,
     public notificacion?: INotificacion | null,
+    public diagram?: IDiagram | null,
   ) {
     this.reglas = this.reglas ? this.reglas : [];
     this.acciones = this.acciones ? this.acciones : [];
     this.notificacion = this.notificacion ? this.notificacion : new Notificacion();
+    this.diagram = this.diagram ? this.diagram : new Diagram();
   }
 }

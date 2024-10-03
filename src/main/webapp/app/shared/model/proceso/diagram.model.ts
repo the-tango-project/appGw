@@ -6,6 +6,7 @@ export interface IDiagram {
   y?: number | null;
   sourceId?: string | null;
   targetId?: string | null;
+  type?: string | null;
 }
 
 export class Diagram implements IDiagram {
@@ -14,6 +15,7 @@ export class Diagram implements IDiagram {
     public y?: number | null,
     public sourceId?: string | null,
     public targetId?: string | null,
+    public type?: string | null,
   ) {}
 }
 

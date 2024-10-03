@@ -107,6 +107,7 @@
     "dayjs": "1.11.11",
     "deepmerge": "4.3.1",
     "pinia": "2.1.7",
+    "primevue": "^4.0.7",
     "sortablejs": "^1.15.3",
     "sortablejs-vue3": "^1.2.11",
     "uuid": "^10.0.0",

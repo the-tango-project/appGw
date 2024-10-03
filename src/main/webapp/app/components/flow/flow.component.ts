@@ -208,9 +208,9 @@ export default defineComponent({
             labelBgStyle: { fill: '#edf2f7' },
             markerEnd: MarkerType.ArrowClosed,
             animated: false,
-            type: 'step',
-            sourceHandle: 'source',
-            targetHandle: 'target-a',
+            type: transition.diagram?.type ? transition.diagram.type : 'smoothstep', //bezier,step,smoothstep,straight
+            sourceHandle: transition.diagram?.sourceId,
+            targetHandle: transition.diagram?.targetId,
           });
         });
       });
