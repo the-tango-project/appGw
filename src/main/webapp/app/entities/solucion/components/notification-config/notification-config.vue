@@ -16,7 +16,6 @@
           :disabled="!notificacion.activada"
         />
         <b-button
-          class="ml-2 mt-3"
           variant="outline-success"
           size="sm"
           v-for="(variable, index) in variableCorreos"
@@ -36,7 +35,6 @@
           :disabled="!notificacion.activada"
         />
         <b-button
-          class="ml-2 mt-3"
           variant="outline-success"
           size="sm"
           v-for="(variable, index) in variableCorreos"
@@ -56,7 +54,6 @@
           :disabled="!notificacion.activada"
         />
         <b-button
-          class="ml-2 mt-3"
           variant="outline-success"
           size="sm"
           v-for="(variable, index) in variableCorreos"
@@ -67,9 +64,9 @@
         </b-button>
       </b-form-group>
       <b-form-group label-cols="2" label-cols-lg="1" :label="$t('apeironGwApp.transicion.notificacion.asunto')">
-        <b-form-input v-model="notificacion.asunto" size="md" :disabled="!notificacion.activada"></b-form-input>
+        <b-form-input class="mb-2" v-model="notificacion.asunto" size="md" :disabled="!notificacion.activada"></b-form-input>
+        <core-text-editor id="mensaje-notificacion" ref="mensajeNotificacion" v-model="notificacion.mensaje"></core-text-editor>
       </b-form-group>
-      <core-text-editor id="mensaje-notificacion" ref="mensajeNotificacion" v-model="notificacion.mensaje"></core-text-editor>
       <b-button
         class="ml-2 mt-3"
         variant="outline-success"
@@ -86,7 +83,7 @@
       :message="$t('global.messages.info.notificacionNotActivated')"
       :hint="$t('global.messages.info.activate')"
       icon="bell"
-      @add="notificacion.activada = true"
+      @add="addContent"
     ></core-empty-content>
   </div>
 </template>

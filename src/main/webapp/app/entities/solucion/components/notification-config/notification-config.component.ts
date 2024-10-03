@@ -46,5 +46,8 @@ export default defineComponent({
     addVariable(variable: any) {
       this.mensajeNotificacion.addVariable(variable);
     },
+    addContent() {
+      this.notificacion.activada = true;
+    },
   },
 });

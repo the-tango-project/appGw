@@ -137,3 +137,18 @@ nav li.router-link-active .navbar-dropdown-menu {
 /* .component-fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+
+//Quill editor
+.ql-editor {
+  @extend .form-control;
+  border: 1px solid #9c9c9c;
+  height: 250px;
+}
+
+.ql-toolbar.ql-snow {
+  border: 1px solid #000000;
+}
+
+.ql-container.ql-snow {
+  border: 0px solid #d1d5db;
+}
