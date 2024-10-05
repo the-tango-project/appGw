@@ -10,4 +10,4 @@
   <handle class="connector" id="target-b" type="target" :position="leftEnum" :connectable="true"></handle>
 </template>
 
-<script lang="ts" src="./state-node.component.ts"></script>
+<script lang="ts" src="./node-state.component.ts"></script>

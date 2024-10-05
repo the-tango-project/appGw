@@ -7,24 +7,26 @@ import '@vue-flow/core/dist/style.css';
 /* this contains the default theme, these are optional styles */
 import '@vue-flow/core/dist/theme-default.css';
 import '@vue-flow/controls/dist/style.css';
-import StateNode from './nodes/state-node.vue';
+import NodeState from './node-state/node-state.vue';
 import { faker } from '@faker-js/faker';
 import { EdgeChange, NodeChange } from '@/shared/model/proceso/diagram.model';
 import { NodeChangeType } from '@/shared/model/enumerations/node-change-type.model';
 import { MiniMap } from '@vue-flow/minimap';
 import { EdgeChangeType } from '@/shared/model/enumerations/edge-change-type.model';
-import CustomConnectionLine from './custom-connection-line/CustomConnectionLine.vue';
+import ConnectionLine from './connection-line/connection-line.vue';
 import type { ITransicion } from '@/shared/model/proceso/transicion.model';
 import type { EstadoSolicitud } from '@/shared/model/enumerations/estado-solicitud.model';
+import ControlButtons from './control-buttons/control-buttons.vue';
 
 export default defineComponent({
   compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
   name: 'Flow',
   emits: ['update:modelValue', 'update:node', 'update:edge'],
   components: {
-    'state-node': StateNode,
+    'node-state': NodeState,
     'mini-map': MiniMap,
-    'custom-connection-line': CustomConnectionLine,
+    'connection-line': ConnectionLine,
+    'control-buttons': ControlButtons,
   },
   props: {
     modelValue: {
@@ -33,16 +35,9 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const isLock: Ref<boolean> = ref(false);
-    const removeElementModal = ref<any>(null);
-
     const {
       onInit,
-      zoomIn,
-      zoomOut,
-      fitView,
       getViewport,
-      addEdges,
       nodesDraggable,
       onConnect,
       onNodeClick,
@@ -52,21 +47,16 @@ export default defineComponent({
       onEdgeClick,
       onEdgesChange,
       onEdgeDoubleClick,
-      onNodeMouseLeave,
       onSelectionStart,
       onSelectionEnd,
       applyNodeChanges,
       applyEdgeChanges,
-      updateNodeData,
       findNode,
-      maxZoom,
-      minZoom,
       viewport,
     } = useVueFlow();
 
     const flow = computed({ get: () => props.modelValue, set: value => emit('update:modelValue', value) });
-    const isMaxZoom = computed(() => viewport.value.zoom >= maxZoom.value);
-    const isMinZoom = computed(() => viewport.value.zoom <= minZoom.value);
+    const removeElementModal = ref<any>(null);
 
     const nodes: Ref<any> = ref([]);
     const edges: Ref<any> = ref([]);
@@ -74,7 +64,10 @@ export default defineComponent({
     const edgeToRemove: Ref<EdgeRemoveChange[] | null> = ref([]);
 
     onInit(vueFlowInstance => {
-      vueFlowInstance.fitView();
+      setTimeout(() => {
+        //wait to get a vueFlowInstance prepared
+        vueFlowInstance.fitView();
+      }, 10);
     });
 
     onConnect((connection: Connection) => {
@@ -246,13 +239,7 @@ export default defineComponent({
       flow,
       nodes,
       edges,
-      isLock,
-      zoomIn,
-      zoomOut,
-      fitView,
       getViewport,
-      isMaxZoom,
-      isMinZoom,
       viewport,
       removeElementModal,
       nodeToRemove,
@@ -263,19 +250,6 @@ export default defineComponent({
     };
   },
   methods: {
-    zoomOutHandler(): void {
-      this.zoomOut();
-    },
-    zoomInHandler(): void {
-      this.zoomIn();
-    },
-    fitViewHandler(): void {
-      this.fitView();
-    },
-    lockAndUnlockHandler(): void {
-      this.isLock = !this.isLock;
-      this.nodesDraggable = !this.isLock;
-    },
     confirmedHandler(): void {
       if (this.nodeToRemove) {
         this.applyNodeChanges(this.nodeToRemove);

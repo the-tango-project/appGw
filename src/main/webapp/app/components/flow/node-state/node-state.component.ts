@@ -7,7 +7,7 @@ import { type IOption } from '@/shared/model/ui/option.model';
 
 export default defineComponent({
   compatConfig: { MODE: 3 },
-  name: 'StateNode',
+  name: 'NodeState',
   components: {
     handle: Handle,
     'node-toolbar': NodeToolbar,

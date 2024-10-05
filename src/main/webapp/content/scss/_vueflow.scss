@@ -72,3 +72,17 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+//VUE FLOW
+.vue-flow__edge.animated path {
+  stroke: $primary;
+  stroke-width: 2px;
+  z-index: 1000;
+}
+
+.vue-flow__handle {
+  height: 15px;
+  width: 8px;
+  background: #aaa;
+  border-radius: 4px;
+}
