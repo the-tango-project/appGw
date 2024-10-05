@@ -238,7 +238,7 @@ export default defineComponent({
     };
 
     watch([flow], () => {
-      //Make a copy of the flow
+      //Make a copy of the flow test
       createNodesAndEdges(JSON.parse(JSON.stringify(flow.value)));
     });
     return {
