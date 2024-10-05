@@ -15,6 +15,10 @@
         <state-node :id="props.id" :data="props.data" />
       </template>
 
+      <template #connection-line="{ sourceX, sourceY, targetX, targetY }">
+        <custom-connection-line :source-x="sourceX" :source-y="sourceY" :target-x="targetX" :target-y="targetY" />
+      </template>
+
       <background></background>
       <mini-map pannable zoomable nodeColor="#90afce" nodeStrokeColor="#90afce" maskColor="rgb(216, 234, 243, 0.7)"></mini-map>
       <controls

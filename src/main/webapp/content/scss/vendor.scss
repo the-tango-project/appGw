@@ -156,3 +156,21 @@ nav li.router-link-active .navbar-dropdown-menu {
 .multiselect-tag {
   background: $primary;
 }
+
+//VUE FLOW
+.vue-flow__edge.animated path {
+  stroke: $primary;
+  stroke-width: 2px;
+  z-index: 1000;
+}
+
+.vue-flow__handle {
+  height: 15px;
+  width: 8px;
+  background: #aaa;
+  border-radius: 4px;
+}
+
+.vue-flow__node {
+  background-color: #f3f4f6;
+}

@@ -6,9 +6,8 @@
   </node-toolbar>
   <div v-text="$t('archeApp.EstadoSolicitud.' + id)"></div>
   <handle id="source" type="source" :position="rightEnum" :connectable="true"></handle>
-  <handle id="target-a" type="target" :position="leftEnum" :connectable="true"></handle>
-  <handle id="target-b" type="target" :position="leftEnum" :connectable="true"></handle>
-  <handle id="target-c" type="target" :position="leftEnum" :connectable="true"></handle>
+  <handle class="connector" id="target-a" type="target" :position="leftEnum" :connectable="true"></handle>
+  <handle class="connector" id="target-b" type="target" :position="leftEnum" :connectable="true"></handle>
 </template>
 
 <script lang="ts" src="./state-node.component.ts"></script>

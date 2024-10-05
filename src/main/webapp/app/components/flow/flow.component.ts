@@ -1,7 +1,5 @@
 import { computed, defineComponent, ref, type Ref, watch } from 'vue';
 import { type IProceso, Proceso } from '@/shared/model/proceso/proceso.model';
-import { TipoAccion } from '@/shared/model/enumerations/tipo-accion.model';
-import { Estado } from '@/shared/model/proceso/estado.model';
 
 import { useVueFlow, MarkerType, type NodeRemoveChange, type EdgeRemoveChange, Position, type Connection } from '@vue-flow/core';
 /* these are necessary styles for vue flow */
@@ -15,6 +13,9 @@ import { EdgeChange, NodeChange } from '@/shared/model/proceso/diagram.model';
 import { NodeChangeType } from '@/shared/model/enumerations/node-change-type.model';
 import { MiniMap } from '@vue-flow/minimap';
 import { EdgeChangeType } from '@/shared/model/enumerations/edge-change-type.model';
+import CustomConnectionLine from './custom-connection-line/CustomConnectionLine.vue';
+import type { ITransicion } from '@/shared/model/proceso/transicion.model';
+import type { EstadoSolicitud } from '@/shared/model/enumerations/estado-solicitud.model';
 
 export default defineComponent({
   compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
@@ -23,6 +24,7 @@ export default defineComponent({
   components: {
     'state-node': StateNode,
     'mini-map': MiniMap,
+    'custom-connection-line': CustomConnectionLine,
   },
   props: {
     modelValue: {
@@ -89,7 +91,7 @@ export default defineComponent({
           markerEnd: MarkerType.ArrowClosed,
           animated: false,
           type: 'step',
-          sourceHandle: 'source',
+          sourceHandle: connection.sourceHandle,
           targetHandle: connection.targetHandle,
         });
       } else {
@@ -117,6 +119,7 @@ export default defineComponent({
       console.log('onNodesChange');
       const nextChanges = [];
       for (const change of changes) {
+        console.log('type: ' + change.type);
         if (change.type === 'remove') {
           nodeToRemove.value?.push(change);
           removeElementModal.value.show();
@@ -144,8 +147,14 @@ export default defineComponent({
       console.log('onEdgesChange');
       const nextChanges = [];
       for (const change of changes) {
+        console.log('type: ' + change.type);
         if (change.type === 'remove') {
           prepareToRemoveEdge(change);
+        } else if (change.type === 'select') {
+          edges.value = edges.value.map((edge: any) => {
+            edge.animated = edge.source === change.id;
+            return edge;
+          });
         } else {
           nextChanges.push(change);
         }
@@ -160,6 +169,7 @@ export default defineComponent({
 
     // TODO: MERGE INTO onNodeChange
     onNodeDoubleClick(data => {
+      console.log('onNodeDoubleClick');
       const nodeChange = new NodeChange();
       nodeChange.type = NodeChangeType.DOUBLE_CLICK;
       nodeChange.id = data.node.id;
@@ -168,17 +178,23 @@ export default defineComponent({
 
     // TODO: MERGE INTO onNodeChange
     onNodeClick(data => {
+      console.log('onNodeClick');
       edges.value = edges.value.map((edge: any) => {
         edge.animated = edge.source === data.node.id;
         return edge;
       });
     });
 
-    onEdgeDoubleClick(async data => {
+    onEdgeClick(async data => {
+      console.log('onEdgeClick');
       edges.value = edges.value.map((edge: any) => {
         edge.animated = edge.id === data.edge.id;
         return edge;
       });
+    });
+
+    onEdgeDoubleClick(async data => {
+      console.log('onEdgeDoubleClick');
       const edgeChange = new EdgeChange();
       edgeChange.type = EdgeChangeType.DOUBLE_CLICK;
       edgeChange.id = data.edge.id;
@@ -198,22 +214,27 @@ export default defineComponent({
           type: 'state',
         });
         estado.transiciones?.forEach(transition => {
-          edges.value.push({
-            id: estado.nombre + '-' + transition.accion,
-            label: transition.accion + ' >',
-            source: estado.nombre,
-            target: transition.destino,
-            action: transition.accion,
-            labelStyle: { fill: '#10b981', fontWeight: 700 },
-            labelBgStyle: { fill: '#edf2f7' },
-            markerEnd: MarkerType.ArrowClosed,
-            animated: false,
-            type: transition.diagram?.type ? transition.diagram.type : 'smoothstep', //bezier,step,smoothstep,straight
-            sourceHandle: transition.diagram?.sourceId,
-            targetHandle: transition.diagram?.targetId,
-          });
+          edges.value.push(createEdge(estado.nombre, transition));
         });
       });
+    };
+
+    const createEdge = (from: EstadoSolicitud | null | undefined, transition: ITransicion): any => {
+      return {
+        id: from + '-' + transition.accion,
+        label: transition.accion,
+        source: from,
+        target: transition.destino,
+        action: transition.accion,
+        labelStyle: { fill: '#10b981', fontWeight: 700 },
+        labelBgStyle: { fill: '#edf2f7' },
+        markerEnd: MarkerType.ArrowClosed,
+        arrowHeadColor: '#00000',
+        animated: false,
+        type: transition.diagram?.type ? transition.diagram.type : 'smoothstep', //bezier,step,smoothstep,straight
+        sourceHandle: transition.diagram?.sourceId,
+        targetHandle: transition.diagram?.targetId,
+      };
     };
 
     watch([flow], () => {
@@ -221,6 +242,7 @@ export default defineComponent({
       createNodesAndEdges(JSON.parse(JSON.stringify(flow.value)));
     });
     return {
+      createEdge,
       flow,
       nodes,
       edges,
