@@ -1,3 +1,5 @@
+@import 'bootstrap/scss/variables';
+
 .canvas-flow {
   background-color: #edf2f7;
   height: 100%;
@@ -18,7 +20,7 @@
 }
 
 .vue-flow__node-state.selected {
-  box-shadow: 0 0 0 2px #2563eb;
+  box-shadow: 0 0 0 2px $primary;
 }
 
 .vue-flow__node-state .buttons {
@@ -47,12 +49,12 @@
 }
 
 .vue-flow__node-state button:hover {
-  background-color: #2563eb;
+  background-color: $primary;
   transition: background-color 0.2s;
 }
 
 .vue-flow__node-state button.selected {
-  background-color: #2563eb;
+  background-color: $primary;
 }
 
 .vue-flow__node-state .vue-flow__handle[data-handleid='target-a'] {
@@ -64,7 +66,7 @@
 }
 
 .vue-flow__node-state .vue-flow__handle {
-  background-color: #2563eb;
+  background-color: $primary;
 }
 
 input::-webkit-outer-spin-button,
@@ -85,4 +87,11 @@ input::-webkit-inner-spin-button {
   width: 8px;
   background: #aaa;
   border-radius: 4px;
+}
+
+.vue-flow__edge-path,
+.vue-flow__connection-path {
+  stroke: rgb(179, 167, 167);
+  stroke-width: 1;
+  fill: none;
 }

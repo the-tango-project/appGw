@@ -42,6 +42,8 @@ export class EdgeChange extends Diagram {
     public sourceId?: string | null,
     public targetId?: string | null,
     public action?: string | null,
+    public sourceHandle?: string | null,
+    public targetHandle?: string | null,
   ) {
     super(x, y, sourceId, targetId);
   }

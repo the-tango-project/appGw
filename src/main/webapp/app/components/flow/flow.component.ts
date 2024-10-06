@@ -71,22 +71,17 @@ export default defineComponent({
     });
 
     onConnect((connection: Connection) => {
-      connection.sourceHandle = 'source';
       console.log('on connect', connection);
       if (connection.sourceHandle) {
-        edges.value.push({
-          id: faker.database.mongodbObjectId(),
-          label: 'hola',
-          source: connection.source,
-          target: connection.target,
-          labelStyle: { fill: '#10b981', fontWeight: 700 },
-          labelBgStyle: { fill: '#edf2f7' },
-          markerEnd: MarkerType.ArrowClosed,
-          animated: false,
-          type: 'step',
-          sourceHandle: connection.sourceHandle,
-          targetHandle: connection.targetHandle,
-        });
+        const edgeChange = new EdgeChange();
+        edgeChange.id = faker.database.mongodbObjectId();
+        edgeChange.type = EdgeChangeType.ADD;
+        edgeChange.sourceId = connection.source;
+        edgeChange.targetId = connection.target;
+        edgeChange.sourceHandle = connection.sourceHandle;
+        edgeChange.targetHandle = connection.targetHandle;
+        edgeChange.action = null;
+        emit('update:edge', edgeChange);
       } else {
         console.log('no connected');
       }

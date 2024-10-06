@@ -17,7 +17,7 @@ import { Solucion, type ISolucion } from '@/shared/model/solucion.model';
 
 import { useSelectOptions } from '@/shared/composables/use-select-options';
 
-import type { EdgeChange, NodeChange } from '@/shared/model/proceso/diagram.model';
+import { Diagram, type EdgeChange, type NodeChange } from '@/shared/model/proceso/diagram.model';
 import { NodeChangeType } from '@/shared/model/enumerations/node-change-type.model';
 import { EdgeChangeType } from '@/shared/model/enumerations/edge-change-type.model';
 
@@ -35,7 +35,9 @@ import Dashboard from './components/dashboard/dashboard.vue';
 import EmailTemplate from './components/email-template/email-template.vue';
 import Forms from './components/forms/forms.vue';
 import EditTransition from './components/edit-transition/edit-transition.vue';
-import type { ITransicion } from '@/shared/model/proceso/transicion.model';
+import { Transicion, type ITransicion } from '@/shared/model/proceso/transicion.model';
+import { EstadoSolicitud } from '@/shared/model/enumerations/estado-solicitud.model';
+import { TipoAccion } from '@/shared/model/enumerations/tipo-accion.model';
 
 const useValidationRules = (validations: any, t$: any) => {
   return {
@@ -269,7 +271,7 @@ export default defineComponent({
       }
     },
 
-    edgeChangeHandler(change: any) {
+    edgeChangeHandler(change: EdgeChange) {
       if (change.type === EdgeChangeType.ADD) {
         this.addEdgeHandler(change);
       } else if (change.type === EdgeChangeType.DELETE) {
@@ -291,8 +293,26 @@ export default defineComponent({
     addNodeHandler(change: any) {
       console.log('addNodeHandler');
     },
-    addEdgeHandler(change: any) {
+
+    addEdgeHandler(change: EdgeChange) {
       console.log('addEdgeHandler');
+      //create edge into the process
+      let currentState = null;
+      if (this.solucion.proceso?.estados) {
+        const stateIndex = this.solucion.proceso.estados.findIndex(state => state.nombre === change.sourceId);
+        currentState = this.solucion.proceso.estados[stateIndex];
+      }
+      if (change.targetId && currentState?.transiciones) {
+        const transition = new Transicion();
+        transition.destino = change.targetId as EstadoSolicitud;
+        transition.accion = TipoAccion.ACTIVAR;
+        transition.diagram = new Diagram();
+        transition.diagram.sourceId = change.sourceHandle;
+        transition.diagram.targetId = change.targetHandle;
+        transition.diagram.type = 'smoothstep';
+        currentState.transiciones.push(transition);
+      }
+      //call doubleClickEdgeHandler to edit
     },
     deleteNodeHandler(change: any) {
       console.log('deleteNodeHandler');
