@@ -38,7 +38,6 @@ export default defineComponent({
   },
   methods: {
     toggle(rol: RolAutoridad | null | undefined): void {
-      console.log(rol);
       this.toggledMap.set(rol, !this.toggledMap.get(rol));
     },
     isVisible(rol: RolAutoridad | null | undefined): boolean | undefined {

@@ -97,7 +97,7 @@
     "@vuepic/vue-datepicker": "^9.0.3",
     "@vueup/vue-quill": "^1.2.0",
     "@vueuse/core": "10.11.0",
-    "axios": "1.7.2",
+    "axios": "1.7.7",
     "bootstrap": "4.6.2",
     "bootstrap-vue": "2.23.1",
     "bootswatch": "^5.3.3",
