@@ -2,6 +2,7 @@
   "apeironGwApp": {
     "TipoAccion": {
       "null": "",
+      "NONE": "None",
       "ACTIVAR": "Activate",
       "ACTUALIZAR": "Update",
       "ASIGNAR": "Assign",

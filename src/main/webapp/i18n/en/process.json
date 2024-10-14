@@ -6,6 +6,9 @@
           "title": "Actions",
           "permissions": "Permissions",
           "transitionMessage": "Message"
+        },
+        "messages": {
+          "edit-state": "Edit this node by doble click"
         }
       }
     }

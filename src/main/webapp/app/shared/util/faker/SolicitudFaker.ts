@@ -18,10 +18,10 @@ export class SolicitudFaker {
 
   static defaultPersona(persona: any) {
     persona.login = faker.internet.userName();
-    persona.nombre = faker.name.firstName();
-    persona.apellidoPaterno = faker.name.lastName();
-    persona.apellidoMaterno = faker.name.lastName();
-    persona.genero = faker.name.gender();
+    persona.nombre = faker.person.firstName();
+    persona.apellidoPaterno = faker.person.lastName();
+    persona.apellidoMaterno = faker.person.lastName();
+    persona.genero = faker.person.gender();
     return persona;
   }
 

@@ -46,6 +46,18 @@
           "html": "HTML",
           "preview": "Preview"
         },
+        "configuration": {
+          "title": "Configuration",
+          "authorities": {
+            "title": "Authorities of the solution",
+            "messages": {
+              "danger-zone": {
+                "title": "Warning",
+                "description": "When you remove one or more roles, the configurations made for a role in the solution configuration will be lost"
+              }
+            }
+          }
+        },
         "proceso": {
           "title": "Process"
         },

@@ -22,7 +22,7 @@ import { NodeChangeType } from '@/shared/model/enumerations/node-change-type.mod
 import { EdgeChangeType } from '@/shared/model/enumerations/edge-change-type.model';
 
 import { useSideNavbarStore, useSolutionStore } from '@/store';
-import { type IEstado, type IStateEditable } from '@/shared/model/proceso/estado.model';
+import { Estado, type IEstado, type IStateEditable } from '@/shared/model/proceso/estado.model';
 import useObjectUtils from '@/shared/util/object-utils';
 import { EstadoSolucion } from '@/shared/model/enumerations/estado-solucion.model';
 import VersionComponent from '@/components/process/version/version.vue';
@@ -121,11 +121,37 @@ export default defineComponent({
         const res: ISolucion = await solucionService().findByLastEdited(solucionId);
         solucion.value = res;
         isFetching.value = false;
+        resolveRolesFromStates();
         solutionStore.initContext(objectUtils.clone(solucion.value));
         //Dirty fix to fit the flow view after loading
-        setTimeout(() => coreFlow.value.fitViewHandler(), 100);
+        //setTimeout(() => coreFlow.value.fitViewHandler(), 100);
       } catch (error: any) {
         alertService.showHttpError(error.response);
+      }
+    };
+
+    const resolveRolesFromStates = () => {
+      if (
+        solucion.value?.proceso?.estados &&
+        solucion.value.proceso.estados.length > 0 &&
+        solucion.value.proceso?.roles &&
+        solucion.value.proceso.roles.length <= 0
+      ) {
+        solucion.value.proceso.estados.forEach(estado => {
+          if (estado.permisos) {
+            estado.permisos.forEach(permiso => {
+              if (solucion?.value?.proceso?.roles && permiso.rol) {
+                const rolFounded = solucion.value.proceso.roles.find(rol => rol === permiso.rol);
+                if (!rolFounded) {
+                  solucion.value.proceso.roles.push(permiso.rol);
+                }
+              }
+            });
+            if (solucion.value.proceso?.roles) {
+              solutionStore.addAllRoles(solucion.value.proceso.roles);
+            }
+          }
+        });
       }
     };
 
@@ -259,7 +285,8 @@ export default defineComponent({
       }
     },
 
-    nodeChangeHandler(change: NodeChange) {
+    updateNodeHandler(change: NodeChange) {
+      console.log('node type: ' + change.type);
       if (change.type === NodeChangeType.POSITION) {
         this.positionChangeHandler(change);
       } else if (change.type === NodeChangeType.ADD) {
@@ -271,7 +298,7 @@ export default defineComponent({
       }
     },
 
-    edgeChangeHandler(change: EdgeChange) {
+    updateEdgeHandler(change: EdgeChange) {
       if (change.type === EdgeChangeType.ADD) {
         this.addEdgeHandler(change);
       } else if (change.type === EdgeChangeType.DELETE) {
@@ -290,26 +317,44 @@ export default defineComponent({
         }
       });
     },
-    addNodeHandler(change: any) {
+
+    addNodeHandler(change: NodeChange) {
       console.log('addNodeHandler');
+      if (!this.solucion.proceso?.estados) {
+        return;
+      }
+
+      const state = new Estado();
+      state.permisos = JSON.parse(JSON.stringify(this.solutionStore.selectedPermisos));
+      state.nombre = change.id as EstadoSolicitud;
+      state.diagram = new Diagram();
+      state.diagram.type = change.type;
+      state.diagram.x = change.x;
+      state.diagram.y = change.y;
+      this.solucion.proceso.estados.push(state);
+      if (change.edgeChange) {
+        this.addEdgeHandler(change.edgeChange);
+      }
     },
 
     addEdgeHandler(change: EdgeChange) {
-      console.log('addEdgeHandler');
+      console.log('**addEdgeHandler**');
       //create edge into the process
       let currentState = null;
       if (this.solucion.proceso?.estados) {
         const stateIndex = this.solucion.proceso.estados.findIndex(state => state.nombre === change.sourceId);
         currentState = this.solucion.proceso.estados[stateIndex];
       }
+      console.log(currentState?.nombre);
+      console.log(change.targetId);
       if (change.targetId && currentState?.transiciones) {
         const transition = new Transicion();
         transition.destino = change.targetId as EstadoSolicitud;
-        transition.accion = TipoAccion.ACTIVAR;
+        transition.accion = change.action;
         transition.diagram = new Diagram();
         transition.diagram.sourceId = change.sourceHandle;
         transition.diagram.targetId = change.targetHandle;
-        transition.diagram.type = 'smoothstep';
+        transition.diagram.type = change.lineType;
         currentState.transiciones.push(transition);
       }
       //call doubleClickEdgeHandler to edit

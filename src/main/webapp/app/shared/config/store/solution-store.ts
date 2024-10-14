@@ -1,5 +1,6 @@
 import type { RolAutoridad } from '@/shared/model/enumerations/rol-autoridad.model';
 import type { IEstado } from '@/shared/model/proceso/estado.model';
+import { Permiso, type IPermiso } from '@/shared/model/proceso/permiso.model';
 import type { ISolucion } from '@/shared/model/solucion.model';
 import { defineStore } from 'pinia';
 
@@ -18,22 +19,24 @@ export const useSolutionStore = defineStore('solutionStore', {
   getters: {
     selectedStates: state => state.states,
     selectedRoles: state => state.roles,
+    selectedPermisos: state => {
+      const permisos: Array<IPermiso> = [];
+      state.roles.forEach(role => {
+        const permiso = new Permiso();
+        permiso.rol = role;
+        permisos.push(permiso);
+      });
+      return permisos;
+    },
   },
   actions: {
     initContext(solution: ISolucion | null | undefined) {
       this.cleanContext();
       if (solution?.proceso?.estados && solution?.proceso?.estados.length > 0) {
         this.addAllStates(solution.proceso.estados);
-        solution.proceso.estados.forEach(estado => {
-          if (estado.permisos) {
-            estado.permisos.forEach(permiso => {
-              const rolFounded = this.roles.find(rol => rol === permiso.rol);
-              if (!rolFounded) {
-                this.addRole(permiso.rol);
-              }
-            });
-          }
-        });
+        if (solution?.proceso?.roles?.length && solution.proceso.roles.length > 0) {
+          this.addAllRoles(solution.proceso.roles);
+        }
       }
     },
     hasRole(role: RolAutoridad) {},

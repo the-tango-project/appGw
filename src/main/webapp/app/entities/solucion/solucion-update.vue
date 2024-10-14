@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ solucion.proceso?.roles }}
     <b-row>
       <b-col>
         <version v-if="solucion" :archive="isArchivada" :version="solucion.version" :mensaje="solucion.mensajePublicacion"></version>
@@ -26,8 +27,8 @@
           <core-flow
             ref="coreFlow"
             v-model="solucion.proceso"
-            @update:node="nodeChangeHandler"
-            @update:edge="edgeChangeHandler"
+            @update:node="updateNodeHandler"
+            @update:edge="updateEdgeHandler"
           ></core-flow>
         </b-tab>
         <b-tab v-if="!isNavbarOpen" :title-link-class="linkClass(1)">

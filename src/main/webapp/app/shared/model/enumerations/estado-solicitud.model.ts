@@ -1,4 +1,5 @@
 export enum EstadoSolicitud {
+  NONE = 'NONE',
   EN_CAPTURA = 'EN_CAPTURA',
   PREASIGNADA = 'PREASIGNADA',
   ASIGNADA = 'ASIGNADA',

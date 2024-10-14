@@ -1,4 +1,5 @@
 export enum TipoAccion {
+  NONE = 'NONE',
   ACTIVAR = 'ACTIVAR',
   ACTUALIZAR = 'ACTUALIZAR',
   ASIGNAR = 'ASIGNAR',

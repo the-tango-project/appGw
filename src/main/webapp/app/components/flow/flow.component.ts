@@ -1,7 +1,14 @@
-import { computed, defineComponent, ref, type Ref, watch } from 'vue';
+import { computed, defineComponent, ref, type Ref, watch, type PropType } from 'vue';
 import { type IProceso, Proceso } from '@/shared/model/proceso/proceso.model';
 
-import { useVueFlow, MarkerType, type NodeRemoveChange, type EdgeRemoveChange, Position, type Connection } from '@vue-flow/core';
+import {
+  useVueFlow,
+  useGetPointerPosition,
+  MarkerType,
+  type NodeRemoveChange,
+  type EdgeRemoveChange,
+  type Connection,
+} from '@vue-flow/core';
 /* these are necessary styles for vue flow */
 import '@vue-flow/core/dist/style.css';
 /* this contains the default theme, these are optional styles */
@@ -15,8 +22,13 @@ import { MiniMap } from '@vue-flow/minimap';
 import { EdgeChangeType } from '@/shared/model/enumerations/edge-change-type.model';
 import ConnectionLine from './connection-line/connection-line.vue';
 import type { ITransicion } from '@/shared/model/proceso/transicion.model';
-import type { EstadoSolicitud } from '@/shared/model/enumerations/estado-solicitud.model';
+import { EstadoSolicitud } from '@/shared/model/enumerations/estado-solicitud.model';
 import ControlButtons from './control-buttons/control-buttons.vue';
+import { useI18n } from 'vue-i18n';
+import { TipoAccion } from '@/shared/model/enumerations/tipo-accion.model';
+import { LineType } from '@/shared/model/enumerations/line-type.model';
+
+import { useMouse } from './mouse-composable';
 
 export default defineComponent({
   compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
@@ -30,16 +42,19 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: [Proceso, Object],
+      type: Object as PropType<Proceso>,
       required: true,
     },
   },
   setup(props, { emit }) {
     const {
+      connectionStatus,
       onInit,
       getViewport,
       nodesDraggable,
       onConnect,
+      onConnectStart,
+      onConnectEnd,
       onNodeClick,
       onNodesChange,
       onNodeDragStop,
@@ -47,13 +62,15 @@ export default defineComponent({
       onEdgeClick,
       onEdgesChange,
       onEdgeDoubleClick,
-      onSelectionStart,
-      onSelectionEnd,
       applyNodeChanges,
       applyEdgeChanges,
       findNode,
       viewport,
     } = useVueFlow();
+
+    const { t: t$ } = useI18n();
+    const { x, y } = useMouse();
+    const pointer = useGetPointerPosition();
 
     const flow = computed({ get: () => props.modelValue, set: value => emit('update:modelValue', value) });
     const removeElementModal = ref<any>(null);
@@ -70,44 +87,55 @@ export default defineComponent({
       }, 10);
     });
 
+    /**
+     * CONNECTION
+     */
+    const nodeChange: Ref<NodeChange> = ref(new NodeChange());
+    onConnectStart(async data => {
+      console.log(data);
+      console.log('onConnectStart');
+      nodeChange.value = new NodeChange();
+      nodeChange.value.type = NodeChangeType.ADD;
+      nodeChange.value.id = EstadoSolicitud.NONE;
+      nodeChange.value.edgeChange = new EdgeChange();
+      nodeChange.value.edgeChange.action = TipoAccion.NONE;
+      nodeChange.value.edgeChange.type = EdgeChangeType.ADD;
+      nodeChange.value.edgeChange.id = faker.database.mongodbObjectId();
+      nodeChange.value.edgeChange.sourceId = data.nodeId;
+      nodeChange.value.edgeChange.targetId = nodeChange.value.id;
+      nodeChange.value.edgeChange.lineType = LineType.SMOOTHSTEP;
+      nodeChange.value.edgeChange.sourceHandle = data.handleId;
+    });
+
     onConnect((connection: Connection) => {
       console.log('on connect', connection);
-      if (connection.sourceHandle) {
-        const edgeChange = new EdgeChange();
-        edgeChange.id = faker.database.mongodbObjectId();
-        edgeChange.type = EdgeChangeType.ADD;
-        edgeChange.sourceId = connection.source;
-        edgeChange.targetId = connection.target;
-        edgeChange.sourceHandle = connection.sourceHandle;
-        edgeChange.targetHandle = connection.targetHandle;
-        edgeChange.action = null;
-        emit('update:edge', edgeChange);
+      if (connection.sourceHandle && nodeChange.value.edgeChange) {
+        nodeChange.value.edgeChange.targetId = connection.target;
+        nodeChange.value.edgeChange.sourceHandle = connection.sourceHandle;
+        nodeChange.value.edgeChange.targetHandle = connection.targetHandle;
+        emit('update:edge', nodeChange.value.edgeChange);
       } else {
         console.log('no connected');
       }
     });
 
-    // TODO: Find out how it works
-    onSelectionStart(changes => {
-      console.log('on selection start');
-      console.log(changes);
-    });
-
-    // TODO: Find out how it works
-    onSelectionEnd(changes => {
-      console.log('on selection end');
-      console.log(changes);
+    onConnectEnd(async (data: any) => {
+      console.log('connectEnd');
+      const evento = { sourceEvent: data };
+      // if not connected, then, create node and edge
+      if (!connectionStatus.value) {
+        nodeChange.value.x = pointer(evento).x; //data.x - 567.39;
+        nodeChange.value.y = pointer(evento).y; //data.y - 133.995;
+        emit('update:node', nodeChange.value);
+      }
     });
 
     /**
-     * Node events
+     * NODE EVENTS
      */
-
     onNodesChange(changes => {
-      console.log('onNodesChange');
       const nextChanges = [];
       for (const change of changes) {
-        console.log('type: ' + change.type);
         if (change.type === 'remove') {
           nodeToRemove.value?.push(change);
           removeElementModal.value.show();
@@ -123,6 +151,7 @@ export default defineComponent({
     });
 
     onNodeDragStop(change => {
+      console.log(change);
       const nodeChange = new NodeChange();
       nodeChange.type = NodeChangeType.POSITION;
       nodeChange.id = change.node.id;
@@ -131,8 +160,31 @@ export default defineComponent({
       emit('update:node', nodeChange);
     });
 
+    // TODO: MERGE INTO onNodeChange
+    onNodeDoubleClick(data => {
+      console.log('onNodeDoubleClick');
+      const nodeChange = new NodeChange();
+      nodeChange.type = NodeChangeType.DOUBLE_CLICK;
+      nodeChange.id = data.node.id;
+      emit('update:node', nodeChange);
+    });
+
+    // TODO: MERGE INTO onNodeChange
+    onNodeClick(data => {
+      console.log('onNodeClick');
+      edges.value = edges.value.map((edge: any) => {
+        edge.animated = edge.source === data.node.id;
+        return edge;
+      });
+    });
+
+    /**
+     * EDGE EVENTS
+     */
+
     onEdgesChange(changes => {
       console.log('onEdgesChange');
+      console.log(changes);
       const nextChanges = [];
       for (const change of changes) {
         console.log('type: ' + change.type);
@@ -155,24 +207,6 @@ export default defineComponent({
       removeElementModal.value.show();
     };
 
-    // TODO: MERGE INTO onNodeChange
-    onNodeDoubleClick(data => {
-      console.log('onNodeDoubleClick');
-      const nodeChange = new NodeChange();
-      nodeChange.type = NodeChangeType.DOUBLE_CLICK;
-      nodeChange.id = data.node.id;
-      emit('update:node', nodeChange);
-    });
-
-    // TODO: MERGE INTO onNodeChange
-    onNodeClick(data => {
-      console.log('onNodeClick');
-      edges.value = edges.value.map((edge: any) => {
-        edge.animated = edge.source === data.node.id;
-        return edge;
-      });
-    });
-
     onEdgeClick(async data => {
       console.log('onEdgeClick');
       edges.value = edges.value.map((edge: any) => {
@@ -192,6 +226,9 @@ export default defineComponent({
       emit('update:edge', edgeChange);
     });
 
+    /**
+     * CREATION
+     */
     const createNodesAndEdges = (proceso: IProceso) => {
       nodes.value = [];
       edges.value = [];
@@ -210,11 +247,11 @@ export default defineComponent({
     const createEdge = (from: EstadoSolicitud | null | undefined, transition: ITransicion): any => {
       return {
         id: from + '-' + transition.accion,
-        label: transition.accion,
+        label: t$('apeironGwApp.TipoAccion.' + transition.accion),
         source: from,
         target: transition.destino,
         action: transition.accion,
-        labelStyle: { fill: '#10b981', fontWeight: 700 },
+        labelStyle: { fill: transition.accion === TipoAccion.NONE ? 'red' : '#10b981', fontWeight: 700 },
         labelBgStyle: { fill: '#edf2f7' },
         markerEnd: MarkerType.ArrowClosed,
         arrowHeadColor: '#00000',
@@ -242,6 +279,8 @@ export default defineComponent({
       nodesDraggable,
       applyNodeChanges,
       applyEdgeChanges,
+      x,
+      y,
     };
   },
   methods: {

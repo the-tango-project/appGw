@@ -46,6 +46,18 @@
           "html": "HTML",
           "preview": "Vista previa"
         },
+        "configuration": {
+          "title": "Configuración",
+          "authorities": {
+            "title": "Autoridades de la solución",
+            "messages": {
+              "danger-zone": {
+                "title": "Advertencia",
+                "description": "Al quitar uno o más roles, se perderán las configuraciones realizadas para un rol en la configuración de la solución"
+              }
+            }
+          }
+        },
         "proceso": {
           "title": "Proceso"
         },

@@ -2,6 +2,7 @@
   "archeApp": {
     "EstadoSolicitud": {
       "null": "",
+      "NONE": "Ninguno",
       "EN_CAPTURA": "En captura",
       "PREASIGNADA": "Preasignada",
       "ASIGNADA": "Asignada",

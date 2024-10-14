@@ -30,5 +30,15 @@ defineProps({
     />
 
     <circle :cx="targetX" :cy="targetY" fill="#fff" :r="4" stroke="#6F3381" :stroke-width="1.2" />
+    <rect
+      width="130"
+      height="60"
+      :x="targetX"
+      :y="targetY - 30"
+      rx="10"
+      ry="10"
+      fill="white"
+      style="stroke: black; stroke-width: 1; opacity: 0.5"
+    />
   </g>
 </template>
