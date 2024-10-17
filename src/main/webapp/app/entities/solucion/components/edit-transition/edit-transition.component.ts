@@ -1,4 +1,4 @@
-import { computed, defineComponent, ref, type Ref, inject, onMounted } from 'vue';
+import { computed, defineComponent, ref, type Ref, inject, onMounted, type PropType } from 'vue';
 import { Transicion } from '@/shared/model/proceso/transicion.model';
 import { useSelectOptions } from '@/shared/composables/use-select-options';
 import { useAlertService } from '@/shared/alert/alert.service';
@@ -19,11 +19,12 @@ export default defineComponent({
   },
   props: {
     modelValue: {
-      type: [Transicion, Object],
+      type: Object as PropType<Transicion>,
       required: false,
     },
   },
   setup(props, { emit }) {
+    const deleteConfirmation: Ref<boolean> = ref(false);
     const selectOptions = useSelectOptions();
     const actionOptions: Ref<IOption[]> = ref(selectOptions.actionOptions);
     const stateOptions: Ref<IOption[]> = ref(selectOptions.stateOptions);
@@ -52,6 +53,10 @@ export default defineComponent({
       }
     };
 
+    const deleteTransitionHandle = () => {
+      emit('delete');
+    };
+
     const transition = computed({
       get: () => props.modelValue,
       set: value => emit('update:modelValue', value),
@@ -67,6 +72,8 @@ export default defineComponent({
       reglas,
       actions,
       transition,
+      deleteConfirmation,
+      deleteTransitionHandle,
     };
   },
 });

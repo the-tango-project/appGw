@@ -12,20 +12,4 @@
 // Select the database to use.
 use('flowMs');
 
-db.soluciones.find({ 'vistaResumen.buttons.icon': 'pencil' });
-
-db.soluciones.updateMany(
-  { 'vistaResumen.buttons.icon': 'comunidades' },
-  {
-    $set: { 'vistaResumen.buttons.$[x].icon': 'people' },
-  },
-  { arrayFilters: [{ 'x.icon': 'comunidades' }] },
-);
-
-db.soluciones.updateMany(
-  { 'vistaResumen.buttons.icon': 'educacion' },
-  {
-    $set: { 'vistaResumen.buttons.$[x].icon': 'check2-square' },
-  },
-  { arrayFilters: [{ 'x.icon': 'educacion' }] },
-);
+db.historicoSoluciones.find({ 'proceso.estados.transiciones.diagram.sourceId': 'source' });

@@ -24,9 +24,14 @@
       <mini-map pannable zoomable nodeColor="#90afce" nodeStrokeColor="#90afce" maskColor="rgb(216, 234, 243, 0.7)"></mini-map>
       <control-buttons></control-buttons>
     </vue-flow>
-    <core-confirmation-modal ref="removeElementModal" variant="danger" @confirmed="confirmedHandler" @canceled="canceledHandler">
+    <core-confirmation-modal ref="removeElementModal" variant="danger" @confirmed="confirmeRemoveNodeHandler" @canceled="canceledHandler">
       <b-table striped hover :items="nodeToRemove"></b-table>
       <b-table striped hover :items="edgeToRemove"></b-table>
+    </core-confirmation-modal>
+    <core-confirmation-modal ref="removeEdgeModal" variant="danger" @confirmed="confirmeRemoveEdgeHandler" @canceled="canceledHandler">
+      <div v-if="edgeToRemove">
+        {{ edgeToRemove }}
+      </div>
     </core-confirmation-modal>
   </div>
 </template>

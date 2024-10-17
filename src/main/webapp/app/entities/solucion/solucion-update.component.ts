@@ -1,4 +1,4 @@
-import { computed, defineComponent, inject, ref, type Ref, onUnmounted, watch } from 'vue';
+import { computed, defineComponent, inject, ref, type Ref, onUnmounted, watch, Transition } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
@@ -35,9 +35,9 @@ import Dashboard from './components/dashboard/dashboard.vue';
 import EmailTemplate from './components/email-template/email-template.vue';
 import Forms from './components/forms/forms.vue';
 import EditTransition from './components/edit-transition/edit-transition.vue';
-import { Transicion, type ITransicion } from '@/shared/model/proceso/transicion.model';
+import { ITransitionWrapper, Transicion, TransitionWrapper, type ITransicion } from '@/shared/model/proceso/transicion.model';
 import { EstadoSolicitud } from '@/shared/model/enumerations/estado-solicitud.model';
-import { TipoAccion } from '@/shared/model/enumerations/tipo-accion.model';
+import { isGreaterOrEqualToZero } from '@/shared/util/validation-utils';
 
 const useValidationRules = (validations: any, t$: any) => {
   return {
@@ -99,9 +99,12 @@ export default defineComponent({
     const isImporting: Ref<boolean> = ref(false);
     const tabIndex: Ref<number> = ref(0);
     const stateToEdit: Ref<IStateEditable | null> = ref(null);
-    const transitionToEdit: Ref<ITransicion | null> = ref(null);
-    const transitionToEditIndex: Ref<number> = ref(0);
-    const stateToEditIndex: Ref<number> = ref(0);
+
+    // Transition to edit
+    const transitionWrapperToEdit: Ref<ITransitionWrapper> = ref(new TransitionWrapper());
+    //const transitionToEdit: Ref<ITransicion | null> = ref(null);
+    //const transitionToEditIndex: Ref<number> = ref(0);
+    //const stateToEditIndex: Ref<number> = ref(0);
 
     //SelectOne options
     const tipoMenuOptions = ref(selectOptions.menuOptions);
@@ -219,9 +222,10 @@ export default defineComponent({
       scriptService,
       sideNavbarStore,
       solucionUtils,
-      transitionToEdit,
-      stateToEditIndex,
-      transitionToEditIndex,
+      //transitionToEdit,
+      //stateToEditIndex,
+      transitionWrapperToEdit,
+      //transitionToEditIndex,
       stateToEdit,
       solutionStore,
       objectUtils,
@@ -345,8 +349,7 @@ export default defineComponent({
         const stateIndex = this.solucion.proceso.estados.findIndex(state => state.nombre === change.sourceId);
         currentState = this.solucion.proceso.estados[stateIndex];
       }
-      console.log(currentState?.nombre);
-      console.log(change.targetId);
+
       if (change.targetId && currentState?.transiciones) {
         const transition = new Transicion();
         transition.destino = change.targetId as EstadoSolicitud;
@@ -359,15 +362,22 @@ export default defineComponent({
       }
       //call doubleClickEdgeHandler to edit
     },
-    deleteNodeHandler(change: any) {
+
+    deleteNodeHandler(change: NodeChange) {
+      // delete node and all the references to it
+      const nodeId = change.id as EstadoSolicitud;
+      this.removeStateFromProcess(nodeId);
       console.log('deleteNodeHandler');
     },
+
     deleteEdgeHandler(change: any) {
       console.log('deleteEdgeHandler');
     },
+
     clickNodeHandler(change: any) {
       console.log('clickNodeHandler');
     },
+
     doubleClickNodeHandler(change: any) {
       this.stateToEdit = this.solucionUtils.createStateToEdit(this.solucion.proceso, change.id);
 
@@ -376,31 +386,43 @@ export default defineComponent({
         this.sideNavbarStore.openRightSidebar();
       }
     },
+
     clickEdgeHandler(change: any) {
       console.log('clickEdgeHandler');
     },
+
     doubleClickEdgeHandler(change: EdgeChange) {
       console.log(change);
       if (this.solucion.proceso?.estados) {
-        const result = this.findTransition(change.sourceId, change.action);
-        this.stateToEditIndex = result[0];
-        this.transitionToEditIndex = result[1];
-        this.transitionToEdit = result[2];
+        this.transitionWrapperToEdit = this.findTransition(change.sourceId, change.action);
+        //this.stateToEditIndex = result[0];
+        //this.transitionToEditIndex = result[1];
+        //this.transitionToEdit = result[2];
         this.editEdgeModal.show();
       }
     },
+
     updateTransitionHandler() {
       let state: IEstado | null = null;
 
-      if (this.solucion.proceso?.estados) {
-        state = this.solucion.proceso?.estados[this.stateToEditIndex];
+      if (this.solucion.proceso?.estados && this.transitionWrapperToEdit.fromIndex) {
+        state = this.solucion.proceso?.estados[this.transitionWrapperToEdit.fromIndex];
       }
 
-      if (state?.transiciones && this.transitionToEdit) {
-        state.transiciones.splice(this.transitionToEditIndex, 1, this.transitionToEdit);
+      if (state?.transiciones && this.transitionWrapperToEdit.transitionIndex && this.transitionWrapperToEdit.transition) {
+        state.transiciones.splice(this.transitionWrapperToEdit.transitionIndex, 1, this.transitionWrapperToEdit.transition);
       }
     },
-    findTransition(from: string | null | undefined, action: string | null | undefined): any[] {
+
+    findState(stateToFind: EstadoSolicitud): IEstado | undefined {
+      let stateIndex: number | undefined = -1;
+      if (stateToFind && this.solucion.proceso?.estados) {
+        stateIndex = this.solucion.proceso.estados.findIndex(state => state.nombre === stateToFind);
+        return this.solucion.proceso.estados[stateIndex];
+      }
+    },
+
+    findTransition(from: string | null | undefined, action: string | null | undefined): ITransitionWrapper {
       let stateIndex: number | undefined = -1;
       let transitionIndex: number | undefined = -1;
       let currentState: IEstado | null = null;
@@ -414,11 +436,52 @@ export default defineComponent({
         transitionIndex = currentState.transiciones.findIndex(transition => transition.accion === action);
         currentTransition = currentState.transiciones[transitionIndex];
       }
+      const transition = new TransitionWrapper();
+      transition.fromIndex = stateIndex;
+      transition.transitionIndex = transitionIndex;
+      transition.transition = { ...currentTransition }; //we pass a copy not the main reference
 
-      return [stateIndex, transitionIndex, { ...currentTransition }];
+      return transition;
     },
+
     fitViewHandler() {
       this.coreFlow.fitViewHandler();
+    },
+
+    removeStateFromProcess(stateToDelete: EstadoSolicitud) {
+      if (stateToDelete && this.solucion.proceso?.estados) {
+        const stateIndex = this.solucion.proceso.estados.findIndex(state => state.nombre === stateToDelete);
+        if (stateIndex >= 0) {
+          this.solucion.proceso.estados.splice(stateIndex, 1);
+          this.removeTransitionsReferencesByState(stateToDelete);
+        }
+      }
+    },
+
+    removeTransitionsReferencesByState(destino: EstadoSolicitud) {
+      if (!this.solucion.proceso?.estados) {
+        return;
+      }
+
+      this.solucion.proceso.estados.forEach(state => {
+        if (state.transiciones) {
+          state.transiciones = state.transiciones.filter(transition => transition.destino != destino);
+        }
+      });
+    },
+
+    deleteTransitionHandle(transitionWrapper: ITransitionWrapper) {
+      let state: IEstado | null = null;
+
+      if (this.solucion.proceso?.estados && transitionWrapper.fromIndex) {
+        state = this.solucion.proceso?.estados[transitionWrapper.fromIndex];
+      }
+
+      if (state?.transiciones && isGreaterOrEqualToZero(transitionWrapper.transitionIndex)) {
+        state.transiciones.splice(transitionWrapper.transitionIndex!, 1);
+      }
+
+      this.editEdgeModal.hide();
     },
   },
 });

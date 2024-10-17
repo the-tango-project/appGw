@@ -78,6 +78,29 @@
         </core-accordion>
       </b-col>
     </b-row>
+    <b-row>
+      <b-col cols="12" v-if="transition">
+        <core-accordion :title="$t('entity.action.delete')" icon="trash" variant="outline-danger">
+          <core-message variant="warning">
+            <div class="row">
+              <div class="col-0">
+                <b-form-checkbox class="ml-3" size="lg" v-model="deleteConfirmation"> </b-form-checkbox>
+              </div>
+              <div class="col-11">
+                <p class="ml-1">
+                  {{ $t('archeApp.solucion.process.transition.messages.delete-warning') }}
+                </p>
+              </div>
+            </div>
+          </core-message>
+          <div class="row">
+            <div class="col text-center">
+              <core-button v-if="deleteConfirmation" type="delete" @click="deleteTransitionHandle"></core-button>
+            </div>
+          </div>
+        </core-accordion>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 

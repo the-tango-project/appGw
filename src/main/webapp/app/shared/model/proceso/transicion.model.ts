@@ -4,6 +4,7 @@ import { Action } from '@/shared/model/action.model';
 import { Notificacion, type INotificacion } from '@/shared/model/notificacion.model';
 import { TipoAccion } from '@/shared/model/enumerations/tipo-accion.model';
 import { Diagram, type IDiagram } from '@/shared/model/proceso/diagram.model';
+import type { IEstado } from './estado.model';
 
 export interface ITransicion {
   accion?: TipoAccion | null;
@@ -34,4 +35,24 @@ export class Transicion implements ITransicion {
     this.notificacion = this.notificacion ? this.notificacion : new Notificacion();
     this.diagram = this.diagram ? this.diagram : new Diagram();
   }
+}
+
+export class ITransitionWrapper {
+  from?: IEstado | null;
+  fromIndex?: number | null;
+  to?: IEstado | null;
+  toIndex?: number | null;
+  transition?: ITransicion | null;
+  transitionIndex?: number | null;
+}
+
+export class TransitionWrapper implements ITransitionWrapper {
+  constructor(
+    public from?: IEstado | null,
+    public fromIndex?: number | null,
+    public to?: IEstado | null,
+    public toIndex?: number | null,
+    public transition?: ITransicion | null,
+    public transitionIndex?: number | null,
+  ) {}
 }

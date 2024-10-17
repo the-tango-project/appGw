@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-card-header header-tag="header" class="p-1 border-0" role="tab">
-      <b-button class="text-left" block v-b-toggle="id" variant="primary">
+      <b-button class="text-left" block v-b-toggle="id" :variant="variant">
         <b-icon class="mr-2" :icon="icon"></b-icon>
         {{ title }}
         <b-icon class="float-right when-closed" icon="chevron-compact-down"></b-icon>

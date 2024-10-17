@@ -5,6 +5,7 @@ import {
   useVueFlow,
   useGetPointerPosition,
   MarkerType,
+  ConnectionMode,
   type NodeRemoveChange,
   type EdgeRemoveChange,
   type Connection,
@@ -60,11 +61,9 @@ export default defineComponent({
       onNodeDragStop,
       onNodeDoubleClick,
       onEdgeClick,
-      onEdgesChange,
       onEdgeDoubleClick,
       applyNodeChanges,
       applyEdgeChanges,
-      findNode,
       viewport,
     } = useVueFlow();
 
@@ -74,11 +73,12 @@ export default defineComponent({
 
     const flow = computed({ get: () => props.modelValue, set: value => emit('update:modelValue', value) });
     const removeElementModal = ref<any>(null);
+    const removeEdgeModal = ref<any>(null);
 
     const nodes: Ref<any> = ref([]);
     const edges: Ref<any> = ref([]);
-    const nodeToRemove: Ref<NodeRemoveChange[] | null> = ref([]);
-    const edgeToRemove: Ref<EdgeRemoveChange[] | null> = ref([]);
+    const nodeToRemove: Ref<NodeRemoveChange | null> = ref(null);
+    const edgeToRemove: Ref<EdgeChange | null> = ref(null);
 
     onInit(vueFlowInstance => {
       setTimeout(() => {
@@ -92,7 +92,6 @@ export default defineComponent({
      */
     const nodeChange: Ref<NodeChange> = ref(new NodeChange());
     onConnectStart(async data => {
-      console.log(data);
       console.log('onConnectStart');
       nodeChange.value = new NodeChange();
       nodeChange.value.type = NodeChangeType.ADD;
@@ -131,18 +130,16 @@ export default defineComponent({
     });
 
     /**
-     * NODE EVENTS
+     * GENERAL NODE EVENTS
      */
     onNodesChange(changes => {
+      console.log('onNodesChange');
+      console.log(changes);
       const nextChanges = [];
       for (const change of changes) {
         if (change.type === 'remove') {
-          nodeToRemove.value?.push(change);
+          nodeToRemove.value = change;
           removeElementModal.value.show();
-        } else if (change.type === 'select') {
-          const nodeFinded = findNode(change.id);
-          //updateNode(.node.id, { data: { edit: true } });
-          //data.node.data.edit = true;
         } else {
           nextChanges.push(change);
         }
@@ -150,8 +147,10 @@ export default defineComponent({
       applyNodeChanges(nextChanges);
     });
 
+    /**
+     * Update Node position
+     */
     onNodeDragStop(change => {
-      console.log(change);
       const nodeChange = new NodeChange();
       nodeChange.type = NodeChangeType.POSITION;
       nodeChange.id = change.node.id;
@@ -160,7 +159,9 @@ export default defineComponent({
       emit('update:node', nodeChange);
     });
 
-    // TODO: MERGE INTO onNodeChange
+    /**
+     * Prepare to edit a Node
+     */
     onNodeDoubleClick(data => {
       console.log('onNodeDoubleClick');
       const nodeChange = new NodeChange();
@@ -169,7 +170,9 @@ export default defineComponent({
       emit('update:node', nodeChange);
     });
 
-    // TODO: MERGE INTO onNodeChange
+    /**
+     * Draw the paths from Node source to Nodes target
+     */
     onNodeClick(data => {
       console.log('onNodeClick');
       edges.value = edges.value.map((edge: any) => {
@@ -182,33 +185,7 @@ export default defineComponent({
      * EDGE EVENTS
      */
 
-    onEdgesChange(changes => {
-      console.log('onEdgesChange');
-      console.log(changes);
-      const nextChanges = [];
-      for (const change of changes) {
-        console.log('type: ' + change.type);
-        if (change.type === 'remove') {
-          prepareToRemoveEdge(change);
-        } else if (change.type === 'select') {
-          edges.value = edges.value.map((edge: any) => {
-            edge.animated = edge.source === change.id;
-            return edge;
-          });
-        } else {
-          nextChanges.push(change);
-        }
-      }
-      applyEdgeChanges(nextChanges);
-    });
-
-    const prepareToRemoveEdge = (change: EdgeRemoveChange) => {
-      edgeToRemove.value?.push(change);
-      removeElementModal.value.show();
-    };
-
     onEdgeClick(async data => {
-      console.log('onEdgeClick');
       edges.value = edges.value.map((edge: any) => {
         edge.animated = edge.id === data.edge.id;
         return edge;
@@ -256,16 +233,26 @@ export default defineComponent({
         markerEnd: MarkerType.ArrowClosed,
         arrowHeadColor: '#00000',
         animated: false,
-        type: transition.diagram?.type ? transition.diagram.type : 'smoothstep', //bezier,step,smoothstep,straight
-        sourceHandle: transition.diagram?.sourceId,
-        targetHandle: transition.diagram?.targetId,
+        type: transition.diagram?.type ? transition.diagram.type : 'bezier', //bezier,step,smoothstep,straight
+        sourceHandle: resolveSourceHandle(transition),
+        targetHandle: resolveTargetHandle(transition),
       };
+    };
+
+    const resolveSourceHandle = (transition: ITransicion) => {
+      return transition.diagram?.sourceId ? transition.diagram.sourceId : 'connector-h';
+    };
+
+    const resolveTargetHandle = (transition: ITransicion) => {
+      return transition.diagram?.targetId ? transition.diagram.targetId : 'connector-b';
     };
 
     watch([flow], () => {
       //Make a copy of the flow test
       createNodesAndEdges(JSON.parse(JSON.stringify(flow.value)));
     });
+
+    const connectionMode = ref(ConnectionMode.Loose);
     return {
       createEdge,
       flow,
@@ -274,28 +261,43 @@ export default defineComponent({
       getViewport,
       viewport,
       removeElementModal,
+      removeEdgeModal,
       nodeToRemove,
       edgeToRemove,
       nodesDraggable,
       applyNodeChanges,
       applyEdgeChanges,
+      connectionMode,
+      emit,
       x,
       y,
     };
   },
   methods: {
-    confirmedHandler(): void {
+    confirmeRemoveNodeHandler(): void {
       if (this.nodeToRemove) {
-        this.applyNodeChanges(this.nodeToRemove);
+        //TODO: remove the node from here
+        //this.applyNodeChanges(this.nodeToRemove);
+
+        const nodeChange = new NodeChange();
+        nodeChange.type = NodeChangeType.DELETE;
+        nodeChange.id = this.nodeToRemove.id;
+        this.emit('update:node', nodeChange);
       }
+      this.canceledHandler();
+    },
+
+    //TODO: Add functionality into the front end
+    confirmeRemoveEdgeHandler(): void {
       if (this.edgeToRemove) {
-        this.applyEdgeChanges(this.edgeToRemove);
+        //TODO: remove the edge from here
+        //this.applyEdgeChanges(this.edgeToRemove);
       }
       this.canceledHandler();
     },
     canceledHandler(): void {
-      this.edgeToRemove = [];
-      this.nodeToRemove = [];
+      this.edgeToRemove = null;
+      this.nodeToRemove = null;
     },
   },
 });

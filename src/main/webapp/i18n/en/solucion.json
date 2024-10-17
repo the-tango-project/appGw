@@ -223,7 +223,10 @@
           "transition": "Transition",
           "title": "Transactions",
           "definitionTransition": "Definition of transitions",
-          "subtitle": "Add an action an target state"
+          "subtitle": "Add an action an target state",
+          "messages": {
+            "delete-warning": "Para eliminar esta transición, haz clic en la caja de verificación. Una vez que eliminas una transición, no hay vuelta atrás. Por favor asegúrese"
+          }
         },
         "permission": {
           "title": "Permissons",

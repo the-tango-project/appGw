@@ -14,6 +14,10 @@ export default defineComponent({
       type: String,
       default: 'chat-left',
     },
+    variant: {
+      type: String,
+      default: 'primary',
+    },
   },
   setup(props, { emit }) {
     const id: Ref<string> = ref(faker.database.mongodbObjectId());

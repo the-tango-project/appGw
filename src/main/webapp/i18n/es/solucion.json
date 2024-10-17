@@ -222,7 +222,10 @@
           "transition": "Transición",
           "title": "Transiciones",
           "definitionTransition": "Definición de transiciones",
-          "subtitle": "Registra la acción y el estado destino"
+          "subtitle": "Registra la acción y el estado destino",
+          "messages": {
+            "delete-warning": "Para eliminar esta transición, haz clic en la caja de verificación. Una vez que eliminas una transición, no hay vuelta atrás. Por favor asegúrese"
+          }
         },
         "permission": {
           "title": "Permisos",

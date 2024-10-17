@@ -1,4 +1,8 @@
 <script setup>
+import { useVueFlow } from '@vue-flow/core';
+
+const { connectionStatus } = useVueFlow();
+
 defineProps({
   sourceX: {
     type: Number,
@@ -31,6 +35,7 @@ defineProps({
 
     <circle :cx="targetX" :cy="targetY" fill="#fff" :r="4" stroke="#6F3381" :stroke-width="1.2" />
     <rect
+      v-if="connectionStatus !== 'valid'"
       width="130"
       height="60"
       :x="targetX"

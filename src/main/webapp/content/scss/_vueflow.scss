@@ -57,16 +57,69 @@
   background-color: $primary;
 }
 
-.vue-flow__node-state .vue-flow__handle[data-handleid='target-a'] {
+// LEFT connector
+.vue-flow__node-state .vue-flow__handle[data-handleid='connector-a'] {
   top: 25%;
 }
 
-.vue-flow__node-state .vue-flow__handle[data-handleid='target-b'] {
+.vue-flow__node-state .vue-flow__handle[data-handleid='connector-b'] {
+  top: 50%;
+}
+
+.vue-flow__node-state .vue-flow__handle[data-handleid='connector-c'] {
   top: 75%;
 }
 
+// BOTTOM connector
+.vue-flow__node-state .vue-flow__handle[data-handleid='connector-d'] {
+  left: 25%;
+}
+
+.vue-flow__node-state .vue-flow__handle[data-handleid='connector-e'] {
+  left: 50%;
+}
+
+.vue-flow__node-state .vue-flow__handle[data-handleid='connector-f'] {
+  left: 75%;
+}
+
+// RIGHT connector
+.vue-flow__node-state .vue-flow__handle[data-handleid='connector-g'] {
+  top: 75%;
+}
+
+.vue-flow__node-state .vue-flow__handle[data-handleid='connector-h'] {
+  top: 50%;
+}
+
+.vue-flow__node-state .vue-flow__handle[data-handleid='connector-i'] {
+  top: 25%;
+}
+
+// TOP connector
+.vue-flow__node-state .vue-flow__handle[data-handleid='connector-j'] {
+  left: 75%;
+}
+
+.vue-flow__node-state .vue-flow__handle[data-handleid='connector-k'] {
+  left: 50%;
+}
+
+.vue-flow__node-state .vue-flow__handle[data-handleid='connector-l'] {
+  left: 25%;
+}
+
+.vue-flow__node-toolbar {
+  //top: 2%;
+}
+
 .vue-flow__node-state .vue-flow__handle {
-  background-color: $primary;
+  background-color: $secondary;
+  border-radius: 4px;
+}
+
+.hidden {
+  opacity: 0;
 }
 
 input::-webkit-outer-spin-button,
@@ -80,13 +133,6 @@ input::-webkit-inner-spin-button {
   stroke: $primary;
   stroke-width: 2px;
   z-index: 1000;
-}
-
-.vue-flow__handle {
-  height: 15px;
-  width: 8px;
-  background: #aaa;
-  border-radius: 4px;
 }
 
 .vue-flow__edge-path,
