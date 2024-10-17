@@ -102,9 +102,6 @@ export default defineComponent({
 
     // Transition to edit
     const transitionWrapperToEdit: Ref<ITransitionWrapper> = ref(new TransitionWrapper());
-    //const transitionToEdit: Ref<ITransicion | null> = ref(null);
-    //const transitionToEditIndex: Ref<number> = ref(0);
-    //const stateToEditIndex: Ref<number> = ref(0);
 
     //SelectOne options
     const tipoMenuOptions = ref(selectOptions.menuOptions);
@@ -222,10 +219,7 @@ export default defineComponent({
       scriptService,
       sideNavbarStore,
       solucionUtils,
-      //transitionToEdit,
-      //stateToEditIndex,
       transitionWrapperToEdit,
-      //transitionToEditIndex,
       stateToEdit,
       solutionStore,
       objectUtils,
@@ -395,9 +389,6 @@ export default defineComponent({
       console.log(change);
       if (this.solucion.proceso?.estados) {
         this.transitionWrapperToEdit = this.findTransition(change.sourceId, change.action);
-        //this.stateToEditIndex = result[0];
-        //this.transitionToEditIndex = result[1];
-        //this.transitionToEdit = result[2];
         this.editEdgeModal.show();
       }
     },
