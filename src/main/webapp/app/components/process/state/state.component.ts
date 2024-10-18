@@ -1,6 +1,6 @@
-import { computed, defineComponent, ref, type Ref } from 'vue';
+import { computed, defineComponent, ref, type PropType, type Ref } from 'vue';
 
-import { StateEditable } from '@/shared/model/proceso/estado.model';
+import { StateEditable, type IEstado } from '@/shared/model/proceso/estado.model';
 import { useSelectOptions } from '@/shared/composables/use-select-options';
 import type { IOption } from '@/shared/model/ui/option.model';
 
@@ -9,7 +9,7 @@ export default defineComponent({
   name: 'StateComponent',
   props: {
     modelValue: {
-      type: [StateEditable],
+      type: Object as PropType<IEstado>,
       required: false,
     },
   },

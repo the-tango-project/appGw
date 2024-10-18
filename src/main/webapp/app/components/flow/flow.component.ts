@@ -1,15 +1,7 @@
 import { computed, defineComponent, ref, type Ref, watch, type PropType } from 'vue';
 import { type IProceso, Proceso } from '@/shared/model/proceso/proceso.model';
 
-import {
-  useVueFlow,
-  useGetPointerPosition,
-  MarkerType,
-  ConnectionMode,
-  type NodeRemoveChange,
-  type EdgeRemoveChange,
-  type Connection,
-} from '@vue-flow/core';
+import { useVueFlow, useGetPointerPosition, MarkerType, ConnectionMode, type NodeRemoveChange, type Connection } from '@vue-flow/core';
 /* these are necessary styles for vue flow */
 import '@vue-flow/core/dist/style.css';
 /* this contains the default theme, these are optional styles */

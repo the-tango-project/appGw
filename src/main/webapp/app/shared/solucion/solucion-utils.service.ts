@@ -1,6 +1,7 @@
+import { EstadoWrapper, type IEstadoWrapper } from '@/entities/solucion/estado-wrapper';
 import type { EstadoSolicitud } from '@/shared/model/enumerations/estado-solicitud.model';
 import { TipoAccion } from '@/shared/model/enumerations/tipo-accion.model';
-import { StateEditable, type IEstado } from '@/shared/model/proceso/estado.model';
+import { Estado, StateEditable, type IEstado } from '@/shared/model/proceso/estado.model';
 import type { IProceso } from '@/shared/model/proceso/proceso.model';
 
 /**
@@ -44,19 +45,55 @@ const useSolucionUtils = () => ({
   },
 
   /**
+   * Find the index of a state. return -1 if the index is not in the process
+   *
+   * @param process the process of a solution
+   * @param id the id of the state
+   */
+  findIndexOfState(proceso: IProceso | null | undefined, id: EstadoSolicitud): number {
+    const indexFounded = proceso?.estados?.findIndex(estado => estado.nombre === id);
+
+    if (indexFounded === null || indexFounded === undefined) {
+      return -1;
+    }
+
+    return indexFounded;
+  },
+
+  /**
    * Create a state to edit from the process and estado solicitud id
    *
    * @param process the process of a solution
    * @param id the id of the state
    */
-  createStateToEdit(proceso: IProceso | null | undefined, id: EstadoSolicitud) {
-    const stateToEdit = new StateEditable();
+  createStateToEdit(proceso: IProceso | null | undefined, id: EstadoSolicitud): IEstadoWrapper {
+    const stateToEdit = new EstadoWrapper();
     stateToEdit.state = this.findState(proceso, id);
-
-    if (stateToEdit.state) {
-      stateToEdit.id = stateToEdit.state.nombre;
-    }
+    stateToEdit.currentIndex = this.findIndexOfState(proceso, id);
+    stateToEdit.oldName = stateToEdit.state?.nombre;
     return stateToEdit;
+  },
+
+  /**
+   * Create a state to edit from the process and estado solicitud id
+   *
+   * @param process the process of a solution
+   * @param id the id of the state
+   */
+  renameStateName(proceso: IProceso | null | undefined, oldName: EstadoSolicitud, newName: EstadoSolicitud) {
+    if (!proceso?.estados) {
+      return;
+    }
+
+    proceso.estados.forEach(state => {
+      if (state.transiciones) {
+        state.transiciones.forEach(transition => {
+          if (transition.destino === oldName) {
+            transition.destino = newName;
+          }
+        });
+      }
+    });
   },
 });
 

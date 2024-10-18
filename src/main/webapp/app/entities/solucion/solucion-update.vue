@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ transitionWrapperToEdit }}
     <b-row>
       <b-col>
         <version v-if="solucion" :archive="isArchivada" :version="solucion.version" :mensaje="solucion.mensajePublicacion"></version>
@@ -96,12 +95,15 @@
           </b-card>
         </b-tab>
       </b-tabs>
-      <core-base-modal ref="editEdgeModal" @confirmed="updateTransitionHandler">
+      <core-base-modal ref="editTransitionModal" @confirmed="updateTransitionHandler">
         <edit-transition
           v-if="transitionWrapperToEdit"
           v-model="transitionWrapperToEdit.transition"
           @delete="deleteTransitionHandle(transitionWrapperToEdit)"
         ></edit-transition>
+      </core-base-modal>
+      <core-base-modal ref="editStateModal" @confirmed="updateStateHandler">
+        <core-state v-if="stateWrapperToEdit" v-model="stateWrapperToEdit.state"></core-state>
       </core-base-modal>
     </div>
   </div>

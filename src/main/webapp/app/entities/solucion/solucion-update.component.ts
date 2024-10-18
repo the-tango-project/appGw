@@ -38,6 +38,7 @@ import EditTransition from './components/edit-transition/edit-transition.vue';
 import { ITransitionWrapper, Transicion, TransitionWrapper, type ITransicion } from '@/shared/model/proceso/transicion.model';
 import { EstadoSolicitud } from '@/shared/model/enumerations/estado-solicitud.model';
 import { isGreaterOrEqualToZero } from '@/shared/util/validation-utils';
+import { EstadoWrapper, type IEstadoWrapper } from './estado-wrapper';
 
 const useValidationRules = (validations: any, t$: any) => {
   return {
@@ -98,7 +99,7 @@ export default defineComponent({
 
     const isImporting: Ref<boolean> = ref(false);
     const tabIndex: Ref<number> = ref(0);
-    const stateToEdit: Ref<IStateEditable | null> = ref(null);
+    const stateWrapperToEdit: Ref<IEstadoWrapper | null> = ref(null);
 
     // Transition to edit
     const transitionWrapperToEdit: Ref<ITransitionWrapper> = ref(new TransitionWrapper());
@@ -112,7 +113,8 @@ export default defineComponent({
     const solutionStore = useSolutionStore();
 
     //Modals
-    const editEdgeModal = ref<any>(null);
+    const editTransitionModal = ref<any>(null);
+    const editStateModal = ref<any>(null);
 
     // Method definition
     const retriveById = async (solucionId: any) => {
@@ -178,26 +180,7 @@ export default defineComponent({
       sideNavbarStore.closeRightSidebar();
     });
 
-    const saveStateToEditInSolution = () => {
-      if (stateToEdit.value && solucion.value.proceso?.estados) {
-        const index = solucion.value.proceso.estados.findIndex(state => state.nombre === stateToEdit.value?.id);
-
-        if (index >= 0 && stateToEdit.value.state) {
-          solucion.value.proceso.estados[index] = objectUtils.clone(stateToEdit.value.state);
-        }
-        sideNavbarStore.closeRightSidebar();
-      }
-    };
-
     const isNavbarOpen = computed(() => sideNavbarStore.isLeftOpened || sideNavbarStore.isRightOpened);
-
-    // Save the statetoEdit into the solution
-    watch([stateToEdit], () => {
-      if (stateToEdit?.value?.saved) {
-        saveStateToEditInSolution();
-      }
-    });
-
     const isArchivada = computed(() => solucion.value.estado === EstadoSolucion.ARCHIVADA);
 
     return {
@@ -220,13 +203,14 @@ export default defineComponent({
       sideNavbarStore,
       solucionUtils,
       transitionWrapperToEdit,
-      stateToEdit,
+      stateWrapperToEdit,
       solutionStore,
       objectUtils,
       isArchivada,
       isNavbarOpen,
       coreFlow,
-      editEdgeModal,
+      editTransitionModal,
+      editStateModal,
     };
   },
   methods: {
@@ -317,7 +301,6 @@ export default defineComponent({
     },
 
     addNodeHandler(change: NodeChange) {
-      console.log('addNodeHandler');
       if (!this.solucion.proceso?.estados) {
         return;
       }
@@ -330,6 +313,7 @@ export default defineComponent({
       state.diagram.x = change.x;
       state.diagram.y = change.y;
       this.solucion.proceso.estados.push(state);
+      //this.prepareStateWrapperToEdit(state.nombre);
       if (change.edgeChange) {
         this.addEdgeHandler(change.edgeChange);
       }
@@ -373,12 +357,8 @@ export default defineComponent({
     },
 
     doubleClickNodeHandler(change: any) {
-      this.stateToEdit = this.solucionUtils.createStateToEdit(this.solucion.proceso, change.id);
-
-      if (this.stateToEdit.state?.nombre) {
-        this.sideNavbarStore.setStateToEdit(this.stateToEdit);
-        this.sideNavbarStore.openRightSidebar();
-      }
+      this.stateWrapperToEdit = this.solucionUtils.createStateToEdit(this.solucion.proceso, change.id);
+      this.editStateModal.show();
     },
 
     clickEdgeHandler(change: any) {
@@ -389,8 +369,27 @@ export default defineComponent({
       console.log(change);
       if (this.solucion.proceso?.estados) {
         this.transitionWrapperToEdit = this.findTransition(change.sourceId, change.action);
-        this.editEdgeModal.show();
+        this.editTransitionModal.show();
       }
+    },
+
+    updateStateHandler() {
+      if (
+        !this.stateWrapperToEdit?.oldName ||
+        !this.stateWrapperToEdit?.state?.nombre ||
+        !this.stateWrapperToEdit ||
+        !this.solucion?.proceso?.estados
+      ) {
+        return;
+      }
+
+      const oldStateName = this.stateWrapperToEdit.oldName;
+      const newStateName = this.stateWrapperToEdit.state.nombre;
+
+      if (oldStateName !== newStateName) {
+        this.solucionUtils.renameStateName(this.solucion.proceso, oldStateName, newStateName);
+      }
+      this.solucion.proceso.estados.splice(this.stateWrapperToEdit.currentIndex!, 1, this.stateWrapperToEdit.state);
     },
 
     updateTransitionHandler() {
@@ -472,7 +471,7 @@ export default defineComponent({
         state.transiciones.splice(transitionWrapper.transitionIndex!, 1);
       }
 
-      this.editEdgeModal.hide();
+      this.editTransitionModal.hide();
     },
   },
 });

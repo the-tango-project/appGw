@@ -14,7 +14,6 @@
       <div class="sidebar_header mb-3 mt-1">
         <div class="text-white">Secciones</div>
       </div>
-      <core-state v-model="stateToEdit" @update:state="updateStateHandler"></core-state>
       <b-row class="mt-3">
         <b-col class="text-right">
           <core-button class="mr-1" @click="cancel()" type="cancel"></core-button>
