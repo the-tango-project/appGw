@@ -1,7 +1,7 @@
 import type { RolAutoridad } from '@/shared/model/enumerations/rol-autoridad.model';
 import type { IEstado } from '@/shared/model/proceso/estado.model';
 import { Permiso, type IPermiso } from '@/shared/model/proceso/permiso.model';
-import type { ISolucion } from '@/shared/model/solucion.model';
+import type { IProceso } from '@/shared/model/proceso/proceso.model';
 import { defineStore } from 'pinia';
 
 export interface SolutionStateStorable {
@@ -30,12 +30,13 @@ export const useSolutionStore = defineStore('solutionStore', {
     },
   },
   actions: {
-    initContext(solution: ISolucion | null | undefined) {
+    saveProceso(proceso: IProceso) {
+      console.log('saving process...');
       this.cleanContext();
-      if (solution?.proceso?.estados && solution?.proceso?.estados.length > 0) {
-        this.addAllStates(solution.proceso.estados);
-        if (solution?.proceso?.roles?.length && solution.proceso.roles.length > 0) {
-          this.addAllRoles(solution.proceso.roles);
+      if (proceso?.estados && proceso?.estados.length > 0) {
+        this.addAllStates(proceso.estados);
+        if (proceso?.roles?.length && proceso.roles.length > 0) {
+          this.addAllRoles(proceso.roles);
         }
       }
     },
@@ -65,8 +66,8 @@ export const useSolutionStore = defineStore('solutionStore', {
       }
     },
     cleanContext() {
-      this.states = [];
-      this.roles = [];
+      this.states.splice(0, this.states.length);
+      this.roles.splice(0, this.roles.length);
     },
   },
 });

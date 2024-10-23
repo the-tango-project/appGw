@@ -1,20 +1,17 @@
-import { EstadoWrapper, type IEstadoWrapper } from '@/entities/solucion/estado-wrapper';
 import type { EstadoSolicitud } from '@/shared/model/enumerations/estado-solicitud.model';
 import { TipoAccion } from '@/shared/model/enumerations/tipo-accion.model';
-import { type IEstado } from '@/shared/model/proceso/estado.model';
+import type { IEstado } from '@/shared/model/proceso/estado.model';
 import type { IProceso } from '@/shared/model/proceso/proceso.model';
-import { useSideNavbarStore, useSolutionStore } from '@/store';
-import useObjectUtils from '@/shared/util/object-utils';
+import { type SolutionStore } from '@/store';
+import { EstadoWrapper, type IEstadoWrapper } from './estado-wrapper';
 
-/**
- * SolucionUtils for common operation in the Solucion object
- */
+export default class SolutionUtilService {
+  constructor(private readonly store: SolutionStore) {}
 
-const useSolucionUtils = () => ({
   /**
    * Method to abbreviate the text given
    */
-  resolveActions(estados: IEstado[], currentState: string | undefined): TipoAccion[] {
+  public resolveActions(estados: IEstado[], currentState: string | undefined): TipoAccion[] {
     //Init actions with default actions: Read, Write and Commend
     const actions: TipoAccion[] = [TipoAccion.LEER, TipoAccion.ESCRIBIR, TipoAccion.COMENTAR];
     estados
@@ -29,7 +26,7 @@ const useSolucionUtils = () => ({
         }
       });
     return actions;
-  },
+  }
 
   /**
    * Find a state into a process
@@ -37,14 +34,14 @@ const useSolucionUtils = () => ({
    * @param process the process of a solution
    * @param id the id of the state
    */
-  findState(proceso: IProceso | null | undefined, id: EstadoSolicitud): IEstado | null {
+  public findState(proceso: IProceso | null | undefined, id: EstadoSolicitud): IEstado | null {
     let findedNode = proceso?.estados?.find(estado => estado.nombre === id);
     if (findedNode) {
       return JSON.parse(JSON.stringify(findedNode));
     } else {
       return null;
     }
-  },
+  }
 
   /**
    * Find the index of a state. return -1 if the index is not in the process
@@ -52,7 +49,7 @@ const useSolucionUtils = () => ({
    * @param process the process of a solution
    * @param id the id of the state
    */
-  findIndexOfState(proceso: IProceso | null | undefined, id: EstadoSolicitud): number {
+  public findIndexOfState(proceso: IProceso | null | undefined, id: EstadoSolicitud): number {
     const indexFounded = proceso?.estados?.findIndex(estado => estado.nombre === id);
 
     if (indexFounded === null || indexFounded === undefined) {
@@ -60,7 +57,7 @@ const useSolucionUtils = () => ({
     }
 
     return indexFounded;
-  },
+  }
 
   /**
    * Create a state to edit from the process and estado solicitud id
@@ -68,29 +65,26 @@ const useSolucionUtils = () => ({
    * @param process the process of a solution
    * @param id the id of the state
    */
-  createStateToEdit(proceso: IProceso | null | undefined, id: EstadoSolicitud): IEstadoWrapper {
+  public createStateToEdit(proceso: IProceso | null | undefined, id: EstadoSolicitud): IEstadoWrapper {
     const stateToEdit = new EstadoWrapper();
     stateToEdit.state = this.findState(proceso, id);
     stateToEdit.currentIndex = this.findIndexOfState(proceso, id);
     stateToEdit.oldName = stateToEdit.state?.nombre;
     return stateToEdit;
-  },
+  }
 
   /**
-   * Create a state to edit from the process and estado solicitud id
+   * Rename a state name in all transitions
    *
    * @param process the process of a solution
-   * @param id the id of the state
+   * @param oldName the state name to replace
+   * @param newName the new state name to replace
    */
-  renameStateName(proceso: IProceso | null | undefined, oldName: EstadoSolicitud, newName: EstadoSolicitud) {
+  public renameStateNameInTransitions(proceso: IProceso | null | undefined, oldName: EstadoSolicitud, newName: EstadoSolicitud) {
     if (!proceso?.estados) {
       return;
     }
 
-    const solutionStore = useSolutionStore();
-    const objectUtils = useObjectUtils();
-    console.log('the seleted states are:');
-    console.log(solutionStore.selectedStates);
     proceso.estados.forEach(state => {
       if (state.transiciones) {
         state.transiciones.forEach(transition => {
@@ -100,8 +94,12 @@ const useSolucionUtils = () => ({
         });
       }
     });
-    solutionStore.saveProceso(objectUtils.clone(proceso));
-  },
-});
+  }
 
-export default useSolucionUtils;
+  public replaceStateBy(proceso: IProceso | null | undefined, stateWrapper: IEstadoWrapper) {
+    if (proceso?.estados && stateWrapper.state) {
+      proceso.estados.splice(stateWrapper.currentIndex!, 1, stateWrapper.state);
+      this.store.saveProceso(proceso);
+    }
+  }
+}

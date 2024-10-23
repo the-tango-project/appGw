@@ -1,10 +1,9 @@
-import { computed, defineComponent, inject, ref, type Ref, onUnmounted, watch, Transition } from 'vue';
+import { computed, defineComponent, inject, ref, type Ref, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 import { useAlertService } from '@/shared/alert/alert.service';
 import useDataUtils from '@/shared/data/data-utils.service';
-import useSolucionUtils from '@/shared/solucion/solucion-utils.service';
 
 import { useValidation, useDateFormat } from '@/shared/composables';
 
@@ -22,7 +21,7 @@ import { NodeChangeType } from '@/shared/model/enumerations/node-change-type.mod
 import { EdgeChangeType } from '@/shared/model/enumerations/edge-change-type.model';
 
 import { useSideNavbarStore, useSolutionStore } from '@/store';
-import { Estado, type IEstado, type IStateEditable } from '@/shared/model/proceso/estado.model';
+import { Estado, type IEstado } from '@/shared/model/proceso/estado.model';
 import useObjectUtils from '@/shared/util/object-utils';
 import { EstadoSolucion } from '@/shared/model/enumerations/estado-solucion.model';
 import VersionComponent from '@/components/process/version/version.vue';
@@ -38,7 +37,9 @@ import EditTransition from './components/edit-transition/edit-transition.vue';
 import { ITransitionWrapper, Transicion, TransitionWrapper, type ITransicion } from '@/shared/model/proceso/transicion.model';
 import { EstadoSolicitud } from '@/shared/model/enumerations/estado-solicitud.model';
 import { isGreaterOrEqualToZero } from '@/shared/util/validation-utils';
-import { EstadoWrapper, type IEstadoWrapper } from './estado-wrapper';
+import { type IEstadoWrapper } from './estado-wrapper';
+
+import SolutionUtilService from '@/entities/solucion/solucion-utils.service';
 
 const useValidationRules = (validations: any, t$: any) => {
   return {
@@ -61,15 +62,15 @@ export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'SolucionUpdate',
   components: {
+    configuration: Configuration,
+    dashboard: Dashboard,
+    forms: Forms,
+    messages: Messages,
     version: VersionComponent,
     'access-control': AccessControl,
     'change-control': ChangeControl,
-    configuration: Configuration,
-    dashboard: Dashboard,
     'email-template': EmailTemplate,
-    forms: Forms,
     'general-data': GeneralData,
-    messages: Messages,
     'edit-transition': EditTransition,
   },
   setup() {
@@ -81,14 +82,19 @@ export default defineComponent({
     const validationRules = useValidationRules(validations, t$);
     const dateFormat = useDateFormat();
     const dataUtils = useDataUtils();
-    const solucionUtils = useSolucionUtils();
     const route = useRoute();
     const router = useRouter();
     const objectUtils = useObjectUtils();
+
+    //Store configuration
+    const sideNavbarStore = useSideNavbarStore();
+    const solutionStore = useSolutionStore();
+
     //Common services
     const alertService = inject('alertService', () => useAlertService(), true);
     const solucionService = inject('solucionService', () => new SolucionService());
     const scriptService = inject('scriptService', () => new ScriptService());
+    const solutionUtilService = inject('solutionUtilService', () => new SolutionUtilService(solutionStore));
 
     //Common properties
     const solucion: Ref<ISolucion> = ref(new Solucion());
@@ -108,10 +114,6 @@ export default defineComponent({
     const tipoMenuOptions = ref(selectOptions.menuOptions);
     const tipoComponentOptions = ref(selectOptions.componenteOptions);
 
-    //Store configuration
-    const sideNavbarStore = useSideNavbarStore();
-    const solutionStore = useSolutionStore();
-
     //Modals
     const editTransitionModal = ref<any>(null);
     const editStateModal = ref<any>(null);
@@ -124,7 +126,7 @@ export default defineComponent({
         solucion.value = res;
         isFetching.value = false;
         resolveRolesFromStates();
-        solutionStore.initContext(objectUtils.clone(solucion.value));
+        solutionStore.saveProceso(objectUtils.clone(solucion.value.proceso));
         //Dirty fix to fit the flow view after loading
         //setTimeout(() => coreFlow.value.fitViewHandler(), 100);
       } catch (error: any) {
@@ -132,6 +134,7 @@ export default defineComponent({
       }
     };
 
+    const dummy = computed(() => solutionStore.selectedStates);
     const resolveRolesFromStates = () => {
       if (
         solucion.value?.proceso?.estados &&
@@ -184,6 +187,7 @@ export default defineComponent({
     const isArchivada = computed(() => solucion.value.estado === EstadoSolucion.ARCHIVADA);
 
     return {
+      dummy,
       tipoMenuOptions,
       tipoComponentOptions,
       ...dateFormat,
@@ -201,7 +205,6 @@ export default defineComponent({
       solucionService,
       scriptService,
       sideNavbarStore,
-      solucionUtils,
       transitionWrapperToEdit,
       stateWrapperToEdit,
       solutionStore,
@@ -211,6 +214,7 @@ export default defineComponent({
       coreFlow,
       editTransitionModal,
       editStateModal,
+      solutionUtilService,
     };
   },
   methods: {
@@ -357,7 +361,7 @@ export default defineComponent({
     },
 
     doubleClickNodeHandler(change: any) {
-      this.stateWrapperToEdit = this.solucionUtils.createStateToEdit(this.solucion.proceso, change.id);
+      this.stateWrapperToEdit = this.solutionUtilService().createStateToEdit(this.solucion.proceso, change.id);
       this.editStateModal.show();
     },
 
@@ -387,9 +391,9 @@ export default defineComponent({
       const newStateName = this.stateWrapperToEdit.state.nombre;
 
       if (oldStateName !== newStateName) {
-        this.solucionUtils.renameStateName(this.solucion.proceso, oldStateName, newStateName);
+        this.solutionUtilService().renameStateNameInTransitions(this.solucion.proceso, oldStateName, newStateName);
       }
-      this.solucion.proceso.estados.splice(this.stateWrapperToEdit.currentIndex!, 1, this.stateWrapperToEdit.state);
+      this.solutionUtilService().replaceStateBy(this.solucion.proceso, this.stateWrapperToEdit);
     },
 
     updateTransitionHandler() {

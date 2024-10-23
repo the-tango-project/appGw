@@ -184,7 +184,7 @@ export default defineComponent({
       });
     });
 
-    onEdgeDoubleClick(async data => {
+    onEdgeDoubleClick(async (data: any) => {
       console.log('onEdgeDoubleClick');
       const edgeChange = new EdgeChange();
       edgeChange.type = EdgeChangeType.DOUBLE_CLICK;

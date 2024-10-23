@@ -8,7 +8,6 @@ export default defineComponent({
   props: {
     modelValue: {
       type: String,
-      required: true,
     },
   },
   setup(props, { emit }) {

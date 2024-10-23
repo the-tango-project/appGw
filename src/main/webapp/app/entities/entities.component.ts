@@ -8,17 +8,22 @@ import RuleService from '@/entities/solucion/rule.service';
 import ActionService from '@/entities/solucion/action.service';
 import ScriptService from '@/shared/script/script.service';
 import UserService from '@/entities/user/user.service';
+import { useSolutionStore } from '@/store';
+import SolutionUtilService from './solucion/solucion-utils.service';
+
 // jhipster-needle-add-entity-service-to-entities-component-import - JHipster will import entities services here
 
 export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'Entities',
   setup() {
+    const solutionStore = useSolutionStore();
     provide('userService', () => new UserService());
     provide('demoPaginateService', () => new DemoPaginateService());
     provide('demoInfiniteScrollService', () => new DemoInfiniteScrollService());
     provide('localFormService', () => new LocalFormService());
     provide('solucionService', () => new SolucionService());
+    provide('solutionUtilService', () => new SolutionUtilService(solutionStore));
     provide('ruleService', () => new RuleService());
     provide('actionService', () => new ActionService());
     provide('scriptService', () => new ScriptService());
