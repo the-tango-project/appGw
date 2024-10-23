@@ -16,7 +16,7 @@ import { Solucion, type ISolucion } from '@/shared/model/solucion.model';
 
 import { useSelectOptions } from '@/shared/composables/use-select-options';
 
-import { Diagram, type EdgeChange, type NodeChange } from '@/shared/model/proceso/diagram.model';
+import { Diagram, NodeChange, type EdgeChange } from '@/shared/model/proceso/diagram.model';
 import { NodeChangeType } from '@/shared/model/enumerations/node-change-type.model';
 import { EdgeChangeType } from '@/shared/model/enumerations/edge-change-type.model';
 
@@ -40,6 +40,8 @@ import { isGreaterOrEqualToZero } from '@/shared/util/validation-utils';
 import { type IEstadoWrapper } from './estado-wrapper';
 
 import SolutionUtilService from '@/entities/solucion/solucion-utils.service';
+import SelectAction from './components/select-action/select-action.vue';
+import SelectState from './components/select-state/select-state.vue';
 
 const useValidationRules = (validations: any, t$: any) => {
   return {
@@ -72,6 +74,8 @@ export default defineComponent({
     'email-template': EmailTemplate,
     'general-data': GeneralData,
     'edit-transition': EditTransition,
+    'select-action': SelectAction,
+    'select-state': SelectState,
   },
   setup() {
     //Commons methods
@@ -109,6 +113,7 @@ export default defineComponent({
 
     // Transition to edit
     const transitionWrapperToEdit: Ref<ITransitionWrapper> = ref(new TransitionWrapper());
+    const nodeChangeToEdit: NodeChange = new NodeChange();
 
     //SelectOne options
     const tipoMenuOptions = ref(selectOptions.menuOptions);
@@ -117,6 +122,7 @@ export default defineComponent({
     //Modals
     const editTransitionModal = ref<any>(null);
     const editStateModal = ref<any>(null);
+    const completeActionAndStateModal = ref<any>(null);
 
     // Method definition
     const retriveById = async (solucionId: any) => {
@@ -134,7 +140,7 @@ export default defineComponent({
       }
     };
 
-    const dummy = computed(() => solutionStore.selectedStates);
+    //TODO: This most be removed after migrate all states of legacy solutions
     const resolveRolesFromStates = () => {
       if (
         solucion.value?.proceso?.estados &&
@@ -187,7 +193,7 @@ export default defineComponent({
     const isArchivada = computed(() => solucion.value.estado === EstadoSolucion.ARCHIVADA);
 
     return {
-      dummy,
+      nodeChangeToEdit,
       tipoMenuOptions,
       tipoComponentOptions,
       ...dateFormat,
@@ -201,9 +207,6 @@ export default defineComponent({
       t$,
       v$,
       router,
-      alertService,
-      solucionService,
-      scriptService,
       sideNavbarStore,
       transitionWrapperToEdit,
       stateWrapperToEdit,
@@ -214,6 +217,10 @@ export default defineComponent({
       coreFlow,
       editTransitionModal,
       editStateModal,
+      completeActionAndStateModal,
+      alertService,
+      solucionService,
+      scriptService,
       solutionUtilService,
     };
   },
@@ -305,22 +312,29 @@ export default defineComponent({
     },
 
     addNodeHandler(change: NodeChange) {
+      this.nodeChangeToEdit = change;
+      this.completeActionAndStateModal.show();
+    },
+
+    confirmAddNodeHandler() {
       if (!this.solucion.proceso?.estados) {
         return;
       }
 
       const state = new Estado();
       state.permisos = JSON.parse(JSON.stringify(this.solutionStore.selectedPermisos));
-      state.nombre = change.id as EstadoSolicitud;
+      state.nombre = this.nodeChangeToEdit.id as EstadoSolicitud;
       state.diagram = new Diagram();
-      state.diagram.type = change.type;
-      state.diagram.x = change.x;
-      state.diagram.y = change.y;
+      state.diagram.type = this.nodeChangeToEdit.type;
+      state.diagram.x = this.nodeChangeToEdit.x;
+      state.diagram.y = this.nodeChangeToEdit.y;
       this.solucion.proceso.estados.push(state);
-      //this.prepareStateWrapperToEdit(state.nombre);
-      if (change.edgeChange) {
-        this.addEdgeHandler(change.edgeChange);
+
+      if (this.nodeChangeToEdit.edgeChange) {
+        this.nodeChangeToEdit.edgeChange.targetId = this.nodeChangeToEdit.id as EstadoSolicitud;
+        this.addEdgeHandler(this.nodeChangeToEdit.edgeChange);
       }
+      this.completeActionAndStateModal.hide();
     },
 
     addEdgeHandler(change: EdgeChange) {

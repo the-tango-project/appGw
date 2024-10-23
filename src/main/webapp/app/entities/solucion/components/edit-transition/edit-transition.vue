@@ -2,31 +2,13 @@
   <b-container fluid>
     <b-row class="text-center" v-if="transition">
       <b-col cols="5">
-        <b-form-group id="componente-add-accion" size="sm" label="Acción" label-for="add-accion">
-          <b-form-select
-            :state="transition.accion ? true : false"
-            id="add-accion"
-            v-model="transition.accion"
-            :options="actionOptions"
-            class="mb-3"
-          >
-          </b-form-select>
-        </b-form-group>
+        <select-action v-model="transition.accion"></select-action>
       </b-col>
       <b-col cols="2">
         <b-icon class="align-middle mt-4" icon="arrow-bar-right" font-scale="3"></b-icon>
       </b-col>
       <b-col cols="5">
-        <b-form-group id="componente-add-destino" size="sm" label="Destino" label-for="add-destino">
-          <b-form-select
-            :state="transition.destino ? true : false"
-            id="add-destino"
-            v-model="transition.destino"
-            :options="stateOptions"
-            class="mb-3"
-          >
-          </b-form-select>
-        </b-form-group>
+        <select-state v-model="transition.destino"></select-state>
       </b-col>
     </b-row>
     <b-row>

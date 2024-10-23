@@ -9,11 +9,15 @@ import ActionService from '@/entities/solucion/action.service';
 import NotificationConfig from '../notification-config/notification-config.vue';
 import SelectTransitionElements from '../select-transition-elements/select-transition-elements.vue';
 import type { IAction } from '@/shared/model/action.model';
+import SelectAction from '../select-action/select-action.vue';
+import SelectState from '../select-state/select-state.vue';
 
 export default defineComponent({
   compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
   name: 'EditTransition',
   components: {
+    'select-action': SelectAction,
+    'select-state': SelectState,
     'select-transition-elements': SelectTransitionElements,
     'notification-config': NotificationConfig,
   },

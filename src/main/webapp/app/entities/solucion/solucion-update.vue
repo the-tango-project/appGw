@@ -95,6 +95,9 @@
           </b-card>
         </b-tab>
       </b-tabs>
+
+      <!-- MODAL to Edit a translation -->
+
       <core-base-modal ref="editTransitionModal" @confirmed="updateTransitionHandler">
         <edit-transition
           v-if="transitionWrapperToEdit"
@@ -102,8 +105,29 @@
           @delete="deleteTransitionHandle(transitionWrapperToEdit)"
         ></edit-transition>
       </core-base-modal>
+
+      <!-- MODAL to Edit a State -->
+
       <core-base-modal ref="editStateModal" @confirmed="updateStateHandler">
         <core-state v-if="stateWrapperToEdit" v-model="stateWrapperToEdit.state"></core-state>
+      </core-base-modal>
+
+      <!-- MODAL to ADD action and State -->
+
+      <core-base-modal ref="completeActionAndStateModal" @confirmed="confirmAddNodeHandler" centered>
+        <b-container fluid>
+          <b-row class="text-center" v-if="nodeChangeToEdit">
+            <b-col cols="5">
+              <select-action v-if="nodeChangeToEdit.edgeChange" v-model="nodeChangeToEdit.edgeChange.action"></select-action>
+            </b-col>
+            <b-col cols="2">
+              <b-icon class="align-middle mt-4" icon="arrow-bar-right" font-scale="3"></b-icon>
+            </b-col>
+            <b-col cols="5">
+              <select-state v-model="nodeChangeToEdit.id"></select-state>
+            </b-col>
+          </b-row>
+        </b-container>
       </core-base-modal>
     </div>
   </div>
