@@ -3,10 +3,14 @@ import { computed, defineComponent, ref, type PropType, type Ref } from 'vue';
 import { StateEditable, type IEstado } from '@/shared/model/proceso/estado.model';
 import { useSelectOptions } from '@/shared/composables/use-select-options';
 import type { IOption } from '@/shared/model/ui/option.model';
+import SelectState from '@/entities/solucion/components/select-state/select-state.vue';
 
 export default defineComponent({
   compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
   name: 'StateComponent',
+  components: {
+    'select-state': SelectState,
+  },
   props: {
     modelValue: {
       type: Object as PropType<IEstado>,

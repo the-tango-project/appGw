@@ -8,7 +8,7 @@
         <b-icon class="align-middle mt-4" icon="arrow-bar-right" font-scale="3"></b-icon>
       </b-col>
       <b-col cols="5">
-        <select-state v-model="transition.destino"></select-state>
+        <select-state v-model="transition.destino" onlySelected></select-state>
       </b-col>
     </b-row>
     <b-row>

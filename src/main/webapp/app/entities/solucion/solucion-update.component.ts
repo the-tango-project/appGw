@@ -42,6 +42,7 @@ import { type IEstadoWrapper } from './estado-wrapper';
 import SolutionUtilService from '@/entities/solucion/solucion-utils.service';
 import SelectAction from './components/select-action/select-action.vue';
 import SelectState from './components/select-state/select-state.vue';
+import { TipoAccion } from '@/shared/model/enumerations/tipo-accion.model';
 
 const useValidationRules = (validations: any, t$: any) => {
   return {
@@ -113,7 +114,7 @@ export default defineComponent({
 
     // Transition to edit
     const transitionWrapperToEdit: Ref<ITransitionWrapper> = ref(new TransitionWrapper());
-    const nodeChangeToEdit: NodeChange = new NodeChange();
+    const nodeChangeToEdit: Ref<NodeChange> = ref(new NodeChange());
 
     //SelectOne options
     const tipoMenuOptions = ref(selectOptions.menuOptions);
@@ -326,8 +327,8 @@ export default defineComponent({
       state.nombre = this.nodeChangeToEdit.id as EstadoSolicitud;
       state.diagram = new Diagram();
       state.diagram.type = this.nodeChangeToEdit.type;
-      state.diagram.x = this.nodeChangeToEdit.x;
-      state.diagram.y = this.nodeChangeToEdit.y;
+      state.diagram.x = (this.nodeChangeToEdit.x ?? 0) - 25; //fix x calculation
+      state.diagram.y = (this.nodeChangeToEdit.y ?? 0) - 186; // fix y calculation
       this.solucion.proceso.estados.push(state);
 
       if (this.nodeChangeToEdit.edgeChange) {
@@ -490,6 +491,13 @@ export default defineComponent({
       }
 
       this.editTransitionModal.hide();
+    },
+
+    isValidActionAndState(): boolean {
+      if (this.nodeChangeToEdit?.edgeChange?.action && this.nodeChangeToEdit?.id) {
+        return this.nodeChangeToEdit.edgeChange.action !== TipoAccion.NONE && this.nodeChangeToEdit.id !== EstadoSolicitud.NONE;
+      }
+      return false;
     },
   },
 });

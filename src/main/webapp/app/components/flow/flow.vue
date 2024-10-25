@@ -1,5 +1,4 @@
 <template>
-  {{ x }}, {{ y }}
   <div style="height: 80vh">
     <vue-flow
       class="canvas-flow"

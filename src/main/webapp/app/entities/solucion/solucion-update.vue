@@ -114,7 +114,7 @@
 
       <!-- MODAL to ADD action and State -->
 
-      <core-base-modal ref="completeActionAndStateModal" @confirmed="confirmAddNodeHandler" centered>
+      <core-base-modal ref="completeActionAndStateModal" @confirmed="confirmAddNodeHandler" :status="isValidActionAndState()" centered>
         <b-container fluid>
           <b-row class="text-center" v-if="nodeChangeToEdit">
             <b-col cols="5">
@@ -124,7 +124,7 @@
               <b-icon class="align-middle mt-4" icon="arrow-bar-right" font-scale="3"></b-icon>
             </b-col>
             <b-col cols="5">
-              <select-state v-model="nodeChangeToEdit.id"></select-state>
+              <select-state v-model="nodeChangeToEdit.id" onlyNotSelected></select-state>
             </b-col>
           </b-row>
         </b-container>
