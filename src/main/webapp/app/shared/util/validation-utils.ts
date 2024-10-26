@@ -8,8 +8,13 @@ export function isArrayEmpty<T>(array: T[]): boolean {
   return array === null || array === undefined || array.length === 0;
 }
 
+/**
+ * This function validate if a element is a number
+ * @param element
+ * @returns if the value es greater or equals to zero
+ */
 export function isGreaterOrEqualToZero(element: number | null | undefined): boolean {
-  return isNotNull(element) && element! >= 0;
+  return isNotNull(element) && isNumber(element) && element! >= 0;
 }
 
 export function isNotNull(element: any): boolean {
@@ -17,4 +22,8 @@ export function isNotNull(element: any): boolean {
 }
 export function isNull(element: any): boolean {
   return element === null || element === undefined;
+}
+
+export function isNumber(element: any): boolean {
+  return typeof element === 'number';
 }

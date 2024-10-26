@@ -6,6 +6,7 @@ import { type SolutionStore } from '@/store';
 import { EstadoWrapper, type IEstadoWrapper } from './estado-wrapper';
 import type { ITransitionWrapper } from '@/shared/model/proceso/transicion.model';
 import useObjectUtils from '@/shared/util/object-utils';
+import { isNumber } from '@/shared/util/validation-utils';
 
 export default class SolutionUtilService {
   constructor(private readonly store: SolutionStore) {}
@@ -107,12 +108,16 @@ export default class SolutionUtilService {
 
   public updateTransition(proceso: IProceso | null | undefined, transitionWrapperToEdit: ITransitionWrapper): void {
     let state: IEstado | null = null;
+
     if (proceso?.estados && transitionWrapperToEdit.fromIndex) {
       state = proceso?.estados[transitionWrapperToEdit.fromIndex];
     }
-    if (state?.transiciones && transitionWrapperToEdit.transitionIndex && transitionWrapperToEdit.transition) {
-      state.transiciones.splice(transitionWrapperToEdit.transitionIndex, 1, transitionWrapperToEdit.transition);
+
+    const transitionIndex: number | null | undefined = transitionWrapperToEdit.transitionIndex;
+    if (state?.transiciones && isNumber(transitionIndex) && transitionWrapperToEdit.transition) {
+      state.transiciones.splice(transitionIndex!, 1, transitionWrapperToEdit.transition);
     }
+
     this.store.saveProceso(useObjectUtils().clone(proceso));
   }
 }
