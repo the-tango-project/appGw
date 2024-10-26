@@ -99,23 +99,36 @@ export default class SolutionUtilService {
     });
   }
 
-  public replaceStateBy(proceso: IProceso | null | undefined, stateWrapper: IEstadoWrapper) {
+  /**
+   * This function update a state with the content of the stateWrapper
+   * and save the result into the store for future use
+   *
+   * @param proceso
+   * @param stateWrapper
+   */
+  public updateState(proceso: IProceso | null | undefined, stateWrapper: IEstadoWrapper) {
     if (proceso?.estados && stateWrapper.state) {
       proceso.estados.splice(stateWrapper.currentIndex!, 1, stateWrapper.state);
-      this.store.saveProceso(proceso);
+      this.store.saveProceso(useObjectUtils().clone(proceso));
     }
   }
 
-  public updateTransition(proceso: IProceso | null | undefined, transitionWrapperToEdit: ITransitionWrapper): void {
+  /**
+   * This function update a transition with the content of the transitionWrapper
+   * and save the result into the store for future use
+   * @param proceso
+   * @param transitionWrapper
+   */
+  public updateTransition(proceso: IProceso | null | undefined, transitionWrapper: ITransitionWrapper): void {
     let state: IEstado | null = null;
 
-    if (proceso?.estados && transitionWrapperToEdit.fromIndex) {
-      state = proceso?.estados[transitionWrapperToEdit.fromIndex];
+    if (proceso?.estados && transitionWrapper.fromIndex) {
+      state = proceso?.estados[transitionWrapper.fromIndex];
     }
 
-    const transitionIndex: number | null | undefined = transitionWrapperToEdit.transitionIndex;
-    if (state?.transiciones && isNumber(transitionIndex) && transitionWrapperToEdit.transition) {
-      state.transiciones.splice(transitionIndex!, 1, transitionWrapperToEdit.transition);
+    const transitionIndex: number | null | undefined = transitionWrapper.transitionIndex;
+    if (state?.transiciones && isNumber(transitionIndex) && transitionWrapper.transition) {
+      state.transiciones.splice(transitionIndex!, 1, transitionWrapper.transition);
     }
 
     this.store.saveProceso(useObjectUtils().clone(proceso));

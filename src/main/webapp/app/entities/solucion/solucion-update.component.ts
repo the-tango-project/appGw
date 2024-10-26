@@ -410,7 +410,7 @@ export default defineComponent({
       if (oldStateName !== newStateName) {
         this.solutionUtilService().renameStateNameInTransitions(this.solucion.proceso, oldStateName, newStateName);
       }
-      this.solutionUtilService().replaceStateBy(this.solucion.proceso, this.stateWrapperToEdit);
+      this.solutionUtilService().updateState(this.solucion.proceso, this.stateWrapperToEdit);
     },
 
     updateTransitionHandler() {
