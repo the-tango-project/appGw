@@ -11,6 +11,7 @@ import SelectTransitionElements from '../select-transition-elements/select-trans
 import type { IAction } from '@/shared/model/action.model';
 import SelectAction from '../select-action/select-action.vue';
 import SelectState from '../select-state/select-state.vue';
+import type { EstadoSolicitud } from '@/shared/model/enumerations/estado-solicitud.model';
 
 export default defineComponent({
   compatConfig: { MODE: 3, COMPONENT_V_MODEL: false },
@@ -25,6 +26,9 @@ export default defineComponent({
     modelValue: {
       type: Object as PropType<Transicion>,
       required: false,
+    },
+    state: {
+      type: Object as PropType<EstadoSolicitud>,
     },
   },
   setup(props, { emit }) {

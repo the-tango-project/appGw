@@ -388,6 +388,8 @@ export default defineComponent({
       console.log(change);
       if (this.solucion.proceso?.estados) {
         this.transitionWrapperToEdit = this.findTransition(change.sourceId, change.action);
+        this.transitionWrapperToEdit.from = new Estado();
+        this.transitionWrapperToEdit.from.nombre = change.sourceId as EstadoSolicitud;
         this.editTransitionModal.show();
       }
     },
@@ -412,15 +414,7 @@ export default defineComponent({
     },
 
     updateTransitionHandler() {
-      let state: IEstado | null = null;
-
-      if (this.solucion.proceso?.estados && this.transitionWrapperToEdit.fromIndex) {
-        state = this.solucion.proceso?.estados[this.transitionWrapperToEdit.fromIndex];
-      }
-
-      if (state?.transiciones && this.transitionWrapperToEdit.transitionIndex && this.transitionWrapperToEdit.transition) {
-        state.transiciones.splice(this.transitionWrapperToEdit.transitionIndex, 1, this.transitionWrapperToEdit.transition);
-      }
+      this.solutionUtilService().updateTransition(this.solucion.proceso, this.transitionWrapperToEdit);
     },
 
     findState(stateToFind: EstadoSolicitud): IEstado | undefined {

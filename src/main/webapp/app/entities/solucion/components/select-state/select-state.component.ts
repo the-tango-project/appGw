@@ -57,7 +57,11 @@ export default defineComponent({
       statesFilter = notSelectedStatesFilter;
     }
 
-    const stateOptions: Ref<IOption[]> = ref(selectOptions.stateOptions.filter(option => statesFilter(option.value)));
+    const statesProcessed = selectOptions.stateOptions.map(option => {
+      option.disabled = !statesFilter(option.value);
+      return option;
+    });
+    const stateOptions: Ref<IOption[]> = ref(statesProcessed);
 
     return {
       selected,

@@ -2,7 +2,7 @@
   <b-container fluid>
     <b-row class="text-center" v-if="transition">
       <b-col cols="5">
-        <select-action v-model="transition.accion"></select-action>
+        <select-action v-model="transition.accion" :state="state"></select-action>
       </b-col>
       <b-col cols="2">
         <b-icon class="align-middle mt-4" icon="arrow-bar-right" font-scale="3"></b-icon>

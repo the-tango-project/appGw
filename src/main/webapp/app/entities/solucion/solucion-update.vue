@@ -102,6 +102,7 @@
         <edit-transition
           v-if="transitionWrapperToEdit"
           v-model="transitionWrapperToEdit.transition"
+          :state="transitionWrapperToEdit.from?.nombre"
           @delete="deleteTransitionHandle(transitionWrapperToEdit)"
         ></edit-transition>
       </core-base-modal>
@@ -118,7 +119,11 @@
         <b-container fluid>
           <b-row class="text-center" v-if="nodeChangeToEdit">
             <b-col cols="5">
-              <select-action v-if="nodeChangeToEdit.edgeChange" v-model="nodeChangeToEdit.edgeChange.action"></select-action>
+              <select-action
+                v-if="nodeChangeToEdit.edgeChange"
+                v-model="nodeChangeToEdit.edgeChange.action"
+                :state="nodeChangeToEdit.edgeChange.sourceId"
+              ></select-action>
             </b-col>
             <b-col cols="2">
               <b-icon class="align-middle mt-4" icon="arrow-bar-right" font-scale="3"></b-icon>
