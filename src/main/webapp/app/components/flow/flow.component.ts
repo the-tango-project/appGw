@@ -54,6 +54,9 @@ export default defineComponent({
       onNodeDoubleClick,
       onEdgeClick,
       onEdgeDoubleClick,
+      onEdgeUpdateStart,
+      onEdgeUpdateEnd,
+      onEdgeUpdate,
       applyNodeChanges,
       applyEdgeChanges,
       viewport,
@@ -157,7 +160,7 @@ export default defineComponent({
     onNodeDoubleClick(data => {
       console.log('onNodeDoubleClick');
       const nodeChange = new NodeChange();
-      nodeChange.type = NodeChangeType.DOUBLE_CLICK;
+      nodeChange.type = NodeChangeType.EDIT;
       nodeChange.id = data.node.id;
       emit('update:node', nodeChange);
     });
@@ -187,12 +190,25 @@ export default defineComponent({
     onEdgeDoubleClick(async (data: any) => {
       console.log('onEdgeDoubleClick');
       const edgeChange = new EdgeChange();
-      edgeChange.type = EdgeChangeType.DOUBLE_CLICK;
+      edgeChange.type = EdgeChangeType.EDIT;
       edgeChange.id = data.edge.id;
       edgeChange.sourceId = data.edge.source;
       edgeChange.targetId = data.edge.target;
       edgeChange.action = data.edge.action;
       emit('update:edge', edgeChange);
+    });
+
+    onEdgeUpdateStart(edge => {
+      console.log('on edge update start');
+      console.log(edge);
+    });
+    onEdgeUpdateEnd(edge => {
+      console.log('on edge update end');
+    });
+    onEdgeUpdate(({ edge, connection }) => {
+      console.log('on edge update');
+      console.log(edge);
+      console.log(connection);
     });
 
     /**
@@ -228,6 +244,7 @@ export default defineComponent({
         type: transition.diagram?.type ? transition.diagram.type : 'bezier', //bezier,step,smoothstep,straight
         sourceHandle: resolveSourceHandle(transition),
         targetHandle: resolveTargetHandle(transition),
+        updatable: true,
       };
     };
 

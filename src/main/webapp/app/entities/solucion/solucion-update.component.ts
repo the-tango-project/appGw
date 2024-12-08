@@ -287,8 +287,8 @@ export default defineComponent({
         this.addNodeHandler(change);
       } else if (change.type === NodeChangeType.DELETE) {
         this.deleteNodeHandler(change);
-      } else if (change.type === NodeChangeType.DOUBLE_CLICK) {
-        this.doubleClickNodeHandler(change);
+      } else if (change.type === NodeChangeType.EDIT) {
+        this.editNodeHandler(change);
       }
     },
 
@@ -297,8 +297,8 @@ export default defineComponent({
         this.addEdgeHandler(change);
       } else if (change.type === EdgeChangeType.DELETE) {
         this.deleteEdgeHandler(change);
-      } else if (change.type === EdgeChangeType.DOUBLE_CLICK) {
-        this.doubleClickEdgeHandler(change);
+      } else if (change.type === EdgeChangeType.EDIT) {
+        this.editEdgeHandler(change);
       }
     },
 
@@ -333,31 +333,33 @@ export default defineComponent({
 
       if (this.nodeChangeToEdit.edgeChange) {
         this.nodeChangeToEdit.edgeChange.targetId = this.nodeChangeToEdit.id as EstadoSolicitud;
-        this.addEdgeHandler(this.nodeChangeToEdit.edgeChange);
+        this.addEdge(this.nodeChangeToEdit.edgeChange);
       }
       this.completeActionAndStateModal.hide();
     },
 
     addEdgeHandler(change: EdgeChange) {
-      console.log('**addEdgeHandler**');
-      //create edge into the process
+      this.addEdge(change);
+      this.editEdge(change);
+    },
+
+    addEdge(edgeChange: EdgeChange) {
       let currentState = null;
       if (this.solucion.proceso?.estados) {
-        const stateIndex = this.solucion.proceso.estados.findIndex(state => state.nombre === change.sourceId);
+        const stateIndex = this.solucion.proceso.estados.findIndex(state => state.nombre === edgeChange.sourceId);
         currentState = this.solucion.proceso.estados[stateIndex];
       }
 
-      if (change.targetId && currentState?.transiciones) {
+      if (edgeChange.targetId && currentState?.transiciones) {
         const transition = new Transicion();
-        transition.destino = change.targetId as EstadoSolicitud;
-        transition.accion = change.action;
+        transition.destino = edgeChange.targetId as EstadoSolicitud;
+        transition.accion = edgeChange.action;
         transition.diagram = new Diagram();
-        transition.diagram.sourceId = change.sourceHandle;
-        transition.diagram.targetId = change.targetHandle;
-        transition.diagram.type = change.lineType;
+        transition.diagram.sourceId = edgeChange.sourceHandle;
+        transition.diagram.targetId = edgeChange.targetHandle;
+        transition.diagram.type = edgeChange.lineType;
         currentState.transiciones.push(transition);
       }
-      //call doubleClickEdgeHandler to edit
     },
 
     deleteNodeHandler(change: NodeChange) {
@@ -375,7 +377,7 @@ export default defineComponent({
       console.log('clickNodeHandler');
     },
 
-    doubleClickNodeHandler(change: any) {
+    editNodeHandler(change: any) {
       this.stateWrapperToEdit = this.solutionUtilService().createStateToEdit(this.solucion.proceso, change.id);
       this.editStateModal.show();
     },
@@ -384,8 +386,11 @@ export default defineComponent({
       console.log('clickEdgeHandler');
     },
 
-    doubleClickEdgeHandler(change: EdgeChange) {
-      console.log(change);
+    editEdgeHandler(change: EdgeChange) {
+      this.editEdge(change);
+    },
+
+    editEdge(change: EdgeChange) {
       if (this.solucion.proceso?.estados) {
         this.transitionWrapperToEdit = this.findTransition(change.sourceId, change.action);
         this.transitionWrapperToEdit.from = new Estado();
@@ -476,8 +481,8 @@ export default defineComponent({
     deleteTransitionHandle(transitionWrapper: ITransitionWrapper) {
       let state: IEstado | null = null;
 
-      if (this.solucion.proceso?.estados && transitionWrapper.fromIndex) {
-        state = this.solucion.proceso?.estados[transitionWrapper.fromIndex];
+      if (this.solucion.proceso?.estados && isGreaterOrEqualToZero(transitionWrapper.fromIndex)) {
+        state = this.solucion.proceso?.estados[transitionWrapper.fromIndex!];
       }
 
       if (state?.transiciones && isGreaterOrEqualToZero(transitionWrapper.transitionIndex)) {
