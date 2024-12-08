@@ -11,11 +11,11 @@ export default defineComponent({
   name: 'SelectAction',
   props: {
     modelValue: {
-      type: Object as PropType<TipoAccion>,
+      type: String as PropType<TipoAccion>,
       required: false,
     },
     state: {
-      type: Object as PropType<EstadoSolicitud>,
+      type: String as PropType<EstadoSolicitud>,
       default: null,
     },
   },

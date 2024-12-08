@@ -3,4 +3,5 @@ export enum EdgeChangeType {
   ADD = 'ADD',
   EDIT = 'EDIT',
   CLICK = 'CLICK',
+  UPDATE_HANDLE = 'UPDATE_HANDLE',
 }

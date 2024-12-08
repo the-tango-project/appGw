@@ -299,6 +299,8 @@ export default defineComponent({
         this.deleteEdgeHandler(change);
       } else if (change.type === EdgeChangeType.EDIT) {
         this.editEdgeHandler(change);
+      } else if (change.type === EdgeChangeType.UPDATE_HANDLE) {
+        this.updateEdgeReference(change);
       }
     },
 
@@ -388,6 +390,15 @@ export default defineComponent({
 
     editEdgeHandler(change: EdgeChange) {
       this.editEdge(change);
+    },
+
+    updateEdgeReference(change: EdgeChange) {
+      this.transitionWrapperToEdit = this.findTransition(change.sourceId, change.action);
+      if (this.solucion.proceso?.estados && this.transitionWrapperToEdit?.transition?.diagram) {
+        this.transitionWrapperToEdit.transition.diagram.sourceId = change.sourceHandle;
+        this.transitionWrapperToEdit.transition.diagram.targetId = change.targetHandle;
+        this.solutionUtilService().updateTransition(this.solucion.proceso, this.transitionWrapperToEdit);
+      }
     },
 
     editEdge(change: EdgeChange) {

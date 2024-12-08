@@ -1,7 +1,15 @@
 import { computed, defineComponent, ref, type Ref, watch, type PropType } from 'vue';
 import { type IProceso, Proceso } from '@/shared/model/proceso/proceso.model';
 
-import { useVueFlow, useGetPointerPosition, MarkerType, ConnectionMode, type NodeRemoveChange, type Connection } from '@vue-flow/core';
+import {
+  useVueFlow,
+  useGetPointerPosition,
+  MarkerType,
+  ConnectionMode,
+  type NodeRemoveChange,
+  type Connection,
+  type EdgeMouseEvent,
+} from '@vue-flow/core';
 /* these are necessary styles for vue flow */
 import '@vue-flow/core/dist/style.css';
 /* this contains the default theme, these are optional styles */
@@ -85,25 +93,19 @@ export default defineComponent({
     /**
      * CONNECTION
      */
-    const nodeChange: Ref<NodeChange> = ref(new NodeChange());
+    const nodeChange: Ref<NodeChange | null> = ref(null);
+    const edgeChange: Ref<EdgeChange | null> = ref(null);
     onConnectStart(async data => {
       console.log('onConnectStart');
       nodeChange.value = new NodeChange();
       nodeChange.value.type = NodeChangeType.ADD;
       nodeChange.value.id = EstadoSolicitud.NONE;
-      nodeChange.value.edgeChange = new EdgeChange();
-      nodeChange.value.edgeChange.action = TipoAccion.NONE;
-      nodeChange.value.edgeChange.type = EdgeChangeType.ADD;
-      nodeChange.value.edgeChange.id = faker.database.mongodbObjectId();
-      nodeChange.value.edgeChange.sourceId = data.nodeId;
-      nodeChange.value.edgeChange.targetId = nodeChange.value.id;
-      nodeChange.value.edgeChange.lineType = LineType.SMOOTHSTEP;
-      nodeChange.value.edgeChange.sourceHandle = data.handleId;
+      nodeChange.value.edgeChange = edgeChange.value ?? createEdgeChange(data.nodeId, nodeChange.value.id, data.handleId);
     });
 
     onConnect((connection: Connection) => {
       console.log('on connect', connection);
-      if (connection.sourceHandle && nodeChange.value.edgeChange) {
+      if (connection.sourceHandle && nodeChange.value?.edgeChange) {
         nodeChange.value.edgeChange.targetId = connection.target;
         nodeChange.value.edgeChange.sourceHandle = connection.sourceHandle;
         nodeChange.value.edgeChange.targetHandle = connection.targetHandle;
@@ -111,13 +113,14 @@ export default defineComponent({
       } else {
         console.log('no connected');
       }
+      cleanConnectContext();
     });
 
     onConnectEnd(async (data: any) => {
       console.log('connectEnd');
       const evento = { sourceEvent: data };
       // if not connected, then, create node and edge
-      if (!connectionStatus.value) {
+      if (!connectionStatus.value && nodeChange.value) {
         nodeChange.value.x = pointer(evento).x; //data.x - 567.39;
         nodeChange.value.y = pointer(evento).y; //data.y - 133.995;
         emit('update:node', nodeChange.value);
@@ -129,7 +132,6 @@ export default defineComponent({
      */
     onNodesChange(changes => {
       console.log('onNodesChange');
-      console.log(changes);
       const nextChanges = [];
       for (const change of changes) {
         if (change.type === 'remove') {
@@ -198,17 +200,24 @@ export default defineComponent({
       emit('update:edge', edgeChange);
     });
 
-    onEdgeUpdateStart(edge => {
+    //TODO Update handle
+    onEdgeUpdateStart((edgeEvent: EdgeMouseEvent) => {
       console.log('on edge update start');
-      console.log(edge);
+      edgeChange.value = edgeMouseEventToEdgeChange(edgeEvent);
+      console.log(edgeChange.value);
     });
-    onEdgeUpdateEnd(edge => {
-      console.log('on edge update end');
-    });
+    onEdgeUpdateEnd(edge => {});
     onEdgeUpdate(({ edge, connection }) => {
       console.log('on edge update');
-      console.log(edge);
-      console.log(connection);
+      if (connection.sourceHandle && nodeChange.value?.edgeChange) {
+        nodeChange.value.edgeChange.targetId = connection.target;
+        nodeChange.value.edgeChange.sourceHandle = connection.sourceHandle;
+        nodeChange.value.edgeChange.targetHandle = connection.targetHandle;
+        emit('update:edge', nodeChange.value.edgeChange);
+      } else {
+        console.log('no connected');
+      }
+      cleanConnectContext();
     });
 
     /**
@@ -246,6 +255,35 @@ export default defineComponent({
         targetHandle: resolveTargetHandle(transition),
         updatable: true,
       };
+    };
+
+    const createEdgeChange = (sourceId: string | undefined, targetId: string, sourceHandle: string | null) => {
+      const edgeChange = new EdgeChange();
+      edgeChange.action = TipoAccion.NONE;
+      edgeChange.type = EdgeChangeType.ADD;
+      edgeChange.id = faker.database.mongodbObjectId();
+      edgeChange.sourceId = sourceId;
+      edgeChange.targetId = targetId;
+      edgeChange.lineType = LineType.SMOOTHSTEP;
+      edgeChange.sourceHandle = sourceHandle;
+      return edgeChange;
+    };
+
+    const edgeMouseEventToEdgeChange = (edgeEvent: EdgeMouseEvent) => {
+      const edge = edgeEvent.edge as any;
+      const edgeChange = new EdgeChange();
+      edgeChange.action = edge.action as TipoAccion;
+      edgeChange.type = EdgeChangeType.UPDATE_HANDLE;
+      edgeChange.id = edge.id;
+      edgeChange.sourceId = edge.source;
+      edgeChange.targetId = edge.target;
+      edgeChange.lineType = edge.type as LineType;
+      edgeChange.sourceHandle = edge.sourceHandle;
+      return edgeChange;
+    };
+
+    const cleanConnectContext = () => {
+      edgeChange.value = null;
     };
 
     const resolveSourceHandle = (transition: ITransicion) => {

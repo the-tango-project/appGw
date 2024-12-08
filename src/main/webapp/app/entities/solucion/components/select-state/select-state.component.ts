@@ -9,7 +9,7 @@ export default defineComponent({
   name: 'SelectState',
   props: {
     modelValue: {
-      type: Object as PropType<EstadoSolicitud>,
+      type: String as PropType<EstadoSolicitud>,
       required: false,
     },
     onlySelected: {

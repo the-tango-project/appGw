@@ -28,7 +28,7 @@ export default defineComponent({
       required: false,
     },
     state: {
-      type: Object as PropType<EstadoSolicitud>,
+      type: String as PropType<EstadoSolicitud>,
     },
   },
   setup(props, { emit }) {
